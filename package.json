@@ -1,0 +1,31 @@
+{
+  "name": "proofs",
+  "version": "1.0.0",
+  "description": "Graphical Proofs",
+  "scripts": {
+    "dev-server": "webpack-dev-server --hot --config webpack/config-dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Gabriel Foust",
+  "license": "ISC",
+  "dependencies": {
+    "@types/react": "^19.0.2",
+    "@types/react-dom": "^19.0.2",
+    "autoprefixer": "^10.4.20",
+    "bootstrap": "^5.3.3",
+    "css-loader": "^7.1.2",
+    "file-loader": "^6.2.0",
+    "postcss-loader": "^8.1.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "sass": "^1.83.0",
+    "sass-loader": "^16.0.4",
+    "style-loader": "^4.0.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.7.2",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.0",
+    "webpack-merge": "^6.0.1"
+  }
+}

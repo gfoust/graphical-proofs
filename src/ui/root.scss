@@ -1,0 +1,17 @@
+@import "src/bootstrap.scss";
+
+// Optional
+@import "~bootstrap/scss/bootstrap";
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/type";
+@import "~bootstrap/scss/grid";
+@import "~bootstrap/scss/utilities";
+
+// Components
+@import "~bootstrap/scss/buttons";
+
+html, body, #root {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
