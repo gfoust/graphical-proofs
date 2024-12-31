@@ -1,6 +1,5 @@
 
-
-export enum VarName {
+export const enum VarName {
   A = 'A',
   B = 'B',
   C = 'C',
@@ -12,9 +11,22 @@ export enum VarName {
   I = 'I'
 }
 
+export const enum Color {
+  White = 'white',
+  Red = 'red',
+  Orange = 'orange',
+  Yellow = 'yellow',
+  Green = 'green',
+  Cyan = 'cyan',
+  Blue = 'blue',
+  Purple = 'purple',
+  Gray = 'gray',
+  Black = 'black',
+}
+
 export interface Atom {
   type: 'atom',
-  color: string
+  color: Color
 }
 
 export interface Variable {

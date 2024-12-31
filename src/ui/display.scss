@@ -1,0 +1,9 @@
+@import "src/bootstrap.scss";
+
+proof-display {
+  display: block;
+  border: var(--bs-border-width) solid var(--bs-border-color);
+  border-top: none;
+  min-height: 85vh;
+  padding: 1em;
+}

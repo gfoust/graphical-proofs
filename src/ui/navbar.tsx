@@ -1,6 +1,7 @@
-import React from 'react';
-import { Panel } from '../model/model';
-import App from '../app';
+import App from "../app";
+import { Panel } from "../model/model";
+
+import "./navbar.scss";
 
 export interface NavBarProps {
   panel: Panel;

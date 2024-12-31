@@ -1,9 +1,21 @@
-import React from 'react';
+import { Color, Formula } from "../../model/formula";
+import FormulaView from "../formula-view";
 
-export function PatternsPanel() {
+import "./patterns.scss";
+
+export interface PatternsPanelProps {
+  formulas: Formula[];
+}
+
+export function PatternsPanel({ formulas }: PatternsPanelProps) {
   return (
-    <div>
+    <proof-patterns-panel>
       <h1>Patterns</h1>
-    </div>
+      <div>
+      {
+        formulas.map(formula => <FormulaView formula={formula}/>)
+      }
+      </div>
+    </proof-patterns-panel>
   )
 }

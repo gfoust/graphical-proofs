@@ -1,5 +1,14 @@
 @import "src/bootstrap.scss";
 
+proof-page {
+  display: block;
+  padding: 1em;
+  border: 1px solid red;
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+}
+
 h1.page {
   text-align: center;
   color: $primary;
