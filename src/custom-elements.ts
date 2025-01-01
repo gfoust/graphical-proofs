@@ -5,7 +5,7 @@ declare module "react" {
     interface IntrinsicElements {
       "proof-page": HTMLAttributes<HTMLElement>;
       "proof-display": HTMLAttributes<HTMLElement>;
-      "proof-patterns-panel": HTMLAttributes<HTMLElement>;
+      "proof-formulas-panel": HTMLAttributes<HTMLElement>;
       "proof-formula": HTMLAttributes<HTMLElement>;
       "proof-atom": HTMLAttributes<HTMLElement>;
       "proof-grid": HTMLAttributes<HTMLElement>;

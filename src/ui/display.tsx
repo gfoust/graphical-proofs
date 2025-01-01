@@ -4,7 +4,7 @@ import { Panel } from "../model/model";
 import { BuilderPanel } from "./panels/builder";
 import { DerivationPanel } from "./panels/derivation";
 import { GoalPanel } from "./panels/goal";
-import { PatternsPanel } from "./panels/patterns";
+import { FormulasPanel } from "./panels/formulas";
 import { RulesPanel } from "./panels/rules";
 
 import './display.scss';
@@ -85,9 +85,8 @@ export interface DisplayProps {
 
 const panelComponent = {
   [Panel.Builder]: BuilderPanel,
-  [Panel.Derivation]: DerivationPanel,
   [Panel.Goal]: GoalPanel,
-  [Panel.Patterns]: PatternsPanel,
+  [Panel.Formulas]: FormulasPanel,
   [Panel.Rules]: RulesPanel,
 }
 

@@ -1,9 +1,8 @@
 
 export const enum Panel {
   Builder = 'builder',
-  Derivation = 'derivation',
   Goal = 'goal',
-  Patterns = 'patterns',
+  Formulas = 'formulas',
   Rules = 'rules'
 }
 
@@ -17,7 +16,7 @@ export interface InitialModelOptions {
 
 export function initialModel(options: InitialModelOptions): Model {
   return {
-    panel: Panel.Patterns
+    panel: Panel.Goal
   };
 }
 
