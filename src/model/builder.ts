@@ -1,7 +1,7 @@
 import { clonePattern, Formula, Pattern, VarName } from "./formula";
 import { Rule } from "./rule";
 
-type Context = { [key: string]: Formula|undefined };
+export type Context = { [key: string]: Formula|undefined };
 
 export class Builder {
 

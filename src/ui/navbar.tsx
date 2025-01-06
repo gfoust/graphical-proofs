@@ -30,7 +30,7 @@ export function NavBar({ panel }: NavBarProps) {
   return (
     <nav className="nav nav-tabs">
     {
-      [Panel.Formulas, Panel.Rules, Panel.Builder, Panel.Goal].map(makePanel)
+      [Panel.Goal, Panel.Formulas, Panel.Rules, Panel.Builder].map(makePanel)
     }
     </nav>
   )

@@ -1,0 +1,70 @@
+@import "src/bootstrap.scss";
+
+pf-pattern-view {
+  display: block;
+  position: relative;
+  width: 218px;
+  height: 218px;
+  border: 1px solid darkgray;
+
+  .d0 {
+    width: 216px;
+    height: 216px;
+    font: bold 144px "Times New Roman", serif;
+    line-height: 216px;
+  }
+  .d1 {
+    width: 72px;
+    height: 72px;
+    font: bold 48px "Times New Roman", serif;
+    line-height: 72px;
+  }
+  .d2 {
+    width: 24px;
+    height: 24px;
+    font: bold 16px "Times New Roman", serif;
+    line-height: 24px;
+  }
+  .d3 {
+    width: 8px;
+    height: 8px;
+  }
+}
+
+pf-pattern-atom {
+  display: block;
+  border: 1px solid darkgray;
+
+  &.white { background-color: white; }
+  &.red { background-color: red; }
+  &.orange { background-color: orange; }
+  &.yellow { background-color: yellow; }
+  &.green { background-color: green; }
+  &.cyan { background-color: darkcyan; }
+  &.blue { background-color: blue; }
+  &.purple { background-color: purple; }
+  &.gray { background-color: lightgray; }
+  &.black { background-color: black; }
+  &.empty { background-color: #fff8cc; }
+}
+
+pf-pattern-var {
+  position: absolute;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  vertical-align: center;
+  color: black;
+
+  &.assigned {
+    // color: #444;
+    // -webkit-text-stroke: 1px white;
+    background-color: rgba(white, 0.25);
+  }
+}
+
+pf-pattern-grid {
+  display: flex;
+  flex-flow: row wrap;
+}

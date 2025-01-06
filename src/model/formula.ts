@@ -11,7 +11,7 @@ export const enum VarName {
   I = 'I'
 }
 
-export const enum Color {
+export enum Color {
   White = 'white',
   Red = 'red',
   Orange = 'orange',
@@ -40,6 +40,8 @@ export interface Grid<T> {
 }
 
 export type Formula = Atom | Grid<Formula>;
+
+export type TopLevelFormula = Formula & { id: string };
 
 export type Pattern = Variable | Atom | Grid<Pattern>;
 

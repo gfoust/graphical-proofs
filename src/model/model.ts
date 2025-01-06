@@ -16,7 +16,7 @@ export interface InitialModelOptions {
 
 export function initialModel(options: InitialModelOptions): Model {
   return {
-    panel: Panel.Goal
+    panel: Panel.Rules
   };
 }
 
