@@ -56,3 +56,8 @@ export function clonePattern(f: Pattern): Pattern {
     return { type: 'grid', cells: f.cells.map(clonePattern) };
   }
 }
+
+export interface Rule {
+  premises: Pattern[],
+  consequences: Pattern[]
+}

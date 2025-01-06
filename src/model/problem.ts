@@ -1,5 +1,4 @@
-import { Formula } from "./formula";
-import { Rule } from "./rule";
+import { Formula, Rule } from "./formula";
 
 export interface ProblemDefinition {
   givens: Formula[],

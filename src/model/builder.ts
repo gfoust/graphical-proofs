@@ -1,5 +1,4 @@
-import { clonePattern, Formula, Pattern, VarName } from "./formula";
-import { Rule } from "./rule";
+import { clonePattern, Formula, Pattern, Rule } from "./formula";
 
 export type Context = { [key: string]: Formula|undefined };
 

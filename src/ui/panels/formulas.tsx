@@ -1,6 +1,6 @@
 import { Color, Formula } from "../../model/formula";
 import { range } from "../../util";
-import FormulaBlock from "../formula-view";
+import { PatternView } from "../pattern-view";
 
 import "./formulas.scss";
 
@@ -30,13 +30,15 @@ function randomFormula(depth = 0): Formula {
 export function FormulasPanel() {
   let formulas = range(0, 80).map(_ => randomFormula(0));
   return (
-    <proof-formulas-panel>
+    <pf-formulas-panel>
       <h1>Givens</h1>
       <div>
       {
-        formulas.map((formula, i) => <FormulaBlock key={'g' + i} formula={{ ...formula, id: 'g' + i }}/>)
+        formulas.map((formula, i) =>
+          <pf-formula-block key={'g' + i}><PatternView pattern={formula}/></pf-formula-block>
+        )
       }
       </div>
-    </proof-formulas-panel>
+    </pf-formulas-panel>
   )
 }

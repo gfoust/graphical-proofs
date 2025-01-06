@@ -1,6 +1,16 @@
 
-proof-formulas-panel div {
+pf-formulas-panel div {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
+}
+
+pf-formula-block {
+  padding: 8px;
+  border: 2px solid white;
+}
+
+pf-formula-block:hover {
+  background-color: #fff7cc;
+  border: 2px outset #ffeeaa;
 }

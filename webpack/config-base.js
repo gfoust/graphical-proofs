@@ -15,6 +15,7 @@ module.exports = [
     output: {
       filename: '[name].js',
       globalObject: 'this',
+      publicPath: "/proofs",
     },
     module: {
       rules: [
