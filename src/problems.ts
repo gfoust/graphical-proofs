@@ -31,7 +31,8 @@ export const problemDefs: readonly Readonly<ProblemDefinition>[] = [
       implies(atom(Color.Red), atom(Color.Blue))
     ],
     rules: [
-      { premises: [
+      { name: "Swapper",
+        premises: [
           variable(Var.A),
           implies(variable(Var.A), variable(Var.B))
         ],

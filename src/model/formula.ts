@@ -60,13 +60,15 @@ export function clonePattern(p: Pattern): Pattern {
 }
 
 export interface Rule {
+  name: string;
   premises: Pattern[],
   consequences: Pattern[]
 }
 
 export function cloneRule(rule: Rule): Rule {
   return {
+    name: rule.name,
     premises: rule.premises.map(clonePattern),
-    consequences: rule.premises.map(clonePattern)
+    consequences: rule.consequences.map(clonePattern)
   };
 }

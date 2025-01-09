@@ -14,19 +14,6 @@ import RulesPanel from "./panels/rules";
 
 import "./page.scss";
 
-function UnknownPath() {
-  return (
-    <>
-      <h1>Problem Not Found</h1>
-      <p>
-        This is not a valid problem address.
-      </p>
-      [ <Link to="/">Home</Link> ]
-    </>
-  )
-}
-
-
 function useProblem() {
   let { problemId } = useParams();
   console.log('problemId', problemId)
@@ -41,15 +28,30 @@ function useProblem() {
   return undefined;
 }
 
+
+function UnknownPath() {
+  return (
+    <>
+      <h1>Problem Not Found</h1>
+      <p>
+        This is not a valid problem address.
+      </p>
+      [ <Link to="/">Home</Link> ]
+    </>
+  )
+}
+
+
 function Display({ panel, problem }: { panel: Panel, problem: Problem }) {
   switch (panel) {
     case Panel.Builder:  return <BuilderPanel/>;
-    case Panel.Goal:     return <GoalPanel/>
-    case Panel.Formulas: return <FormulasPanel/>
-    case Panel.Rules:    return <RulesPanel/>
+    case Panel.Goal:     return <GoalPanel goal={problem.goal}/>
+    case Panel.Formulas: return <FormulasPanel givens={problem.givens} derived={problem.derived}/>
+    case Panel.Rules:    return <RulesPanel rules={problem.rules}/>
     default:             return <h1>Error</h1>
   }
 }
+
 
 function ProblemPage() {
   const problem = useProblem();

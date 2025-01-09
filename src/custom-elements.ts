@@ -13,6 +13,11 @@ declare module "react" {
       "pf-pattern-atom": CustomElement;
       "pf-pattern-var": CustomElement;
       "pf-pattern-grid": CustomElement;
+      "pf-rule-view": CustomElement;
+      "pf-premises": CustomElement;
+      "pf-consequences": CustomElement;
+      "pf-rule-list": CustomElement;
+      "pf-rule-name": CustomElement;
     }
   }
 }

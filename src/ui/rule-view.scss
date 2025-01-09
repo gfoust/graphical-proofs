@@ -1,0 +1,30 @@
+
+pf-rule-view {
+  display: block;
+
+  pf-pattern-view {
+    margin: 0 2ex;
+  }
+
+  pf-rule-name {
+    display: block;
+    text-align: center;
+    font: 2.5rem "Times New Roman", serif;
+    padding-bottom: 1rem;
+  }
+}
+
+pf-premises {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  padding-bottom: 1em;
+  border-bottom: 1ex solid black;
+}
+
+pf-consequences {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  padding-top: 1em;
+}

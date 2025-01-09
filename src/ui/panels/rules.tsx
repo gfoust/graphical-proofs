@@ -1,53 +1,23 @@
-import { Context } from "../../model/builder";
-import { Color, Pattern, Var } from "../../model/formula"
-import { PatternView } from "../pattern-view";
+import { Rule } from "../../model/formula";
+import RuleView from "../rule-view";
 
-export default function RulesPanel() {
-  const rule: Pattern = { type: 'grid', cells: [
-    { type: 'atom', color: Color.Blue },
-    { type: 'var', name: Var.A },
-    { type: 'atom', color: Color.Red },
-    { type: 'var', name: Var.B },
-    { type: 'atom', color: Color.Gray },
-    { type: 'var', name: Var.C },
-    { type: 'atom', color: Color.Orange },
-    { type: 'var', name: Var.D },
-    { type: 'grid', cells: [
-      { type: 'atom', color: Color.Blue },
-      { type: 'var', name: Var.A },
-      { type: 'atom', color: Color.Red },
-      { type: 'var', name: Var.B },
-      { type: 'atom', color: Color.Gray },
-      { type: 'var', name: Var.C },
-      { type: 'atom', color: Color.Orange },
-      { type: 'var', name: Var.D },
-      { type: 'atom', color: Color.Yellow },
-    ] },
-  ] };
+import "./rules.scss";
 
-  const context: Context = {
-    [Var.C]: { type: 'atom', color: Color.Purple },
-    [Var.A]: { type: 'grid', cells: [
-      { type: 'atom', color: Color.Yellow },
-      { type: 'atom', color: Color.White },
-      { type: 'atom', color: Color.Purple },
-      { type: 'atom', color: Color.White },
-      { type: 'atom', color: Color.Cyan },
-      { type: 'atom', color: Color.White },
-      { type: 'atom', color: Color.Blue },
-      { type: 'atom', color: Color.White },
-      { type: 'atom', color: Color.Red },
-    ]}
-  };
+export interface RulesPanelProps {
+  rules: Rule[];
+}
 
+export default function RulesPanel({ rules }: RulesPanelProps) {
   return (
     <div>
-      <h1>Rules</h1>
-      <div>
-        <PatternView pattern={{ type: 'var', name: Var.A }} context={context}/>
-        <br/><br/>
-        <PatternView pattern={rule} context={context}/>
-      </div>
+      <h2>Rules</h2>
+      <pf-rule-list>
+      {
+        rules.map(rule =>
+          <RuleView rule={rule}/>
+        )
+      }
+      </pf-rule-list>
     </div>
   )
 }

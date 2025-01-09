@@ -31,7 +31,7 @@ export function initialModel(options: InitialModelOptions): Model {
   }
 
   return {
-    panel: Panel.Rules,
+    panel: Panel.Goal,
     problemIds,
     problems
   };

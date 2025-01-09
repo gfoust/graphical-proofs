@@ -5,7 +5,8 @@ import { PatternView } from "../pattern-view";
 import "./formulas.scss";
 
 export interface FormulasPanelProps {
-  formulas: Formula[];
+  givens: Formula[];
+  derived: Formula[];
 }
 
 const colors = Object.values(Color);
@@ -27,18 +28,30 @@ function randomFormula(depth = 0): Formula {
   }
 }
 
-export default function FormulasPanel() {
-  let formulas = range(0, 80).map(_ => randomFormula(0));
+export default function FormulasPanel({ givens, derived }: FormulasPanelProps) {
+  //let formulas = range(0, 80).map(_ => randomFormula(0));
   return (
     <pf-formulas-panel>
-      <h1>Givens</h1>
+      <h2>Givens</h2>
       <div>
       {
-        formulas.map((formula, i) =>
+        givens.map((formula, i) =>
           <pf-formula-block key={'g' + i}><PatternView pattern={formula}/></pf-formula-block>
         )
       }
       </div>
+      { derived && derived.length > 0 &&
+        <>
+          <h2>Derived</h2>
+          <div>
+          {
+            derived.map((formula, i) =>
+              <pf-formula-block key={'g' + i}><PatternView pattern={formula}/></pf-formula-block>
+            )
+          }
+          </div>
+        </>
+      }
     </pf-formulas-panel>
-  )
+  );
 }
