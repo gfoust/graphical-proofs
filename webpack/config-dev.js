@@ -16,7 +16,6 @@ module.exports = [
       hot: false,
       static: {
         directory: path.join(__dirname, '../static'),
-        publicPath: "/proofs",
         watch: {
           ignored: [ 'node_modules', '**/*.spec.ts' ],
         }

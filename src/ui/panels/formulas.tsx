@@ -27,7 +27,7 @@ function randomFormula(depth = 0): Formula {
   }
 }
 
-export function FormulasPanel() {
+export default function FormulasPanel() {
   let formulas = range(0, 80).map(_ => randomFormula(0));
   return (
     <pf-formulas-panel>

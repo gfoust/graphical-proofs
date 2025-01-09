@@ -5,9 +5,9 @@ type CustomElement = React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, 
 declare module "react" {
   namespace JSX {
     interface IntrinsicElements {
-      "proof-page": HTMLAttributes<HTMLElement>;
-      "proof-display": HTMLAttributes<HTMLElement>;
-      "pf-formulas-panel": HTMLAttributes<HTMLElement>;
+      "pf-page": CustomElement;
+      "pf-problem": CustomElement;
+      "pf-formulas-panel": CustomElement;
       "pf-formula-block": CustomElement;
       "pf-pattern-view": CustomElement;
       "pf-pattern-atom": CustomElement;

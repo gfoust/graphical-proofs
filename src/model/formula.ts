@@ -1,5 +1,5 @@
 
-export const enum VarName {
+export const enum Var {
   A = 'A',
   B = 'B',
   C = 'C',
@@ -31,7 +31,7 @@ export interface Atom {
 
 export interface Variable {
   type: 'var',
-  name: VarName
+  name: Var
 }
 
 export interface Grid<T> {
@@ -45,19 +45,28 @@ export type TopLevelFormula = Formula & { id: string };
 
 export type Pattern = Variable | Atom | Grid<Pattern>;
 
-export function clonePattern(f: Pattern): Pattern {
-  if (f.type == 'var') {
-    return { type: 'var', name: f.name };
+export function clonePattern(f: Formula): Formula;
+export function clonePattern(p: Pattern): Pattern;
+export function clonePattern(p: Pattern): Pattern {
+  if (p.type == 'var') {
+    return { type: 'var', name: p.name };
   }
-  else if (f.type == 'atom') {
-    return { type: 'atom', color: f.color };
+  else if (p.type == 'atom') {
+    return { type: 'atom', color: p.color };
   }
   else {
-    return { type: 'grid', cells: f.cells.map(clonePattern) };
+    return { type: 'grid', cells: p.cells.map(clonePattern) };
   }
 }
 
 export interface Rule {
   premises: Pattern[],
   consequences: Pattern[]
+}
+
+export function cloneRule(rule: Rule): Rule {
+  return {
+    premises: rule.premises.map(clonePattern),
+    consequences: rule.premises.map(clonePattern)
+  };
 }

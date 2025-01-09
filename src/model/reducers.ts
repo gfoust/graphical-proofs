@@ -1,5 +1,6 @@
 import { Action } from "./actions";
 import { Model, Panel } from "./model";
+import { Problem } from "./problem";
 
 
 type Reducer<T> = (state: T, action: Action) => T;
@@ -34,6 +35,13 @@ function panelReducer(panel: Panel, action: Action) {
   }
 }
 
+function ignore<T>(state: T, action: Action) {
+  return state;
+}
+
 export const modelReducer = combineReducers<Model>({
   panel: panelReducer,
+  problems: ignore,
+  problemIds: ignore,
+  currentProblemId: ignore
 });

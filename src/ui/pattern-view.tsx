@@ -8,15 +8,14 @@ import { Context } from "../model/builder";
 interface PatternElementProps extends React.PropsWithChildren {
   pattern: Pattern;
   context: Context;
-  key: React.Key;
   depth: number;
 }
 
-function PatternElement({ pattern, key, context, depth, children }: PatternElementProps) {
+function PatternElement({ pattern, context, depth, children }: PatternElementProps) {
   let element: JSX.Element;
   if (pattern.type === 'atom') {
     element =
-      <pf-pattern-atom key={key} className={`${pattern.color} d${depth}`}>
+      <pf-pattern-atom className={`${pattern.color} d${depth}`}>
         { children }
       </pf-pattern-atom>
   }
@@ -24,16 +23,16 @@ function PatternElement({ pattern, key, context, depth, children }: PatternEleme
     const value = context[pattern.name];
     if (value) {
       element =
-        <PatternElement pattern={value} key={key} context={context} depth={depth}>
-          <pf-pattern-var key={key} className={`d${depth}`}>
+        <PatternElement pattern={value} context={context} depth={depth}>
+          <pf-pattern-var className={`assigned d${depth}`}>
             { pattern.name }
           </pf-pattern-var>
         </PatternElement>;
     }
     else {
       element =
-        <pf-pattern-atom key={key} className={`empty d${depth}`}>
-          <pf-pattern-var key={key} className={`assigned d${depth}`}>
+        <pf-pattern-atom className={`empty d${depth}`}>
+          <pf-pattern-var className={`d${depth}`}>
             { pattern.name }
           </pf-pattern-var>
         </pf-pattern-atom>
@@ -60,7 +59,7 @@ export interface PatternViewProps {
 export function PatternView({ pattern, context }: PatternViewProps) {
   return (
     <pf-pattern-view>
-      <PatternElement pattern={pattern} key={0} context={context || {}} depth={0}/>
+      <PatternElement pattern={pattern} context={context || {}} depth={0}/>
     </pf-pattern-view>
   );
 }

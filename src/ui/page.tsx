@@ -1,24 +1,85 @@
-import { useReducer } from "react";
+import { useContext } from "react";
+import { Link, Route, Routes, useParams } from "react-router";
 
 import App from "../app";
-import { initialModel } from "../model/model";
-import { modelReducer } from "../model/reducers";
+import { Panel } from "../model/model";
+import { Problem, problemIdString } from "../model/problem";
 
-import Display from "./display";
-import { NavBar } from "./navbar";
+import NavBar from "./navbar";
+import ProblemList from "./problem-list";
+import BuilderPanel from "./panels/builder";
+import GoalPanel from "./panels/goal";
+import FormulasPanel from "./panels/formulas";
+import RulesPanel from "./panels/rules";
 
 import "./page.scss";
 
+function UnknownPath() {
+  return (
+    <>
+      <h1>Problem Not Found</h1>
+      <p>
+        This is not a valid problem address.
+      </p>
+      [ <Link to="/">Home</Link> ]
+    </>
+  )
+}
+
+
+function useProblem() {
+  let { problemId } = useParams();
+  console.log('problemId', problemId)
+  const problems = useContext(App.ProblemsContext);
+  console.log('problems', problems);
+  if (problemId) {
+    problemId = problemId.toLowerCase();
+    if (problemId in problems) {
+      return problems[problemId];
+    }
+  }
+  return undefined;
+}
+
+function Display({ panel, problem }: { panel: Panel, problem: Problem }) {
+  switch (panel) {
+    case Panel.Builder:  return <BuilderPanel/>;
+    case Panel.Goal:     return <GoalPanel/>
+    case Panel.Formulas: return <FormulasPanel/>
+    case Panel.Rules:    return <RulesPanel/>
+    default:             return <h1>Error</h1>
+  }
+}
+
+function ProblemPage() {
+  const problem = useProblem();
+  const panel = useContext(App.PanelContext);
+
+  if (!problem) {
+    return <UnknownPath/>
+  }
+  else {
+    return (
+      <>
+        <h1 className="page">Problem {problemIdString(problem).toUpperCase()}</h1>
+        <NavBar panel={panel}/>
+        <pf-problem>
+          <Display panel={panel} problem={problem}/>
+        </pf-problem>
+      </>
+    );
+  }
+}
 
 
 export default function Page() {
-  const [model, dispatch] = useReducer(modelReducer, initialModel({}));
-  App.dispatch = dispatch;
-
   return (
-    <proof-page>
-      <h1 className="page">Problem 4B</h1>
-      <NavBar panel={model.panel}/>
-      <Display panel={model.panel}/>
-    </proof-page>)
+    <pf-page>
+      <Routes>
+        <Route path="" element={<ProblemList/>}/>
+        <Route path=":problemId" element={<ProblemPage/>}/>
+        <Route path="*" element={<UnknownPath/>}/>
+      </Routes>
+    </pf-page>
+  );
 }
