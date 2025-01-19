@@ -1,10 +1,16 @@
+import App from "../../app";
+import { Actions } from "../../model/actions";
 import { Rule } from "../../model/formula";
-import RuleView from "../rule-view";
+import RuleView from "../components/rule-view";
 
 import "./rules.scss";
 
 export interface RulesPanelProps {
   rules: Rule[];
+}
+
+function handleRuleClicked() {
+
 }
 
 export default function RulesPanel({ rules }: RulesPanelProps) {
@@ -14,7 +20,7 @@ export default function RulesPanel({ rules }: RulesPanelProps) {
       <pf-rule-list>
       {
         rules.map(rule =>
-          <RuleView rule={rule}/>
+          <pf-rule-block onClick={() => App.dispatch(Actions.selectRule(rule))}><RuleView rule={rule}/></pf-rule-block>
         )
       }
       </pf-rule-list>

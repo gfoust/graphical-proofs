@@ -1,0 +1,26 @@
+
+pf-formula-picker {
+  display: flex;
+  justify-content: center;
+  background-color: lightgray;
+  margin: 1em;
+  border: 1px solid black;
+
+  pf-pattern-view {
+    margin: 1em 4px;
+  }
+}
+
+@media (width > 600px) {
+  pf-formula-picker {
+    flex-flow: column nowrap;
+    overflow-y: auto;
+  }
+}
+
+@media (width < 600px) {
+  pf-formula-picker {
+    flex-flow: row nowrap;
+    overflow-x: auto;
+  }
+}

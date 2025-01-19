@@ -1,4 +1,4 @@
-import { Color, Formula, Pattern, Var } from "./model/formula";
+import { Color, Formula, Pattern, Rule, Var } from "./model/formula";
 import { ProblemDefinition } from "./model/problem";
 
 function atom(color: Color): Formula {
@@ -15,9 +15,75 @@ function implies(p: Pattern, q: Pattern): Pattern {
   return {
     type: 'grid',
     cells: [
+      p, atom(Color.White),
+      atom(Color.White), q
+    ]
+  }
+  return {
+    type: 'grid',
+    cells: [
       p,                 atom(Color.White), atom(Color.White),
       atom(Color.White), atom(Color.Gray),  atom(Color.White),
       atom(Color.White), atom(Color.White), q,
+    ]
+  }
+}
+
+function and(p: Formula, q: Formula): Formula;
+function and(p: Pattern, q: Pattern): Pattern;
+function and(p: Pattern, q: Pattern): Pattern {
+  return {
+    type: 'grid',
+    cells: [
+      p, q,
+      atom(Color.White), atom(Color.White)
+    ]
+  }
+}
+
+function or(p: Formula, q: Formula): Formula;
+function or(p: Pattern, q: Pattern): Pattern;
+function or(p: Pattern, q: Pattern): Pattern {
+  return {
+    type: 'grid',
+    cells: [
+      p, atom(Color.White),
+      q, atom(Color.White)
+    ]
+  }
+}
+
+
+const rules: Readonly<Record<string, Rule>> = {
+  swapper: {
+    name: "Swapper",
+    premises: [
+      variable(Var.A),
+      implies(variable(Var.A), variable(Var.B))
+    ],
+    consequences: [
+      variable(Var.B)
+    ],
+  },
+  doubleSwapper: {
+    name: "Double Swapper",
+    premises: [
+      or(variable(Var.A), variable(Var.B)),
+      implies(variable(Var.A), variable(Var.C)),
+      implies(variable(Var.B), variable(Var.C)),
+    ],
+    consequences: [
+      variable(Var.C)
+    ]
+  },
+  breakdown: {
+    name: "Break Down",
+    premises: [
+      and(variable(Var.A), variable(Var.B))
+    ],
+    consequences: [
+      variable(Var.A),
+      variable(Var.B)
     ]
   }
 }
@@ -30,17 +96,7 @@ export const problemDefs: readonly Readonly<ProblemDefinition>[] = [
       atom(Color.Red),
       implies(atom(Color.Red), atom(Color.Blue))
     ],
-    rules: [
-      { name: "Swapper",
-        premises: [
-          variable(Var.A),
-          implies(variable(Var.A), variable(Var.B))
-        ],
-        consequences: [
-          variable(Var.B)
-        ],
-      },
-    ],
+    rules: [ rules.swapper, rules.doubleSwapper, rules.breakdown ],
     goal: atom(Color.Blue)
   }
 ]

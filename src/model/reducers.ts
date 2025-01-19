@@ -1,4 +1,6 @@
+import { Maybe } from "../util";
 import { Action } from "./actions";
+import { Builder } from "./builder";
 import { Model, Panel } from "./model";
 import { Problem } from "./problem";
 
@@ -30,8 +32,20 @@ function panelReducer(panel: Panel, action: Action) {
   if (action.type === 'show-panel') {
     return action.panel;
   }
+  else if (action.type === 'select-rule') {
+    return Panel.Builder;
+  }
   else {
     return panel;
+  }
+}
+
+function builderReducer(builder: Maybe<Builder>, action: Action): Maybe<Builder> {
+  if (action.type === 'select-rule') {
+    return { rule: action.rule, context: {} }
+  }
+  else {
+    return builder;
   }
 }
 
@@ -43,5 +57,5 @@ export const modelReducer = combineReducers<Model>({
   panel: panelReducer,
   problems: ignore,
   problemIds: ignore,
-  currentProblemId: ignore
+  builder: builderReducer,
 });

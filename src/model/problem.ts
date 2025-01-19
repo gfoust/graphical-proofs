@@ -1,3 +1,4 @@
+import { Builder } from "./builder";
 import { clonePattern, cloneRule, Formula, Rule } from "./formula";
 
 export interface ProblemIdentifier {
@@ -13,6 +14,7 @@ export interface ProblemDefinition extends ProblemIdentifier {
 
 export interface Problem extends ProblemDefinition {
   derived: Formula[],
+  builder?: Builder
 }
 
 export function instantiateProblem(defn: ProblemDefinition): Problem {

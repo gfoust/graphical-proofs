@@ -1,0 +1,24 @@
+
+pf-builder-panel {
+  display: flex;
+
+  pf-builder-rule {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    flex-grow: 1;
+  }
+}
+
+@media (width > 600px) {
+  pf-builder-panel {
+    flex-flow: row nowrap;
+  }
+}
+
+@media (width <= 600px) {
+  pf-builder-panel {
+    flex-flow: column nowrap;
+  }
+}
+

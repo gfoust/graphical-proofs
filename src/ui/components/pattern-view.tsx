@@ -1,0 +1,120 @@
+import * as React from "react";
+import { JSX } from "react";
+import { Pattern, Var } from "../../model/formula";
+
+import "./pattern-view.scss";
+import { Context } from "../../model/builder";
+import { range } from "../../util";
+
+interface PatternElementProps extends React.PropsWithChildren {
+  pattern: Pattern;
+  context: Context;
+  divisions: number;
+  highlight?: Var;
+  onMouseOverVariable?: (v: Var) => void;
+  onMouseOutVariable?: () => void;
+}
+
+function PatternElement({
+  pattern,
+  context,
+  divisions,
+  highlight,
+  onMouseOverVariable,
+  onMouseOutVariable,
+  children
+}: PatternElementProps) {
+
+  let element: JSX.Element;
+  if (pattern.type === 'atom') {
+    element =
+      <pf-pattern-atom className={`${pattern.color} d${divisions}`}>
+        { children }
+      </pf-pattern-atom>
+  }
+  else if (pattern.type === 'var') {
+    const value = context[pattern.name];
+    if (value) {
+      element =
+        <PatternElement pattern={value} context={context} divisions={divisions}>
+          <pf-pattern-var className={`assigned d${divisions}`}>
+            { pattern.name }
+          </pf-pattern-var>
+        </PatternElement>;
+    }
+    else {
+      let hl: string;
+      if (highlight && highlight === pattern.name) {
+        hl = "highlight";
+      }
+      else {
+        hl = "empty";
+      }
+      element =
+        <pf-pattern-atom
+          className={`${hl} ${pattern.name.toLowerCase()} d${divisions}`}
+          onMouseOver={onMouseOverVariable && (() => onMouseOverVariable(pattern.name))}
+          onMouseOut={onMouseOutVariable}
+        >
+          <pf-pattern-var className={`d${divisions}`}>
+            { pattern.name }
+          </pf-pattern-var>
+        </pf-pattern-atom>
+    }
+  }
+  else { // pattern.type === 'grid'
+    let d: number;
+    if (pattern.cells.length >= 9) {
+      d = 3;
+    }
+    else if (pattern.cells.length >= 4) {
+      d = 2;
+    }
+    else {
+      d = 1;
+    }
+    let nested = range(0, d*d, pattern.cells).map((p, i) =>
+      <PatternElement
+        pattern={p}
+        key={i}
+        context={context}
+        divisions={d}
+        highlight={highlight}
+        onMouseOverVariable={onMouseOverVariable}
+        onMouseOutVariable={onMouseOutVariable}
+      />
+    )
+  element =
+      <pf-pattern-grid className={`d${divisions}`}>
+      { children }
+      { nested }
+      </pf-pattern-grid>;
+  }
+  return element;
+}
+
+export interface PatternViewProps {
+  pattern: Pattern;
+  context?: Context;
+  highlight?: Var;
+  onMouseOverVariable?: (v: Var) => void;
+  onMouseOutVariable?: () => void;
+}
+
+interface PatternViewPropsWithContext extends PatternViewProps {
+  context: Context;
+}
+
+export default function PatternView(props: PatternViewProps) {
+  const extProps: PatternViewPropsWithContext = {
+    ...props,
+    context: props.context || {}
+  }
+
+  return (
+    <pf-pattern-view>
+      <PatternElement {...extProps} divisions={1}/>
+    </pf-pattern-view>
+  );
+}
+

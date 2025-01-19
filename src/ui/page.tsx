@@ -16,9 +16,7 @@ import "./page.scss";
 
 function useProblem() {
   let { problemId } = useParams();
-  console.log('problemId', problemId)
   const problems = useContext(App.ProblemsContext);
-  console.log('problems', problems);
   if (problemId) {
     problemId = problemId.toLowerCase();
     if (problemId in problems) {
@@ -44,7 +42,7 @@ function UnknownPath() {
 
 function Display({ panel, problem }: { panel: Panel, problem: Problem }) {
   switch (panel) {
-    case Panel.Builder:  return <BuilderPanel/>;
+    case Panel.Builder:  return <BuilderPanel givens={problem.givens} derived={problem.derived}/>;
     case Panel.Goal:     return <GoalPanel goal={problem.goal}/>
     case Panel.Formulas: return <FormulasPanel givens={problem.givens} derived={problem.derived}/>
     case Panel.Rules:    return <RulesPanel rules={problem.rules}/>

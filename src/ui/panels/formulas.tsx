@@ -1,6 +1,6 @@
 import { Color, Formula } from "../../model/formula";
 import { range } from "../../util";
-import { PatternView } from "../pattern-view";
+import PatternView from "../components/pattern-view";
 
 import "./formulas.scss";
 
@@ -10,7 +10,11 @@ export interface FormulasPanelProps {
 }
 
 const colors = Object.values(Color);
-function randomFormula(depth = 0): Formula {
+function randomFormula(depth = 0, size = 0): Formula {
+  if (size == 0) {
+    size = Math.random() < 0.5 ? 4 : 9;
+  }
+
   let type = 'atom';
   if (depth < 3) {
     let p = Math.random();
@@ -24,12 +28,11 @@ function randomFormula(depth = 0): Formula {
     return { type: 'atom', color: colors[i] };
   }
   else {
-    return { type: 'grid', cells: range(0, 9).map(_ => randomFormula(depth + 1)) };
+    return { type: 'grid', cells: range(0, size).map(_ => randomFormula(depth + 1, 0)) };
   }
 }
 
 export default function FormulasPanel({ givens, derived }: FormulasPanelProps) {
-  //let formulas = range(0, 80).map(_ => randomFormula(0));
   return (
     <pf-formulas-panel>
       <h2>Givens</h2>
@@ -46,8 +49,7 @@ export default function FormulasPanel({ givens, derived }: FormulasPanelProps) {
           <div>
           {
             derived.map((formula, i) =>
-              <pf-formula-block key={'g' + i}><PatternView pattern={formula}/></pf-formula-block>
-            )
+              <pf-formula-block key={'d' + i}><PatternView pattern={formula}/></pf-formula-block>            )
           }
           </div>
         </>

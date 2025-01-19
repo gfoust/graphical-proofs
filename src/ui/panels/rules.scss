@@ -3,4 +3,20 @@ pf-rule-list {
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
+
+  pf-rule-block:hover {
+    background-color: #99bbcc;
+    border: 2px outset #668899;
+  }
 }
+
+pf-rule-block {
+  padding: 8px;
+  border: 2px solid transparent;
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  cursor: pointer;
+}
+

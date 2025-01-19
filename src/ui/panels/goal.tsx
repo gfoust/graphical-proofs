@@ -1,5 +1,5 @@
 import { Formula } from "../../model/formula";
-import { PatternView } from "../pattern-view";
+import PatternView from "../components/pattern-view";
 
 export interface GoalPanelProps {
   goal: Formula;

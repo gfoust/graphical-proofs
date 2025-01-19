@@ -1,7 +1,7 @@
-import { Color } from "./formula";
 import { instantiateProblem, Problem, ProblemIdentifier, problemIdString } from "./problem";
 
 import problemDefs from "../problems";
+import { Builder } from "./builder";
 
 export enum Panel {
   Builder = 'builder',
@@ -13,8 +13,8 @@ export enum Panel {
 export interface Model {
   panel: Panel,
   problemIds: ProblemIdentifier[],
-  currentProblemId?: ProblemIdentifier,
-  problems: Record<string, Problem>
+  problems: Record<string, Problem>,
+  builder?: Builder
 }
 
 export interface InitialModelOptions {

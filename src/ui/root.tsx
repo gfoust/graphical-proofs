@@ -1,4 +1,4 @@
-import { createContext, useReducer } from 'react';
+import { useReducer } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
 import { modelReducer } from '../model/reducers';
@@ -16,9 +16,11 @@ export default function Root() {
     <App.PanelContext value={model.panel}>
       <App.ProblemListContext value={model.problemIds}>
         <App.ProblemsContext value={model.problems}>
-          <BrowserRouter basename="/proofs/">
-            <Page/>
-          </BrowserRouter>
+          <App.BuilderContext value={model.builder}>
+            <BrowserRouter basename="/proofs/">
+              <Page/>
+            </BrowserRouter>
+          </App.BuilderContext>
         </App.ProblemsContext>
       </App.ProblemListContext>
     </App.PanelContext>

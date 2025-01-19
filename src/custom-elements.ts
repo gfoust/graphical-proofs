@@ -5,19 +5,23 @@ type CustomElement = React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, 
 declare module "react" {
   namespace JSX {
     interface IntrinsicElements {
-      "pf-page": CustomElement;
-      "pf-problem": CustomElement;
-      "pf-formulas-panel": CustomElement;
-      "pf-formula-block": CustomElement;
-      "pf-pattern-view": CustomElement;
-      "pf-pattern-atom": CustomElement;
-      "pf-pattern-var": CustomElement;
-      "pf-pattern-grid": CustomElement;
-      "pf-rule-view": CustomElement;
-      "pf-premises": CustomElement;
+      "pf-builder-panel": CustomElement;
+      "pf-builder-rule": CustomElement;
       "pf-consequences": CustomElement;
+      "pf-formula-block": CustomElement;
+      "pf-formulas-panel": CustomElement;
+      "pf-formula-picker": CustomElement;
+      "pf-page": CustomElement;
+      "pf-pattern-atom": CustomElement;
+      "pf-pattern-grid": CustomElement;
+      "pf-pattern-var": CustomElement;
+      "pf-pattern-view": CustomElement;
+      "pf-premises": CustomElement;
+      "pf-problem": CustomElement;
+      "pf-rule-block": CustomElement;
       "pf-rule-list": CustomElement;
       "pf-rule-name": CustomElement;
+      "pf-rule-view": CustomElement;
     }
   }
 }
