@@ -7,12 +7,8 @@ pf-formulas-panel div {
 
 pf-formula-block {
   padding: 8px;
-  border: 2px solid transparent;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  margin: 2px;
 }
 
-pf-formula-block:hover {
-  // background-color: #fff7cc;
-  // border: 2px outset #ffeeaa;
-  background-color: #99bbcc;
-  border: 2px outset #668899;
-}

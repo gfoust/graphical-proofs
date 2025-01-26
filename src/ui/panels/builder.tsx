@@ -16,11 +16,12 @@ export interface BuilderPanelProps {
 export default function BuilderPanel({ givens, derived }: BuilderPanelProps) {
   const builder = useContext(App.BuilderContext);
   const [highlight, setHighlight] = useState<Maybe<Var>>(undefined);
+  const [selected, setSelected] = useState<Maybe<Formula>>(undefined);
 
   if (builder) {
     return (
       <pf-builder-panel>
-        <FormulaPicker givens={givens} derived={derived}/>
+        <FormulaPicker givens={givens} derived={derived} selected={selected} onSelect={setSelected}/>
         <pf-builder-rule>
           <RuleView
             rule={builder.rule}

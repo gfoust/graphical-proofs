@@ -13,6 +13,7 @@ declare module "react" {
       "pf-formula-picker": CustomElement;
       "pf-page": CustomElement;
       "pf-pattern-atom": CustomElement;
+      "pf-pattern-block": CustomElement;
       "pf-pattern-grid": CustomElement;
       "pf-pattern-var": CustomElement;
       "pf-pattern-view": CustomElement;

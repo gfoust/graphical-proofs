@@ -14,7 +14,7 @@ export interface Model {
   panel: Panel,
   problemIds: ProblemIdentifier[],
   problems: Record<string, Problem>,
-  builder?: Builder
+  builder?: Builder,
 }
 
 export interface InitialModelOptions {

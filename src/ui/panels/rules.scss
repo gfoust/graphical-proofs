@@ -6,7 +6,8 @@ pf-rule-list {
 
   pf-rule-block:hover {
     background-color: #99bbcc;
-    border: 2px outset #668899;
+    border: 1px solid #668899;
+    border-radius: 5px;
   }
 }
 

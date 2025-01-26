@@ -97,6 +97,7 @@ export interface PatternViewProps {
   pattern: Pattern;
   context?: Context;
   highlight?: Var;
+  onSelect?: (pattern: Pattern) => void;
   onMouseOverVariable?: (v: Var) => void;
   onMouseOutVariable?: () => void;
 }
@@ -112,9 +113,18 @@ export default function PatternView(props: PatternViewProps) {
   }
 
   return (
-    <pf-pattern-view>
-      <PatternElement {...extProps} divisions={1}/>
-    </pf-pattern-view>
+    <pf-pattern-block>
+      <pf-pattern-view>
+        <PatternElement {...extProps} divisions={1}/>
+      </pf-pattern-view>
+    </pf-pattern-block>
   );
 }
 
+export interface FormulaBlockProps {
+
+}
+
+export function FormulaBlock() {
+
+}

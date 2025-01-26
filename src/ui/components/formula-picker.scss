@@ -7,7 +7,17 @@ pf-formula-picker {
   border: 1px solid black;
 
   pf-pattern-view {
-    margin: 1em 4px;
+    margin: 4px;
+  }
+
+  pf-formula-block:hover {
+    background-color: #99bbcc;
+    border-color: #668899;
+  }
+
+  pf-formula-block.selected {
+    background-color: #ffee99;
+    border-color: #ccbb66;
   }
 }
 
