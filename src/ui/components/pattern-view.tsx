@@ -1,10 +1,10 @@
 import * as React from "react";
 import { JSX } from "react";
-import { Pattern, Var } from "../../model/formula";
+import { Formula, Pattern, Var } from "../../model/formula";
 
 import "./pattern-view.scss";
-import { Context } from "../../model/builder";
-import { range } from "../../util";
+import { Context, formulaMatches } from "../../model/builder";
+import { Maybe, range } from "../../util";
 
 interface PatternElementProps extends React.PropsWithChildren {
   pattern: Pattern;
@@ -93,38 +93,84 @@ function PatternElement({
   return element;
 }
 
-export interface PatternViewProps {
+export interface PatternBlockProps {
   pattern: Pattern;
-  context?: Context;
+  context: Context;
   highlight?: Var;
-  onSelect?: (pattern: Pattern) => void;
+  matched?: boolean;
+  candidate?: Formula;
   onMouseOverVariable?: (v: Var) => void;
   onMouseOutVariable?: () => void;
+  onBind?: (pattern: Pattern, formula: Formula) => void;
 }
 
-interface PatternViewPropsWithContext extends PatternViewProps {
-  context: Context;
-}
+export function PatternBlock({
+  pattern,
+  context,
+  highlight,
+  matched,
+  candidate,
+  onMouseOverVariable,
+  onMouseOutVariable,
+  onBind
+}: PatternBlockProps) {
+  let className: Maybe<string>;
+  let clickHandler: Maybe<() => void>;
 
-export default function PatternView(props: PatternViewProps) {
-  const extProps: PatternViewPropsWithContext = {
-    ...props,
-    context: props.context || {}
+  if (matched) {
+    className = "matched";
+  }
+  else if (candidate) {
+    let matchContext = { ...context }
+    if (formulaMatches(pattern, candidate, matchContext)) {
+      className = "allowed";
+      if (onBind) {
+        clickHandler = () => onBind(pattern, candidate);
+      }
+    }
+    else {
+      className = "restricted";
+    }
   }
 
+  const patternProps = {pattern, context, highlight, onMouseOverVariable, onMouseOutVariable};
+
   return (
-    <pf-pattern-block>
+    <pf-pattern-block className={className} onClick={clickHandler}>
       <pf-pattern-view>
-        <PatternElement {...extProps} divisions={1}/>
+        <PatternElement {...patternProps} divisions={1}/>
       </pf-pattern-view>
     </pf-pattern-block>
   );
 }
 
 export interface FormulaBlockProps {
-
+  formula: Formula;
+  selected?: boolean;
+  onSelect?: (formula: Maybe<Formula>) => void;
 }
 
-export function FormulaBlock() {
+export function FormulaBlock({
+  formula,
+  selected,
+  onSelect
+}: FormulaBlockProps) {
+  function clickHandler() {
+    if (onSelect) {
+      if (selected) {
+        onSelect(undefined);
+      }
+      else {
+        onSelect(formula);
+      }
+    }
+  }
 
+  return (
+    <pf-formula-block className={selected ? "selected" : undefined} onClick={clickHandler}>
+      <pf-pattern-view>
+        <PatternElement pattern={formula} context={{}} divisions={1}/>
+      </pf-pattern-view>
+    </pf-formula-block>
+  );
 }

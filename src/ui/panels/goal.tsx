@@ -1,5 +1,7 @@
 import { Formula } from "../../model/formula";
-import PatternView from "../components/pattern-view";
+import { FormulaBlock } from "../components/pattern-view";
+
+import './goal.scss';
 
 export interface GoalPanelProps {
   goal: Formula;
@@ -9,9 +11,9 @@ export default function GoalPanel({ goal }: GoalPanelProps) {
   return (
     <>
       <h2>Goal</h2>
-      <center>
-        <PatternView pattern={goal}/>
-      </center>
+      <pf-goal-panel>
+        <FormulaBlock formula={goal}/>
+      </pf-goal-panel>
     </>
   )
 }

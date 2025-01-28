@@ -2,15 +2,21 @@ import { useContext, useState } from "react";
 
 import RuleView from "../components/rule-view";
 import App from "../../app";
-import { Formula, Var } from "../../model/formula";
+import { Formula, Pattern, Var } from "../../model/formula";
 import FormulaPicker from "../components/formula-picker";
 
 import "./builder.scss";
 import { Maybe } from "../../util";
+import { Context } from "../../model/builder";
 
 export interface BuilderPanelProps {
   givens: Formula[];
   derived: Formula[];
+}
+
+function bindPattern(pattern: Pattern, formula: Formula) {
+  console.log({ type: 'bind-pattern', pattern, formula });
+  App.dispatch({ type: 'bind-pattern', pattern, formula });
 }
 
 export default function BuilderPanel({ givens, derived }: BuilderPanelProps) {
@@ -23,13 +29,22 @@ export default function BuilderPanel({ givens, derived }: BuilderPanelProps) {
       <pf-builder-panel>
         <FormulaPicker givens={givens} derived={derived} selected={selected} onSelect={setSelected}/>
         <pf-builder-rule>
-          <RuleView
-            rule={builder.rule}
-            context={builder.context}
-            highlight={highlight}
-            onMouseOverVariable={setHighlight}
-            onMouseOutVariable={setHighlight as () => void}
-          />
+        {
+          selected
+          ? <RuleView
+              rule={builder.rule}
+              context={builder.context}
+              candidate={selected}
+              onBind={bindPattern}
+            />
+          : <RuleView
+              rule={builder.rule}
+              context={builder.context}
+              highlight={highlight}
+              onMouseOverVariable={setHighlight}
+              onMouseOutVariable={() => setHighlight(undefined)}
+            />
+        }
         </pf-builder-rule>
       </pf-builder-panel>
     );

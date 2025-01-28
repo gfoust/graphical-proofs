@@ -88,17 +88,19 @@ const rules: Readonly<Record<string, Rule>> = {
   }
 }
 
-export const problemDefs: readonly Readonly<ProblemDefinition>[] = [
+export const problemSet: readonly Readonly<ProblemDefinition>[] = [
   {
     team: 1,
     tag: "A",
     givens: [
-      atom(Color.Red),
-      implies(atom(Color.Red), atom(Color.Blue))
+      implies(atom(Color.Blue), atom(Color.Purple)),
+      implies(atom(Color.Red), atom(Color.Blue)),
+      implies(atom(Color.Green), atom(Color.Blue)),
+      or(atom(Color.Red), atom(Color.Green)),
     ],
     rules: [ rules.swapper, rules.doubleSwapper, rules.breakdown ],
     goal: atom(Color.Blue)
   }
 ]
 
-export default problemDefs;
+export default problemSet;

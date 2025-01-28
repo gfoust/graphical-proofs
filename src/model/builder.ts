@@ -1,14 +1,56 @@
-import { clonePattern, cloneRule, Formula, Pattern, Rule } from "./formula";
+import { Maybe } from "../util";
+import { clonePattern, cloneRule, Formula, MatchedPattern, Pattern, Rule } from "./formula";
+import { Problem } from "./problem";
 
 export type Context = { [key: string]: Formula|undefined };
 
-export interface Builder {
-  rule: Rule;
-  context: Context;
+export interface BuilderPattern {
+  matched: boolean,
+  pattern: Pattern,
 }
 
+export interface BuilderRule {
+  name: string,
+  premises: MatchedPattern[],
+  consequences: MatchedPattern[]
+}
 
-export function match(pattern: Pattern, formula: Formula, context: Context) {
+// function notMatched(pattern: Pattern): BuilderPattern {
+//   return { matched: false, pattern };
+// }
+
+// export function builderRule(rule: Rule): BuilderRule {
+//   return {
+//     name: rule.name,
+//     premises: rule.premises.map(notMatched),
+//     consequences: rule.premises.map(notMatched)
+//   };
+// }
+
+export interface Builder {
+  rule: BuilderRule,
+  context: Context,
+}
+
+export function instantiatePattern(pattern: Pattern, context: Context): Maybe<Formula> {
+  if (pattern.type === 'atom') {
+    return pattern;
+  }
+  else if (pattern.type === 'var') {
+    return context[pattern.name];
+  }
+  else {
+    let cells = pattern.cells.map(p => instantiatePattern(p, context));
+    if (cells.indexOf(undefined) == -1) {
+      return { type: 'grid', cells: cells as Formula[] }
+    }
+    else {
+      return undefined;
+    }
+  }
+}
+
+export function formulaMatches(pattern: Pattern, formula: Formula, context: Context) {
   if (pattern.type === 'var') {
     const value = context[pattern.name];
     if (value === undefined) {
@@ -16,7 +58,7 @@ export function match(pattern: Pattern, formula: Formula, context: Context) {
       return true;
     }
     else {
-      return match(formula, value, context);
+      return formulaMatches(formula, value, context);
     }
   }
   else if (pattern.type === 'atom') {
@@ -30,7 +72,7 @@ export function match(pattern: Pattern, formula: Formula, context: Context) {
   else {
     if (formula.type === 'grid') {
       for (let i = 0; i < pattern.cells.length; ++i) {
-        if (!match(pattern.cells[i], formula.cells[i], context)) {
+        if (!formulaMatches(pattern.cells[i], formula.cells[i], context)) {
           return false;
         }
       }

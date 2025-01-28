@@ -3,8 +3,8 @@
 pf-pattern-view {
   position: relative;
   display: block;
-  width: 218px;
-  height: 218px;
+  // width: 218px;
+  // height: 218px;
   border: 1px solid darkgray;
 
   .d1 {
@@ -32,10 +32,10 @@ pf-pattern-view {
   }
 }
 
-pf-formula-picker pf-pattern-view {
-  width: 109px;
-  height: 109px;
-}
+// pf-formula-picker pf-pattern-view {
+//   width: 109px;
+//   height: 109px;
+// }
 
 pf-pattern-atom {
   display: block;
@@ -74,4 +74,10 @@ pf-pattern-var {
 pf-pattern-grid {
   display: flex;
   flex-flow: row wrap;
+}
+
+pf-formula-block, pf-pattern-block {
+  border: 1px solid transparent;
+  border-radius: 5px;
+  margin: 2px;
 }

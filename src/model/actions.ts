@@ -1,7 +1,8 @@
-import { Rule } from "./formula";
+import { Maybe } from "../util";
+import { Formula, Pattern, Rule } from "./formula";
 import { Panel } from "./model";
 
-export type Action = ShowPanel | SelectRule;
+export type Action = ShowPanel | SelectRule | SelectProblem | BindPattern;
 
 export interface ShowPanel {
   type: 'show-panel',
@@ -10,7 +11,19 @@ export interface ShowPanel {
 
 export interface SelectRule {
   type: 'select-rule',
-  rule: Rule
+  rule: Rule,
+}
+
+interface SelectProblem {
+  type: 'select-problem',
+  problemId: Maybe<string>,
+}
+
+
+export interface BindPattern {
+  type: 'bind-pattern',
+  formula: Formula,
+  pattern: Pattern,
 }
 
 export const Actions = {

@@ -8,6 +8,23 @@ pf-builder-panel {
     justify-content: center;
     flex-grow: 1;
   }
+
+  pf-pattern-block {
+    background-color: #ddd;
+    // border-color: #888;
+  }
+
+  pf-pattern-block.allowed:hover {
+    background-color: #8c9;
+    // border-color: #090;
+    cursor: pointer;
+  }
+  pf-pattern-block.restricted:hover {
+    background-color: #c88;
+    // border-color: #900;
+    cursor: pointer;
+  }
+
 }
 
 @media (width > 600px) {

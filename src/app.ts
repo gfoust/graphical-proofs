@@ -9,7 +9,8 @@ import { Builder } from "./model/builder";
 export const App = {
   dispatch: (action: Action) => {},
   ProblemListContext: createContext<ProblemIdentifier[]>(null as any),
-  ProblemsContext: createContext<Record<string, Problem>>(null as any),
+  ProblemDefinitionsContext: createContext<Record<string, Problem>>(null as any),
+  CurrentProblemContext: createContext<Problem>(undefined as unknown as Problem),
   PanelContext: createContext<Panel>(null as any),
   BuilderContext: createContext<Maybe<Builder>>(undefined),
 };

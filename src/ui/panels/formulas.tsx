@@ -1,6 +1,6 @@
 import { Color, Formula } from "../../model/formula";
 import { range } from "../../util";
-import PatternView from "../components/pattern-view";
+import { FormulaBlock } from "../components/pattern-view";
 
 import "./formulas.scss";
 
@@ -39,7 +39,7 @@ export default function FormulasPanel({ givens, derived }: FormulasPanelProps) {
       <div>
       {
         givens.map((formula, i) =>
-          <pf-formula-block key={'g' + i}><PatternView pattern={formula}/></pf-formula-block>
+          <FormulaBlock key={'g' + i} formula={formula}/>
         )
       }
       </div>
@@ -49,7 +49,8 @@ export default function FormulasPanel({ givens, derived }: FormulasPanelProps) {
           <div>
           {
             derived.map((formula, i) =>
-              <pf-formula-block key={'d' + i}><PatternView pattern={formula}/></pf-formula-block>            )
+              <FormulaBlock key={'d' + i} formula={formula}/>
+            )
           }
           </div>
         </>

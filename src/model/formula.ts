@@ -45,6 +45,8 @@ export type TopLevelFormula = Formula & { id: string };
 
 export type Pattern = Variable | Atom | Grid<Pattern>;
 
+export type MatchedPattern = { matched?: boolean } & Pattern;
+
 export function clonePattern(f: Formula): Formula;
 export function clonePattern(p: Pattern): Pattern;
 export function clonePattern(p: Pattern): Pattern {
@@ -62,7 +64,7 @@ export function clonePattern(p: Pattern): Pattern {
 export interface Rule {
   name: string;
   premises: Pattern[],
-  consequences: Pattern[]
+  consequences: Pattern[],
 }
 
 export function cloneRule(rule: Rule): Rule {

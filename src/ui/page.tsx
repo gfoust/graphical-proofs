@@ -1,5 +1,5 @@
-import { useContext } from "react";
-import { Link, Route, Routes, useParams } from "react-router";
+import { useContext, useEffect } from "react";
+import { Link, Route, Routes, useLocation, useParams } from "react-router";
 
 import App from "../app";
 import { Panel } from "../model/model";
@@ -16,7 +16,7 @@ import "./page.scss";
 
 function useProblem() {
   let { problemId } = useParams();
-  const problems = useContext(App.ProblemsContext);
+  const problems = useContext(App.ProblemDefinitionsContext);
   if (problemId) {
     problemId = problemId.toLowerCase();
     if (problemId in problems) {
@@ -73,6 +73,12 @@ function ProblemPage() {
 
 
 export default function Page() {
+  const { problemId } = useParams();
+
+  useEffect(() => {
+    App.dispatch({ type: 'select-problem', problemId });
+  }, [problemId])
+
   return (
     <pf-page>
       <Routes>

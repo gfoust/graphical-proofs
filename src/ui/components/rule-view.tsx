@@ -1,33 +1,39 @@
-import { Context } from "../../model/builder";
-import { Formula, Rule, Var } from "../../model/formula";
-import PatternView from "./pattern-view";
+import { BuilderRule, Context } from "../../model/builder";
+import { Formula, Pattern, Var } from "../../model/formula";
+import { PatternBlock } from "./pattern-view";
 
 import "./rule-view.scss";
 
 export interface RuleViewProps {
-  rule: Rule;
+  rule: BuilderRule;
   context?: Context;
   highlight?: Var;
-  selected?: Formula;
+  candidate?: Formula;
   onMouseOverVariable?: (v: Var) => void;
   onMouseOutVariable?: () => void;
+  onBind?: (pattern: Pattern, formula: Formula) => void;
 }
 
 export default function RuleView({
   rule,
   context,
   highlight,
-  selected,
+  candidate,
   onMouseOverVariable,
-  onMouseOutVariable
+  onMouseOutVariable,
+  onBind,
 }: RuleViewProps) {
 
   const commonProps = {
-    context,
+    context: context || {},
+    candidate,
     highlight,
     onMouseOverVariable,
-    onMouseOutVariable
+    onMouseOutVariable,
+    onBind
   }
+
+  let i = 0;
 
   console.log('highlight', highlight);
   return (
@@ -38,14 +44,14 @@ export default function RuleView({
       <pf-premises>
       {
         rule.premises.map(premise =>
-          <pf-formula-block><PatternView pattern={premise} {...commonProps}/></pf-formula-block>
+          <PatternBlock key={i++} pattern={premise} {...commonProps}/>
         )
       }
       </pf-premises>
       <pf-consequences>
       {
         rule.consequences.map(consequence =>
-          <pf-formula-block><PatternView pattern={consequence} {...commonProps}/></pf-formula-block>
+          <PatternBlock key={i++} pattern={consequence} {...commonProps}/>
         )
       }
       </pf-consequences>

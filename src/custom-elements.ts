@@ -11,6 +11,7 @@ declare module "react" {
       "pf-formula-block": CustomElement;
       "pf-formulas-panel": CustomElement;
       "pf-formula-picker": CustomElement;
+      "pf-goal-panel": CustomElement;
       "pf-page": CustomElement;
       "pf-pattern-atom": CustomElement;
       "pf-pattern-block": CustomElement;
