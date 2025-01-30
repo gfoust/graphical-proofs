@@ -7,6 +7,7 @@ declare module "react" {
     interface IntrinsicElements {
       "pf-builder-panel": CustomElement;
       "pf-builder-rule": CustomElement;
+      "pf-consequence": CustomElement;
       "pf-consequences": CustomElement;
       "pf-formula-block": CustomElement;
       "pf-formulas-panel": CustomElement;

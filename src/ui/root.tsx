@@ -16,11 +16,13 @@ export default function Root() {
     <App.PanelContext value={model.panel}>
       <App.ProblemListContext value={model.problemIds}>
         <App.ProblemDefinitionsContext value={model.problemDefs}>
-          <App.BuilderContext value={model.builder}>
-            <BrowserRouter basename="/proofs/">
-              <Page/>
-            </BrowserRouter>
-          </App.BuilderContext>
+          <App.CurrentProblemContext value={model.currentProblem}>
+            <App.BuilderContext value={model.builder}>
+              <BrowserRouter basename="/proofs/">
+                <Page/>
+              </BrowserRouter>
+            </App.BuilderContext>
+          </App.CurrentProblemContext>
         </App.ProblemDefinitionsContext>
       </App.ProblemListContext>
     </App.PanelContext>

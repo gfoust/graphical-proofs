@@ -1,4 +1,6 @@
-import { BuilderRule, Context } from "../../model/builder";
+import App from "../../app";
+import { Actions } from "../../model/actions";
+import { BuilderRule, Context, instantiatePattern } from "../../model/builder";
 import { Formula, Pattern, Var } from "../../model/formula";
 import { RefreshIcon } from "../icons";
 import { PatternBlock } from "./pattern-view";
@@ -15,6 +17,16 @@ export interface RuleViewProps {
   onBind?: (pattern: Pattern, formula: Formula) => void;
 }
 
+function saveHandler(pattern: Pattern, context: Context) {
+  let formula = instantiatePattern(pattern, context);
+  if (formula.type === 'formula') {
+    return () => App.dispatch(Actions.addDerived(formula.value));
+  }
+  else {
+    return undefined;
+  }
+}
+
 export default function RuleView({
   rule,
   context,
@@ -25,8 +37,10 @@ export default function RuleView({
   onBind,
 }: RuleViewProps) {
 
+  if (!context) context = {};
+
   const premiseProps = {
-    context: context || {},
+    context: context,
     candidate,
     highlight,
     onMouseOverVariable,
@@ -35,7 +49,7 @@ export default function RuleView({
   }
 
   const consequenceProps = {
-    context: context || {},
+    context: context,
     highlight,
     onMouseOverVariable,
     onMouseOutVariable,
@@ -60,7 +74,13 @@ export default function RuleView({
       <pf-consequences className={complete ? 'complete' : ''}>
       {
         rule.consequences.map(consequence =>
-          <PatternBlock key={i++} pattern={consequence} {...consequenceProps}/>
+          <pf-consequence key={i++}>
+            <PatternBlock pattern={consequence} {...consequenceProps}/>
+            {
+              complete && !consequence.matched
+                && <button type="button" className="btn btn-primary" onClick={saveHandler(consequence, context)}>Save</button>
+            }
+          </pf-consequence>
         )
       }
       </pf-consequences>

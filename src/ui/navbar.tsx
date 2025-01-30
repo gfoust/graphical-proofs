@@ -4,6 +4,7 @@ import App from "../app";
 import { Panel } from "../model/model";
 
 import "./navbar.scss";
+import { Actions } from "../model/actions";
 
 export interface NavBarProps {
   panel: Panel;
@@ -17,10 +18,10 @@ const panelTitles = {
 }
 
 const panelSelectors = {
-  [Panel.Builder]:  (event: MouseEvent) => { event.preventDefault(); App.dispatch({ type: 'show-panel', panel: Panel.Builder })  },
-  [Panel.Goal]:     (event: MouseEvent) => { event.preventDefault(); App.dispatch({ type: 'show-panel', panel: Panel.Goal })     },
-  [Panel.Formulas]: (event: MouseEvent) => { event.preventDefault(); App.dispatch({ type: 'show-panel', panel: Panel.Formulas }) },
-  [Panel.Rules]:    (event: MouseEvent) => { event.preventDefault(); App.dispatch({ type: 'show-panel', panel: Panel.Rules })    },
+  [Panel.Builder]:  (event: MouseEvent) => { event.preventDefault(); App.dispatch(Actions.showPanel(Panel.Builder))  },
+  [Panel.Goal]:     (event: MouseEvent) => { event.preventDefault(); App.dispatch(Actions.showPanel(Panel.Goal))     },
+  [Panel.Formulas]: (event: MouseEvent) => { event.preventDefault(); App.dispatch(Actions.showPanel(Panel.Formulas)) },
+  [Panel.Rules]:    (event: MouseEvent) => { event.preventDefault(); App.dispatch(Actions.showPanel(Panel.Rules))    },
 }
 
 export default function NavBar({ panel }: NavBarProps) {

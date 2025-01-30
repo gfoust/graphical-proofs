@@ -1,12 +1,14 @@
 @import "src/bootstrap.scss";
 
 pf-page {
-  display: block;
+  display: flex;
+  flex-flow: column nowrap;
   position: relative;
   padding: 1em;
   width: 100vw;
   height: 100vh;
-  overflow: auto;
+  overflow: hidden;
+  align-items: stretch;
 }
 
 h1.page {
@@ -18,10 +20,10 @@ pf-problem {
   display: block;
   border: var(--bs-border-width) solid var(--bs-border-color);
   border-top: none;
-  min-height: 10em;
-  padding: 1em;
+  height: 100%;
   border-bottom-left-radius: var(--bs-border-radius);
   border-bottom-right-radius: var(--bs-border-radius);
+  overflow: hidden;
 }
 
 .pl1 {

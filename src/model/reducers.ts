@@ -53,6 +53,9 @@ function currentProblemReducer(currentProblem: Maybe<Problem | 'invalid'>, actio
       return undefined;
     }
   }
+  else if (action.type === 'add-derived' && currentProblem && currentProblem !== 'invalid') {
+    return { ...currentProblem, derived: [...currentProblem.derived, action.formula] };
+  }
 
   return currentProblem;
 }
@@ -100,6 +103,20 @@ function builderReducer(builder: Maybe<Builder>, action: Action, model: Model): 
 
         return { rule, context: bindContext };
       }
+    }
+  }
+
+  else if (builder && action.type === 'add-derived') {
+    if (model.currentProblem && model.currentProblem !== 'invalid') {
+      console.log('updating');
+      let problem = { ...model.currentProblem, derived: [...model.currentProblem.derived, action.formula] }
+      let rule = {
+        name: builder.rule.name,
+        premises: builder.rule.premises.map(checkPattern(problem, builder.context)),
+        consequences: builder.rule.consequences.map(f => ({ ...f, matched: undefined })).map(checkPattern(problem, builder.context)),
+      };
+
+      return { rule, context: builder.context };
     }
   }
 

@@ -103,10 +103,10 @@ export const problemSet: readonly Readonly<ProblemDefinition>[] = [
     team: 1,
     tag: "A",
     givens: [
-      implies(atom(Color.Blue), atom(Color.Purple)),
+      or(atom(Color.Red), atom(Color.Green)),
       implies(atom(Color.Red), atom(Color.Blue)),
       implies(atom(Color.Green), atom(Color.Blue)),
-      or(atom(Color.Red), atom(Color.Green)),
+      implies(atom(Color.Blue), atom(Color.Purple)),
       atom(Color.Orange),
     ],
     rules: [ rules.swapper, rules.doubleSwapper, rules.breakdown, rules.buildup ],

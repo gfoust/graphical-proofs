@@ -30,3 +30,9 @@ pf-consequences {
   justify-content: center;
   padding-top: 1em;
 }
+
+pf-consequence {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}

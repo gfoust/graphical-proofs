@@ -7,6 +7,7 @@ pf-builder-panel {
     flex-flow: row nowrap;
     justify-content: center;
     flex-grow: 1;
+    overflow: auto;
   }
 }
 
@@ -46,13 +47,16 @@ pf-consequences.complete {
 
 @media (width > 600px) {
   pf-builder-panel {
+    position: relative;
     flex-flow: row nowrap;
+    height: 100%;
   }
 }
 
 @media (width <= 600px) {
   pf-builder-panel {
     flex-flow: column nowrap;
+    width: 100%;
   }
 }
 

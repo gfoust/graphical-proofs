@@ -7,6 +7,7 @@ import FormulaPicker from "../components/formula-picker";
 
 import "./builder.scss";
 import { Maybe } from "../../util";
+import { Actions } from "../../model/actions";
 
 export interface BuilderPanelProps {
   givens: Formula[];
@@ -14,15 +15,13 @@ export interface BuilderPanelProps {
 }
 
 function bindPattern(pattern: Pattern, formula: Formula) {
-  App.dispatch({ type: 'bind-pattern', pattern, formula });
+  App.dispatch(Actions.bindPattern(pattern, formula));
 }
 
 export default function BuilderPanel({ givens, derived }: BuilderPanelProps) {
   const builder = useContext(App.BuilderContext);
   const [highlight, setHighlight] = useState<Maybe<Var>>(undefined);
   const [selected, setSelected] = useState<Maybe<Formula>>(undefined);
-
-  console.log('builder', builder)
 
   if (builder) {
     return (

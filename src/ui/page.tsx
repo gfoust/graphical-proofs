@@ -13,19 +13,7 @@ import FormulasPanel from "./panels/formulas";
 import RulesPanel from "./panels/rules";
 
 import "./page.scss";
-
-function useProblem() {
-  let { problemId } = useParams();
-  const problems = useContext(App.ProblemDefinitionsContext);
-  if (problemId) {
-    problemId = problemId.toLowerCase();
-    if (problemId in problems) {
-      return problems[problemId];
-    }
-  }
-  return undefined;
-}
-
+import { Actions } from "../model/actions";
 
 function UnknownPath() {
   return (
@@ -52,15 +40,15 @@ function Display({ panel, problem }: { panel: Panel, problem: Problem }) {
 
 
 function ProblemPage() {
-  const problem = useProblem();
+  const problem = useContext(App.CurrentProblemContext);
   const panel = useContext(App.PanelContext);
   const { problemId } = useParams();
 
   useEffect(() => {
-    App.dispatch({ type: 'select-problem', problemId });
+    App.dispatch(Actions.selectProblem(problemId));
   }, [problemId])
 
-  if (!problem) {
+  if (!problem || problem == 'invalid') {
     return <UnknownPath/>
   }
   else {

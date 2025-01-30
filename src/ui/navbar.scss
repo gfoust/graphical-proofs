@@ -1,3 +1,7 @@
 @import "src/bootstrap.scss";
 
 @import "~bootstrap/scss/navbar";
+
+nav {
+  flex-grow: 0;
+}

@@ -3,6 +3,8 @@ pf-rule-list {
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
+  overflow: auto;
+  height: 100%;
 
   pf-rule-block:hover {
     background-color: #99bbcc;
