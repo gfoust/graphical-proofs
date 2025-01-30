@@ -54,6 +54,11 @@ function Display({ panel, problem }: { panel: Panel, problem: Problem }) {
 function ProblemPage() {
   const problem = useProblem();
   const panel = useContext(App.PanelContext);
+  const { problemId } = useParams();
+
+  useEffect(() => {
+    App.dispatch({ type: 'select-problem', problemId });
+  }, [problemId])
 
   if (!problem) {
     return <UnknownPath/>
@@ -73,12 +78,6 @@ function ProblemPage() {
 
 
 export default function Page() {
-  const { problemId } = useParams();
-
-  useEffect(() => {
-    App.dispatch({ type: 'select-problem', problemId });
-  }, [problemId])
-
   return (
     <pf-page>
       <Routes>

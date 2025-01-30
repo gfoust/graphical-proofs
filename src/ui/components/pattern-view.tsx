@@ -1,6 +1,6 @@
 import * as React from "react";
 import { JSX } from "react";
-import { Formula, Pattern, Var } from "../../model/formula";
+import { Formula, MatchedPattern, Pattern, Var } from "../../model/formula";
 
 import "./pattern-view.scss";
 import { Context, formulaMatches } from "../../model/builder";
@@ -94,10 +94,9 @@ function PatternElement({
 }
 
 export interface PatternBlockProps {
-  pattern: Pattern;
+  pattern: MatchedPattern;
   context: Context;
   highlight?: Var;
-  matched?: boolean;
   candidate?: Formula;
   onMouseOverVariable?: (v: Var) => void;
   onMouseOutVariable?: () => void;
@@ -108,7 +107,6 @@ export function PatternBlock({
   pattern,
   context,
   highlight,
-  matched,
   candidate,
   onMouseOverVariable,
   onMouseOutVariable,
@@ -117,8 +115,11 @@ export function PatternBlock({
   let className: Maybe<string>;
   let clickHandler: Maybe<() => void>;
 
-  if (matched) {
+  if (pattern.matched) {
     className = "matched";
+  }
+  else if (pattern.matched === false) {
+    className = "unmatched";
   }
   else if (candidate) {
     let matchContext = { ...context }

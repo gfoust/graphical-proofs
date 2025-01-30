@@ -32,7 +32,7 @@ export interface Builder {
   context: Context,
 }
 
-export function instantiatePattern(pattern: Pattern, context: Context): Maybe<Formula> {
+export function instantiatePattern1(pattern: Pattern, context: Context): Maybe<Formula> {
   if (pattern.type === 'atom') {
     return pattern;
   }
@@ -40,12 +40,38 @@ export function instantiatePattern(pattern: Pattern, context: Context): Maybe<Fo
     return context[pattern.name];
   }
   else {
-    let cells = pattern.cells.map(p => instantiatePattern(p, context));
+    let cells = pattern.cells.map(p => instantiatePattern1(p, context));
     if (cells.indexOf(undefined) == -1) {
       return { type: 'grid', cells: cells as Formula[] }
     }
     else {
       return undefined;
+    }
+  }
+}
+
+export type PatternInstantiation = { type: 'formula', value: Formula } | { type: 'pattern', value: Pattern };
+
+export function instantiatePattern(pattern: Pattern, context: Context): PatternInstantiation {
+  if (pattern.type === 'atom') {
+    return { type: 'formula', value: pattern };
+  }
+  else if (pattern.type === 'var') {
+    let formula = context[pattern.name];
+    if (formula) {
+      return { type: 'formula', value: formula };
+    }
+    else {
+      return { type: 'pattern', value: pattern };
+    }
+  }
+  else {
+    let cells = pattern.cells.map(p => instantiatePattern(p, context));
+    if (cells.every(i => i.type === 'formula')) {
+      return { type: 'formula', value: { type: 'grid', cells: cells.map(i => i.value) } };
+    }
+    else {
+      return { type: 'pattern', value: { type: 'grid', cells: cells.map(i => i.value)} };
     }
   }
 }

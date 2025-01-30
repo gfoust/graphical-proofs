@@ -47,7 +47,7 @@ function panelReducer(panel: Panel, action: Action) {
 function currentProblemReducer(currentProblem: Maybe<Problem | 'invalid'>, action: Action, model: Model): Maybe<Problem | 'invalid'> {
   if (action.type === 'select-problem') {
     if (action.problemId) {
-      return model.problemDefs[action.problemId] || 'invalid';
+      return model.problemDefs[action.problemId.toLowerCase()] || 'invalid';
     }
     else {
       return undefined;
@@ -60,14 +60,16 @@ function currentProblemReducer(currentProblem: Maybe<Problem | 'invalid'>, actio
 
 function checkPattern(currentProblem: Problem, bindContext: Context) {
   return (pattern: MatchedPattern) => {
-    if (! pattern.matched) {
-      let f = instantiatePattern(pattern, bindContext);
-      if (f) {
-        let matched = currentProblem.givens.some(f2 => formulaMatches(f2, f, {}))
-          || currentProblem.derived.some(f2 => formulaMatches(f2, f, {}));
-        if (matched) {
-          return { ...pattern, matched };
-        }
+    if (pattern.matched === undefined) {
+      let i = instantiatePattern(pattern, bindContext);
+      let matched = currentProblem.givens.some(f => formulaMatches(i.value, f, {}))
+        || currentProblem.derived.some(f => formulaMatches(i.value, f, {}));
+
+      if (i.type === 'formula') {
+        return { ...pattern, matched };
+      }
+      else if (!matched) {
+        return { ...pattern, matched };
       }
     }
     return pattern;

@@ -13,7 +13,6 @@ export interface FormulaPickerProps {
 
 
 export default function FormulaPicker({ givens, derived, selected, onSelect }: FormulaPickerProps) {
-  console.log('selected', selected)
 
   function clickHandler(formula: Formula) {
     if (onSelect) {

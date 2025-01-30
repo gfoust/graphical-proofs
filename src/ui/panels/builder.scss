@@ -8,23 +8,40 @@ pf-builder-panel {
     justify-content: center;
     flex-grow: 1;
   }
+}
 
-  pf-pattern-block {
-    background-color: #ddd;
-    // border-color: #888;
+pf-premises {
+  pf-pattern-block.matched {
+    background-color: #efe;
+    border-color: #090;
+  }
+
+  pf-pattern-block.unmatched {
+    background-color: #fee;
+    border-color: #900;
   }
 
   pf-pattern-block.allowed:hover {
-    background-color: #8c9;
-    // border-color: #090;
+    background-color: #cfc;
     cursor: pointer;
-  }
-  pf-pattern-block.restricted:hover {
-    background-color: #c88;
-    // border-color: #900;
-    cursor: pointer;
+
   }
 
+  pf-pattern-block.restricted:hover {
+    background-color: #fcc;
+  }
+}
+
+pf-consequences.complete {
+  pf-pattern-block.matched {
+    background-color: #efe;
+    border-color: #090;
+  }
+
+  pf-pattern-block.unmatched {
+    background-color: #eef;
+    border-color: #009;
+  }
 }
 
 @media (width > 600px) {

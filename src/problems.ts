@@ -85,6 +85,16 @@ const rules: Readonly<Record<string, Rule>> = {
       variable(Var.A),
       variable(Var.B)
     ]
+  },
+  buildup: {
+    name: "Build Up",
+    premises: [
+      variable(Var.A),
+      variable(Var.B)
+    ],
+    consequences: [
+      and(variable(Var.A), variable(Var.B))
+    ]
   }
 }
 
@@ -97,9 +107,10 @@ export const problemSet: readonly Readonly<ProblemDefinition>[] = [
       implies(atom(Color.Red), atom(Color.Blue)),
       implies(atom(Color.Green), atom(Color.Blue)),
       or(atom(Color.Red), atom(Color.Green)),
+      atom(Color.Orange),
     ],
-    rules: [ rules.swapper, rules.doubleSwapper, rules.breakdown ],
-    goal: atom(Color.Blue)
+    rules: [ rules.swapper, rules.doubleSwapper, rules.breakdown, rules.buildup ],
+    goal: and(atom(Color.Orange), atom(Color.Purple))
   }
 ]
 
