@@ -1,7 +1,9 @@
-import { instantiateProblem, Problem, ProblemIdentifier, problemIdString } from "./problem";
-
 import problemSet from "../problems";
-import { Builder, Context } from "./builder";
+
+import { Problem, ProblemIdentifier, problemIdString } from "./problem";
+import { Builder } from "./builder";
+import { Palette } from "./palette";
+
 
 export enum Panel {
   Builder = 'builder',
@@ -10,25 +12,24 @@ export enum Panel {
   Rules = 'rules'
 }
 
+
 export interface Model {
   panel: Panel,
   problemIds: ProblemIdentifier[],
   problemDefs: Record<string, Problem>,
-  currentProblem?: Problem | 'invalid',
+  currentProblemId?: string,
+  palette?: Palette,
   builder?: Builder,
 }
 
-export interface InitialModelOptions {
 
-}
-
-export function initialModel(options: InitialModelOptions): Model {
+export function initialModel(): Model {
   let problemIds: ProblemIdentifier[] = [];
   let problemDefs: Record<string, Problem> = {};
 
   for (let def of problemSet) {
     problemIds.push({ team: def.team, tag: def.tag });
-    problemDefs[problemIdString(def)] = instantiateProblem(def);
+    problemDefs[problemIdString(def)] = def;
   }
 
   return {

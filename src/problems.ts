@@ -1,5 +1,5 @@
-import { Color, Formula, Pattern, Rule, Var } from "./model/formula";
-import { ProblemDefinition } from "./model/problem";
+import { Color, Formula, Pattern, Rule, Var } from "./model/pattern";
+import { Problem } from "./model/problem";
 
 function atom(color: Color): Formula {
   return { type: 'atom', color };
@@ -98,7 +98,7 @@ const rules: Readonly<Record<string, Rule>> = {
   }
 }
 
-export const problemSet: readonly Readonly<ProblemDefinition>[] = [
+export const problemSet: readonly Readonly<Problem>[] = [
   {
     team: 1,
     tag: "A",

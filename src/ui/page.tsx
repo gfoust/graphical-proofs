@@ -30,28 +30,36 @@ function UnknownPath() {
 
 function Display({ panel, problem }: { panel: Panel, problem: Problem }) {
   switch (panel) {
-    case Panel.Builder:  return <BuilderPanel givens={problem.givens} derived={problem.derived}/>;
-    case Panel.Goal:     return <GoalPanel goal={problem.goal}/>
-    case Panel.Formulas: return <FormulasPanel givens={problem.givens} derived={problem.derived}/>
-    case Panel.Rules:    return <RulesPanel rules={problem.rules}/>
-    default:             return <h1>Error</h1>
+    case Panel.Builder:
+      return <BuilderPanel/>;
+    case Panel.Goal:
+      return <GoalPanel goal={problem.goal}/>
+    case Panel.Formulas:
+      return <FormulasPanel/>
+    case Panel.Rules:
+      return <RulesPanel rules={problem.rules}/>
+    default:
+      return <h1>Error</h1>
   }
 }
 
 
 function ProblemPage() {
-  const problem = useContext(App.CurrentProblemContext);
-  const panel = useContext(App.PanelContext);
   const { problemId } = useParams();
-
   useEffect(() => {
     App.dispatch(Actions.selectProblem(problemId));
   }, [problemId])
 
-  if (!problem || problem == 'invalid') {
+  const currentProblemId = useContext(App.CurrentProblemIdContext);
+  const problemDefs = useContext(App.ProblemDefsContext);
+  const panel = useContext(App.PanelContext);
+
+  if (!currentProblemId || currentProblemId == 'invalid') {
     return <UnknownPath/>
   }
   else {
+    const problem = problemDefs[currentProblemId];
+
     return (
       <>
         <h1 className="page">Problem {problemIdString(problem).toUpperCase()}</h1>

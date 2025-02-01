@@ -1,8 +1,8 @@
-import { Formula } from "../../model/formula";
+import { Formula } from "../../model/pattern";
+import { Maybe } from "../../util";
 import { FormulaBlock } from "./pattern-view";
 
 import "./formula-picker.scss";
-import { Maybe } from "../../util";
 
 export interface FormulaPickerProps {
   givens: Formula[];

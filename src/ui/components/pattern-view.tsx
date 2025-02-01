@@ -1,10 +1,11 @@
-import * as React from "react";
 import { JSX } from "react";
-import { Formula, MatchedPattern, Pattern, Var } from "../../model/formula";
+
+import { Context, formulaMatches, MatchedPattern } from "../../model/builder";
+import { Formula, Pattern, Var } from "../../model/pattern";
+import { Maybe, range } from "../../util";
 
 import "./pattern-view.scss";
-import { Context, formulaMatches } from "../../model/builder";
-import { Maybe, range } from "../../util";
+
 
 interface PatternElementProps extends React.PropsWithChildren {
   pattern: Pattern;
@@ -14,6 +15,7 @@ interface PatternElementProps extends React.PropsWithChildren {
   onMouseOverVariable?: (v: Var) => void;
   onMouseOutVariable?: () => void;
 }
+
 
 function PatternElement({
   pattern,
@@ -52,7 +54,7 @@ function PatternElement({
       }
       element =
         <pf-pattern-atom
-          className={`${hl} ${pattern.name.toLowerCase()} d${divisions}`}
+          className={`${hl} ${pattern.name.toUpperCase()} d${divisions}`}
           onMouseOver={onMouseOverVariable && (() => onMouseOverVariable(pattern.name))}
           onMouseOut={onMouseOutVariable}
         >
@@ -93,6 +95,8 @@ function PatternElement({
   return element;
 }
 
+
+
 export interface PatternBlockProps {
   pattern: MatchedPattern;
   context: Context;
@@ -102,6 +106,7 @@ export interface PatternBlockProps {
   onMouseOutVariable?: () => void;
   onBind?: (pattern: Pattern, formula: Formula) => void;
 }
+
 
 export function PatternBlock({
   pattern,
@@ -145,11 +150,14 @@ export function PatternBlock({
   );
 }
 
+
+
 export interface FormulaBlockProps {
   formula: Formula;
   selected?: boolean;
   onSelect?: (formula: Maybe<Formula>) => void;
 }
+
 
 export function FormulaBlock({
   formula,

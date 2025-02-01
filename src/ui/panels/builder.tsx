@@ -1,27 +1,35 @@
 import { useContext, useState } from "react";
 
-import RuleView from "../components/rule-view";
 import App from "../../app";
-import { Formula, Pattern, Var } from "../../model/formula";
+import { Actions } from "../../model/actions";
+import { paletteDerived, paletteGivens } from "../../model/palette";
+import { Formula, Pattern, Var } from "../../model/pattern";
+import { Maybe } from "../../util";
+import RuleView from "../components/rule-view";
 import FormulaPicker from "../components/formula-picker";
 
 import "./builder.scss";
-import { Maybe } from "../../util";
-import { Actions } from "../../model/actions";
+
 
 export interface BuilderPanelProps {
-  givens: Formula[];
-  derived: Formula[];
 }
+
+
 
 function bindPattern(pattern: Pattern, formula: Formula) {
   App.dispatch(Actions.bindPattern(pattern, formula));
 }
 
-export default function BuilderPanel({ givens, derived }: BuilderPanelProps) {
+
+
+export default function BuilderPanel({}: BuilderPanelProps) {
+  const palette = useContext(App.PaletteContext);
   const builder = useContext(App.BuilderContext);
   const [highlight, setHighlight] = useState<Maybe<Var>>(undefined);
   const [selected, setSelected] = useState<Maybe<Formula>>(undefined);
+
+  const givens = paletteGivens(palette);
+  const derived = paletteDerived(palette);
 
   if (builder) {
     return (

@@ -1,6 +1,6 @@
 import App from "../../app";
 import { Actions } from "../../model/actions";
-import { Rule } from "../../model/formula";
+import { Rule } from "../../model/pattern";
 import RuleView from "../components/rule-view";
 
 import "./rules.scss";

@@ -3,7 +3,7 @@ import App from "../app";
 import { Link } from "react-router";
 
 export default function ProblemList() {
-  const problems = useContext(App.ProblemListContext);
+  const problems = useContext(App.ProblemIdsContext);
 
   return (
     <>

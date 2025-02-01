@@ -1,13 +1,9 @@
 import { Maybe } from "../util";
-import { clonePattern, cloneRule, Formula, MatchedPattern, Pattern, Rule } from "./formula";
-import { Problem } from "./problem";
+import { Formula, Pattern, Rule } from "./pattern";
+import { Palette } from "./palette";
 
-export type Context = { [key: string]: Formula|undefined };
 
-export interface BuilderPattern {
-  matched: boolean,
-  pattern: Pattern,
-}
+export type MatchedPattern = { matched?: boolean } & Pattern;
 
 export interface BuilderRule {
   name: string,
@@ -15,42 +11,18 @@ export interface BuilderRule {
   consequences: MatchedPattern[]
 }
 
-// function notMatched(pattern: Pattern): BuilderPattern {
-//   return { matched: false, pattern };
-// }
 
-// export function builderRule(rule: Rule): BuilderRule {
-//   return {
-//     name: rule.name,
-//     premises: rule.premises.map(notMatched),
-//     consequences: rule.premises.map(notMatched)
-//   };
-// }
+export type Context = { [key: string]: Formula|undefined };
 
 export interface Builder {
   rule: BuilderRule,
   context: Context,
 }
 
-export function instantiatePattern1(pattern: Pattern, context: Context): Maybe<Formula> {
-  if (pattern.type === 'atom') {
-    return pattern;
-  }
-  else if (pattern.type === 'var') {
-    return context[pattern.name];
-  }
-  else {
-    let cells = pattern.cells.map(p => instantiatePattern1(p, context));
-    if (cells.indexOf(undefined) == -1) {
-      return { type: 'grid', cells: cells as Formula[] }
-    }
-    else {
-      return undefined;
-    }
-  }
-}
 
-export type PatternInstantiation = { type: 'formula', value: Formula } | { type: 'pattern', value: Pattern };
+
+export type PatternInstantiation =
+  { type: 'formula', value: Formula } | { type: 'pattern', value: Pattern };
 
 export function instantiatePattern(pattern: Pattern, context: Context): PatternInstantiation {
   if (pattern.type === 'atom') {
@@ -75,6 +47,8 @@ export function instantiatePattern(pattern: Pattern, context: Context): PatternI
     }
   }
 }
+
+
 
 export function formulaMatches(pattern: Pattern, formula: Formula, context: Context) {
   if (pattern.type === 'var') {
@@ -110,3 +84,35 @@ export function formulaMatches(pattern: Pattern, formula: Formula, context: Cont
   }
 }
 
+
+
+function updateFormulaMatches(palette: Palette, context: Context) {
+  const givens = palette.givens.map(id => palette.formulas[id]);
+  const derived = palette.derived.map(id => palette.formulas[id]);
+
+  return (pattern: MatchedPattern) => {
+    if (pattern.matched === undefined) {
+      let i = instantiatePattern(pattern, context);
+      let matched = givens.some(f => formulaMatches(i.value, f, {}))
+        || derived.some(f => formulaMatches(i.value, f, {}));
+
+      if (i.type === 'formula') {
+        return { ...pattern, matched };
+      }
+      else if (!matched) {
+        return { ...pattern, matched };
+      }
+    }
+    return pattern;
+  }
+}
+
+
+
+export function updateRuleMatches(palette: Palette, context: Context, rule: Rule): Rule {
+  return {
+    name: rule.name,
+    premises: rule.premises.map(updateFormulaMatches(palette, context)),
+    consequences: rule.consequences.map(updateFormulaMatches(palette, context)),
+  }
+}

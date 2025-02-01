@@ -1,10 +1,8 @@
-import RuleView from "../ui/components/rule-view";
 import { Maybe } from "../util";
 import { Action } from "./actions";
-import { Builder, Context, formulaMatches, instantiatePattern } from "./builder";
-import { MatchedPattern, Pattern } from "./formula";
+import { Builder, formulaMatches, updateRuleMatches } from "./builder";
 import { Model, Panel } from "./model";
-import { Problem } from "./problem";
+import { addDerived, createPalette, Palette } from "./palette";
 
 
 type Reducer<S, T> = (state: S, action: Action, fullState: T) => S;
@@ -32,10 +30,13 @@ function combineReducers<S>(map: ReducerMap<S>) {
 }
 
 
-function panelReducer(panel: Panel, action: Action) {
+
+function panelReducer(panel: Panel, action: Action): Panel {
+
   if (action.type === 'show-panel') {
     return action.panel;
   }
+
   else if (action.type === 'select-rule') {
     return Panel.Builder;
   }
@@ -44,44 +45,63 @@ function panelReducer(panel: Panel, action: Action) {
 }
 
 
-function currentProblemReducer(currentProblem: Maybe<Problem | 'invalid'>, action: Action, model: Model): Maybe<Problem | 'invalid'> {
+
+function currentProblemIdReducer(
+  currentProblemId: Maybe<string>,
+  action: Action,
+  model: Model
+): Maybe<string> {
+
+  if (action.type === 'select-problem') {
+    if (action.problemId === undefined) {
+      return undefined;
+    }
+    else {
+      return action.problemId in model.problemDefs ? action.problemId : 'invalid';
+    }
+  }
+
+  return currentProblemId;
+}
+
+
+
+function paletteReducer(
+  palette: Maybe<Palette>,
+  action: Action,
+  model: Model
+): Maybe<Palette> {
+
   if (action.type === 'select-problem') {
     if (action.problemId) {
-      return model.problemDefs[action.problemId.toLowerCase()] || 'invalid';
+      const problem = model.problemDefs[action.problemId];
+      return problem ? createPalette(problem) : undefined;
     }
     else {
       return undefined;
     }
   }
-  else if (action.type === 'add-derived' && currentProblem && currentProblem !== 'invalid') {
-    return { ...currentProblem, derived: [...currentProblem.derived, action.formula] };
+
+  else if (action.type === 'add-derived' && palette) {
+    return addDerived(action.formula, palette);
   }
 
-  return currentProblem;
+  return palette;
 }
 
 
-function checkPattern(currentProblem: Problem, bindContext: Context) {
-  return (pattern: MatchedPattern) => {
-    if (pattern.matched === undefined) {
-      let i = instantiatePattern(pattern, bindContext);
-      let matched = currentProblem.givens.some(f => formulaMatches(i.value, f, {}))
-        || currentProblem.derived.some(f => formulaMatches(i.value, f, {}));
 
-      if (i.type === 'formula') {
-        return { ...pattern, matched };
-      }
-      else if (!matched) {
-        return { ...pattern, matched };
-      }
-    }
-    return pattern;
+function builderReducer(
+  builder: Maybe<Builder>,
+  action: Action,
+  model: Model
+): Maybe<Builder> {
+
+  if (action.type === 'select-problem') {
+    return undefined;
+
   }
-}
-
-
-function builderReducer(builder: Maybe<Builder>, action: Action, model: Model): Maybe<Builder> {
-  if (action.type === 'select-rule') {
+  else if (action.type === 'select-rule') {
     if (action.rule) {
       return { rule: action.rule, context: {} };
     }
@@ -90,42 +110,26 @@ function builderReducer(builder: Maybe<Builder>, action: Action, model: Model): 
     }
   }
 
-  else if (builder && action.type === 'bind-pattern') {
-    if (model.currentProblem && model.currentProblem !== 'invalid') {
-      let bindContext = { ...builder.context };
-      if (formulaMatches(action.pattern, action.formula, bindContext)) {
+  else if (action.type === 'bind-pattern' && builder && model.palette) {
+    let boundContext = { ...builder.context };
+    if (formulaMatches(action.pattern, action.formula, boundContext)) {
 
-        let rule = {
-          name: builder.rule.name,
-          premises: builder.rule.premises.map(checkPattern(model.currentProblem, bindContext)),
-          consequences: builder.rule.consequences.map(checkPattern(model.currentProblem, bindContext)),
-        };
-
-        return { rule, context: bindContext };
+      return {
+        rule: updateRuleMatches(model.palette, boundContext, builder.rule),
+        context: boundContext
       }
     }
   }
 
-  else if (builder && action.type === 'add-derived') {
-    if (model.currentProblem && model.currentProblem !== 'invalid') {
-      console.log('updating');
-      let problem = { ...model.currentProblem, derived: [...model.currentProblem.derived, action.formula] }
-      let rule = {
-        name: builder.rule.name,
-        premises: builder.rule.premises.map(checkPattern(problem, builder.context)),
-        consequences: builder.rule.consequences.map(f => ({ ...f, matched: undefined })).map(checkPattern(problem, builder.context)),
-      };
+  else if (action.type === 'add-derived' && builder && model.palette) {
+    let palette = addDerived(action.formula, model.palette);
 
-      return { rule, context: builder.context };
-    }
-  }
-
-  else if (action.type === 'select-problem') {
-    return undefined;
+    return { rule: updateRuleMatches(palette, builder.context, builder.rule), context: builder.context };
   }
 
   return builder;
 }
+
 
 
 function ignore<T>(state: T, action: Action) {
@@ -133,10 +137,12 @@ function ignore<T>(state: T, action: Action) {
 }
 
 
+
 export const modelReducer = combineReducers<Model>({
   panel: panelReducer,
   problemIds: ignore,
   problemDefs: ignore,
-  currentProblem: currentProblemReducer,
+  currentProblemId: currentProblemIdReducer,
+  palette: paletteReducer,
   builder: builderReducer,
 });

@@ -1,4 +1,4 @@
-import { Formula } from "../../model/formula";
+import { Formula } from "../../model/pattern";
 import { FormulaBlock } from "../components/pattern-view";
 
 import './goal.scss';

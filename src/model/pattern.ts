@@ -11,6 +11,8 @@ export const enum Var {
   I = 'I'
 }
 
+
+
 export enum Color {
   White = 'white',
   Red = 'red',
@@ -24,28 +26,40 @@ export enum Color {
   Black = 'black',
 }
 
+
+
 export interface Atom {
   type: 'atom',
   color: Color
 }
+
+
 
 export interface Variable {
   type: 'var',
   name: Var
 }
 
+
+
 export interface Grid<T> {
   type: 'grid',
   cells: T[]
 }
 
+
+
 export type Formula = Atom | Grid<Formula>;
+
+
 
 export type TopLevelFormula = Formula & { id: string };
 
+
+
 export type Pattern = Variable | Atom | Grid<Pattern>;
 
-export type MatchedPattern = { matched?: boolean } & Pattern;
+
 
 export function clonePattern(f: Formula): Formula;
 export function clonePattern(p: Pattern): Pattern;
@@ -61,11 +75,15 @@ export function clonePattern(p: Pattern): Pattern {
   }
 }
 
+
+
 export interface Rule {
   name: string;
   premises: Pattern[],
   consequences: Pattern[],
 }
+
+
 
 export function cloneRule(rule: Rule): Rule {
   return {
