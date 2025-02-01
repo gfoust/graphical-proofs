@@ -39,7 +39,20 @@ export interface AddDerived {
 
 
 
-export type Action = ShowPanel | SelectRule | SelectProblem | BindPattern | AddDerived;
+export interface SaveScrollPosition {
+  type: 'save-scroll-position',
+  positions: Record<string, number>,
+}
+
+
+
+export type Action =
+    ShowPanel
+  | SelectRule
+  | SelectProblem
+  | BindPattern
+  | AddDerived
+  | SaveScrollPosition;
 
 
 
@@ -49,4 +62,5 @@ export const Actions = {
   selectRule(rule: Rule): SelectRule { return { type: 'select-rule', rule }; },
   bindPattern(pattern: Pattern, formula: Formula): BindPattern { return { type: 'bind-pattern', pattern, formula }; },
   addDerived(formula: Formula): AddDerived { return { type: 'add-derived', formula }; },
+  saveScrollPosition(positions: Record<string, number>): SaveScrollPosition { return { type: 'save-scroll-position', positions }; },
 }

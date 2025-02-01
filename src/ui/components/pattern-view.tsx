@@ -2,7 +2,7 @@ import { JSX } from "react";
 
 import { Context, formulaMatches, MatchedPattern } from "../../model/builder";
 import { Formula, Pattern, Var } from "../../model/pattern";
-import { Maybe, range } from "../../util";
+import { className, Maybe, range } from "../../util";
 
 import "./pattern-view.scss";
 
@@ -154,16 +154,21 @@ export function PatternBlock({
 
 export interface FormulaBlockProps {
   formula: Formula;
+  id: string;
   selected?: boolean;
+  added?: boolean;
   onSelect?: (formula: Maybe<Formula>) => void;
 }
 
 
 export function FormulaBlock({
   formula,
+  id,
   selected,
+  added,
   onSelect
 }: FormulaBlockProps) {
+
   function clickHandler() {
     if (onSelect) {
       if (selected) {
@@ -176,7 +181,11 @@ export function FormulaBlock({
   }
 
   return (
-    <pf-formula-block className={selected ? "selected" : undefined} onClick={clickHandler}>
+    <pf-formula-block
+      id={id}
+      className={className({ selected, added })}
+      onClick={clickHandler}
+    >
       <pf-pattern-view>
         <PatternElement pattern={formula} context={{}} divisions={1}/>
       </pf-pattern-view>

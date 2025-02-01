@@ -50,7 +50,7 @@ export function instantiatePattern(pattern: Pattern, context: Context): PatternI
 
 
 
-export function formulaMatches(pattern: Pattern, formula: Formula, context: Context) {
+export function formulaMatches(pattern: Pattern, formula: Formula, context: Context, depth = 0) {
   if (pattern.type === 'var') {
     const value = context[pattern.name];
     if (value === undefined) {
@@ -70,9 +70,9 @@ export function formulaMatches(pattern: Pattern, formula: Formula, context: Cont
     }
   }
   else {
-    if (formula.type === 'grid') {
+    if (formula.type === 'grid' && depth < 3) {
       for (let i = 0; i < pattern.cells.length; ++i) {
-        if (!formulaMatches(pattern.cells[i], formula.cells[i], context)) {
+        if (!formulaMatches(pattern.cells[i], formula.cells[i], context, depth + 1)) {
           return false;
         }
       }
@@ -87,14 +87,11 @@ export function formulaMatches(pattern: Pattern, formula: Formula, context: Cont
 
 
 function updateFormulaMatches(palette: Palette, context: Context) {
-  const givens = palette.givens.map(id => palette.formulas[id]);
-  const derived = palette.derived.map(id => palette.formulas[id]);
-
   return (pattern: MatchedPattern) => {
     if (pattern.matched === undefined) {
       let i = instantiatePattern(pattern, context);
-      let matched = givens.some(f => formulaMatches(i.value, f, {}))
-        || derived.some(f => formulaMatches(i.value, f, {}));
+      let matched = palette.givens.some(f => formulaMatches(i.value, f, {}))
+        || palette.derived.some(f => formulaMatches(i.value, f, {}));
 
       if (i.type === 'formula') {
         return { ...pattern, matched };

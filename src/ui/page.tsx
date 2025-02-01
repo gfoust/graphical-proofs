@@ -5,7 +5,7 @@ import App from "../app";
 import { Panel } from "../model/model";
 import { Problem, problemIdString } from "../model/problem";
 
-import NavBar from "./navbar";
+import NavBar from "./components/navbar";
 import ProblemList from "./problem-list";
 import BuilderPanel from "./panels/builder";
 import GoalPanel from "./panels/goal";

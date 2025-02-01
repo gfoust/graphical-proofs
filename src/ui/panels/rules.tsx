@@ -4,6 +4,7 @@ import { Rule } from "../../model/pattern";
 import RuleView from "../components/rule-view";
 
 import "./rules.scss";
+import { useScrollPosition } from "../scroll";
 
 export interface RulesPanelProps {
   rules: Rule[];
@@ -14,9 +15,11 @@ function handleRuleClicked() {
 }
 
 export default function RulesPanel({ rules }: RulesPanelProps) {
+  useScrollPosition("rule-list");
+
   let i = 0;
   return (
-    <pf-rule-list>
+    <pf-rule-list id="rule-list">
     {
       rules.map(rule =>
         <pf-rule-block key={i++} onClick={() => App.dispatch(Actions.selectRule(rule))}><RuleView rule={rule}/></pf-rule-block>

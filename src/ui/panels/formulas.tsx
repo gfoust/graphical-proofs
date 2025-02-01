@@ -2,7 +2,7 @@ import { useContext } from "react";
 
 import App from "../../app";
 import { FormulaBlock } from "../components/pattern-view";
-import { paletteDerived, paletteGivens } from "../../model/palette";
+import { Palette } from "../../model/palette";
 
 import "./formulas.scss";
 
@@ -13,19 +13,22 @@ export interface FormulasPanelProps {
 
 
 export default function FormulasPanel({}: FormulasPanelProps) {
-  const palette = useContext(App.PaletteContext);
-  console.log('palette', palette);
+  const palette = useContext(App.PaletteContext) as Palette;
 
-  const givens = paletteGivens(palette);
-  const derived = paletteDerived(palette);
+  const givens = palette.givens;
+  const derived = palette.derived;
 
   return (
     <pf-formulas-panel>
       <h2>Givens</h2>
       <div>
       {
-        givens.map((formula, i) =>
-          <FormulaBlock key={'g' + i} formula={formula}/>
+        givens.map(formula =>
+          <FormulaBlock
+            key={formula.id}
+            id={formula.id}
+            formula={formula}
+          />
         )
       }
       </div>
@@ -34,8 +37,12 @@ export default function FormulasPanel({}: FormulasPanelProps) {
           <h2>Derived</h2>
           <div>
           {
-            derived.map((formula, i) =>
-              <FormulaBlock key={'d' + i} formula={formula}/>
+            derived.map(formula =>
+              <FormulaBlock
+                key={formula.id}
+                id={formula.id}
+                formula={formula}
+              />
             )
           }
           </div>

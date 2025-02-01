@@ -12,7 +12,7 @@ export default function GoalPanel({ goal }: GoalPanelProps) {
     <>
       <h2>Goal</h2>
       <pf-goal-panel>
-        <FormulaBlock formula={goal}/>
+        <FormulaBlock id="goal" formula={goal}/>
       </pf-goal-panel>
     </>
   )

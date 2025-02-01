@@ -13,18 +13,6 @@ pf-formula-picker {
   pf-formula-block {
     padding: 1ex;
   }
-
-  pf-formula-block:hover {
-    background-color: #99bbcc;
-    border-color: #668899;
-    cursor: pointer;
-  }
-
-  pf-formula-block.selected {
-    background-color: #ffee99;
-    border-color: #ccbb66;
-    cursor: pointer;
-  }
 }
 
 @media (width > 600px) {

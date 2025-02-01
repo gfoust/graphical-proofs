@@ -1,40 +1,54 @@
+import { useContext, useEffect } from "react";
+
+import App from "../../app";
+import { Palette } from "../../model/palette";
 import { Formula } from "../../model/pattern";
 import { Maybe } from "../../util";
 import { FormulaBlock } from "./pattern-view";
 
 import "./formula-picker.scss";
+import { useScrollPosition } from "../scroll";
 
 export interface FormulaPickerProps {
-  givens: Formula[];
-  derived: Formula[];
-  selected?: Formula;
-  onSelect: (formula: Maybe<Formula>) => void;
+  palette: Palette,
+  selected?: Formula,
+  onSelect: (formula: Maybe<Formula>) => void,
 }
 
 
-export default function FormulaPicker({ givens, derived, selected, onSelect }: FormulaPickerProps) {
+export default function FormulaPicker({ palette, selected, onSelect }: FormulaPickerProps) {
+  useScrollPosition("formula-picker");
+  const added = useContext(App.AddedFormulaContext);
 
-  function clickHandler(formula: Formula) {
-    if (onSelect) {
-      if (formula === selected) {
-        onSelect(undefined);
-      }
-      else {
-        onSelect(formula);
-      }
+  useEffect(() => {
+    if (added) {
+      document.getElementById(added.id)?.scrollIntoView({ behavior: "smooth", block: "center" });
     }
-  }
+  }, [added]);
 
   return (
-    <pf-formula-picker>
+    <pf-formula-picker id="formula-picker">
     {
-      givens.map((formula, i) =>
-        <FormulaBlock key={'g' + i} formula={formula} selected={formula === selected} onSelect={onSelect}/>
+      palette.givens.map(formula =>
+        <FormulaBlock
+          key={formula.id}
+          id={formula.id}
+          formula={formula}
+          selected={selected === formula}
+          onSelect={onSelect}
+        />
       )
     }
     {
-      derived.map((formula, i) =>
-        <FormulaBlock key={'d' + i} formula={formula} selected={formula === selected} onSelect={onSelect}/>
+      palette.derived.map(formula =>
+        <FormulaBlock
+          key={formula.id}
+          id={formula.id}
+          formula={formula}
+          selected={selected === formula}
+          added={added === formula}
+          onSelect={onSelect}
+        />
       )
     }
     </pf-formula-picker>

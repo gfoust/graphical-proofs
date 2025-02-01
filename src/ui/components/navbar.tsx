@@ -1,10 +1,10 @@
 import { MouseEvent } from "react";
 import { NavLink, useLocation, useParams } from "react-router";
-import App from "../app";
-import { Panel } from "../model/model";
+import App from "../../app";
+import { Panel } from "../../model/model";
 
 import "./navbar.scss";
-import { Actions } from "../model/actions";
+import { Actions } from "../../model/actions";
 
 export interface NavBarProps {
   panel: Panel;

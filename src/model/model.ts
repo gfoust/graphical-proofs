@@ -1,8 +1,8 @@
 import problemSet from "../problems";
-
 import { Problem, ProblemIdentifier, problemIdString } from "./problem";
 import { Builder } from "./builder";
 import { Palette } from "./palette";
+import { Formula, BaseFormula } from "./pattern";
 
 
 export enum Panel {
@@ -17,9 +17,11 @@ export interface Model {
   panel: Panel,
   problemIds: ProblemIdentifier[],
   problemDefs: Record<string, Problem>,
+  scrollPositions: Record<string, number>,
   currentProblemId?: string,
   palette?: Palette,
   builder?: Builder,
+  addedFormula?: BaseFormula,
 }
 
 
@@ -35,7 +37,8 @@ export function initialModel(): Model {
   return {
     panel: Panel.Goal,
     problemIds,
-    problemDefs
+    problemDefs,
+    scrollPositions: {},
   };
 }
 

@@ -3,6 +3,7 @@ import { Action } from "./actions";
 import { Builder, formulaMatches, updateRuleMatches } from "./builder";
 import { Model, Panel } from "./model";
 import { addDerived, createPalette, Palette } from "./palette";
+import { BaseFormula } from "./pattern";
 
 
 type Reducer<S, T> = (state: S, action: Action, fullState: T) => S;
@@ -42,6 +43,20 @@ function panelReducer(panel: Panel, action: Action): Panel {
   }
 
   return panel;
+}
+
+
+
+function scrollPositionsReducer(
+  positions: Record<string, number>,
+  action: Action
+): Record<string, number> {
+
+  if (action.type === 'save-scroll-position') {
+    return { ...positions, ...action.positions };
+  }
+
+  return positions;
 }
 
 
@@ -132,6 +147,19 @@ function builderReducer(
 
 
 
+function addedFormulaReducer(
+  addedFormula: Maybe<BaseFormula>,
+  action: Action
+): Maybe<BaseFormula> {
+  if (action.type === 'add-derived') {
+    return action.formula as BaseFormula;
+  }
+
+  return undefined;
+}
+
+
+
 function ignore<T>(state: T, action: Action) {
   return state;
 }
@@ -145,4 +173,6 @@ export const modelReducer = combineReducers<Model>({
   currentProblemId: currentProblemIdReducer,
   palette: paletteReducer,
   builder: builderReducer,
+  addedFormula: addedFormulaReducer,
+  scrollPositions: scrollPositionsReducer,
 });

@@ -53,7 +53,7 @@ export type Formula = Atom | Grid<Formula>;
 
 
 
-export type TopLevelFormula = Formula & { id: string };
+export type BaseFormula = Formula & { id: string };
 
 
 

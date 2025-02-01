@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 
 import App from "../../app";
 import { Actions } from "../../model/actions";
-import { paletteDerived, paletteGivens } from "../../model/palette";
+import { Palette } from "../../model/palette";
 import { Formula, Pattern, Var } from "../../model/pattern";
 import { Maybe } from "../../util";
 import RuleView from "../components/rule-view";
@@ -23,18 +23,15 @@ function bindPattern(pattern: Pattern, formula: Formula) {
 
 
 export default function BuilderPanel({}: BuilderPanelProps) {
-  const palette = useContext(App.PaletteContext);
+  const palette = useContext(App.PaletteContext) as Palette;
   const builder = useContext(App.BuilderContext);
   const [highlight, setHighlight] = useState<Maybe<Var>>(undefined);
   const [selected, setSelected] = useState<Maybe<Formula>>(undefined);
 
-  const givens = paletteGivens(palette);
-  const derived = paletteDerived(palette);
-
   if (builder) {
     return (
       <pf-builder-panel>
-        <FormulaPicker givens={givens} derived={derived} selected={selected} onSelect={setSelected}/>
+        <FormulaPicker palette={palette} selected={selected} onSelect={setSelected}/>
         <pf-builder-rule>
         {
           selected

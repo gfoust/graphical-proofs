@@ -46,3 +46,15 @@ export function range<T>(begin: number, end: number, values?: T[]): Mapable<numb
     }
   }
 }
+
+
+
+export function className(names: Record<string, any>): Maybe<string> {
+  let result: Maybe<string> = undefined;
+  for (let name in names) {
+    if (names[name]) {
+      result = result ? result + ' ' + name : name;
+    }
+  }
+  return result;
+}

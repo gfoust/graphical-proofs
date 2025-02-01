@@ -2,7 +2,7 @@ import App from "../../app";
 import { Actions } from "../../model/actions";
 import { BuilderRule, Context, instantiatePattern } from "../../model/builder";
 import { Formula, Pattern, Var } from "../../model/pattern";
-import { RefreshIcon } from "../icons";
+import { RefreshIcon } from "./icons";
 import { PatternBlock } from "./pattern-view";
 
 import "./rule-view.scss";
