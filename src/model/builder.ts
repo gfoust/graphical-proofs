@@ -3,12 +3,13 @@ import { Formula, Pattern, Rule } from "./pattern";
 import { Palette } from "./palette";
 
 
-export type MatchedPattern = { matched?: boolean } & Pattern;
+export type CheckedPattern =
+  Pattern & { status?: 'matched' | 'unmatched' | 'invalid'}
 
 export interface BuilderRule {
   name: string,
-  premises: MatchedPattern[],
-  consequences: MatchedPattern[]
+  premises: CheckedPattern[],
+  consequences: CheckedPattern[]
 }
 
 
@@ -39,18 +40,25 @@ export function instantiatePattern(pattern: Pattern, context: Context): PatternI
   }
   else {
     let cells = pattern.cells.map(p => instantiatePattern(p, context));
+    let cellsHeight = cells.reduce((h, c) => Math.max(h, c.value.height), 0);
+
     if (cells.every(i => i.type === 'formula')) {
-      return { type: 'formula', value: { type: 'grid', cells: cells.map(i => i.value) } };
+      return {
+        type: 'formula',
+        value: { type: 'grid', cells: cells.map(i => i.value), height: cellsHeight + 1 }
+      };
     }
     else {
-      return { type: 'pattern', value: { type: 'grid', cells: cells.map(i => i.value)} };
+      return {
+        type: 'pattern',
+        value: { type: 'grid', cells: cells.map(i => i.value), height: cellsHeight + 1 } };
     }
   }
 }
 
 
 
-export function formulaMatches(pattern: Pattern, formula: Formula, context: Context, depth = 0) {
+export function formulaMatches(pattern: Pattern, formula: Formula, context: Context) {
   if (pattern.type === 'var') {
     const value = context[pattern.name];
     if (value === undefined) {
@@ -70,9 +78,9 @@ export function formulaMatches(pattern: Pattern, formula: Formula, context: Cont
     }
   }
   else {
-    if (formula.type === 'grid' && depth < 3) {
+    if (formula.type === 'grid') {
       for (let i = 0; i < pattern.cells.length; ++i) {
-        if (!formulaMatches(pattern.cells[i], formula.cells[i], context, depth + 1)) {
+        if (!formulaMatches(pattern.cells[i], formula.cells[i], context)) {
           return false;
         }
       }
@@ -86,18 +94,23 @@ export function formulaMatches(pattern: Pattern, formula: Formula, context: Cont
 
 
 
-function updateFormulaMatches(palette: Palette, context: Context) {
-  return (pattern: MatchedPattern) => {
-    if (pattern.matched === undefined) {
+function checkFormula(palette: Palette, context: Context, force: boolean = false) {
+  return (pattern: CheckedPattern): CheckedPattern => {
+    if (force || pattern.status === undefined) {
       let i = instantiatePattern(pattern, context);
+
+      if (i.value.height > 4) {
+        return { ...pattern, status: 'invalid' };
+      }
+
       let matched = palette.givens.some(f => formulaMatches(i.value, f, {}))
         || palette.derived.some(f => formulaMatches(i.value, f, {}));
 
       if (i.type === 'formula') {
-        return { ...pattern, matched };
+        return { ...pattern, status: matched ? 'matched' : 'unmatched' };
       }
-      else if (!matched) {
-        return { ...pattern, matched };
+      else {
+        return { ...pattern, status: matched ? undefined : 'unmatched' };
       }
     }
     return pattern;
@@ -106,10 +119,10 @@ function updateFormulaMatches(palette: Palette, context: Context) {
 
 
 
-export function updateRuleMatches(palette: Palette, context: Context, rule: Rule): Rule {
+export function checkRule(palette: Palette, context: Context, rule: BuilderRule): Rule {
   return {
     name: rule.name,
-    premises: rule.premises.map(updateFormulaMatches(palette, context)),
-    consequences: rule.consequences.map(updateFormulaMatches(palette, context)),
+    premises: rule.premises.map(checkFormula(palette, context)),
+    consequences: rule.consequences.map(checkFormula(palette, context, true)),
   }
 }

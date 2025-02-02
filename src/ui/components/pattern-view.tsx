@@ -1,6 +1,6 @@
 import { JSX } from "react";
 
-import { Context, formulaMatches, MatchedPattern } from "../../model/builder";
+import { CheckedPattern, Context, formulaMatches } from "../../model/builder";
 import { Formula, Pattern, Var } from "../../model/pattern";
 import { className, Maybe, range } from "../../util";
 
@@ -98,7 +98,7 @@ function PatternElement({
 
 
 export interface PatternBlockProps {
-  pattern: MatchedPattern;
+  pattern: CheckedPattern;
   context: Context;
   highlight?: Var;
   candidate?: Formula;
@@ -120,11 +120,8 @@ export function PatternBlock({
   let className: Maybe<string>;
   let clickHandler: Maybe<() => void>;
 
-  if (pattern.matched) {
-    className = "matched";
-  }
-  else if (pattern.matched === false) {
-    className = "unmatched";
+  if (pattern.status) {
+    className = pattern.status;
   }
   else if (candidate) {
     let matchContext = { ...context }

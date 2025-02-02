@@ -2,11 +2,11 @@ import { Color, Formula, Pattern, Rule, Var } from "./model/pattern";
 import { Problem } from "./model/problem";
 
 function atom(color: Color): Formula {
-  return { type: 'atom', color };
+  return { type: 'atom', color, height: 1 };
 }
 
 function variable(name: Var): Pattern {
-  return { type: 'var', name }
+  return { type: 'var', name, height: 1 }
 }
 
 function implies(p: Formula, q: Formula): Formula;
@@ -17,15 +17,8 @@ function implies(p: Pattern, q: Pattern): Pattern {
     cells: [
       p, atom(Color.White),
       atom(Color.White), q
-    ]
-  }
-  return {
-    type: 'grid',
-    cells: [
-      p,                 atom(Color.White), atom(Color.White),
-      atom(Color.White), atom(Color.Gray),  atom(Color.White),
-      atom(Color.White), atom(Color.White), q,
-    ]
+    ],
+    height: 2
   }
 }
 
@@ -37,7 +30,8 @@ function and(p: Pattern, q: Pattern): Pattern {
     cells: [
       p, q,
       atom(Color.White), atom(Color.White)
-    ]
+    ],
+    height: 2
   }
 }
 
@@ -49,12 +43,13 @@ function or(p: Pattern, q: Pattern): Pattern {
     cells: [
       p, atom(Color.White),
       q, atom(Color.White)
-    ]
+    ],
+    height: 2
   }
 }
 
 
-const rules: Readonly<Record<string, Rule>> = {
+const rules2d: Readonly<Record<string, Rule>> = {
   swapper: {
     name: "Swapper",
     premises: [
@@ -98,19 +93,49 @@ const rules: Readonly<Record<string, Rule>> = {
   }
 }
 
+const rules3d: Readonly<Record<string, Rule>> = {
+  flower: {
+    name: "Flower",
+    premises: [
+      variable(Var.A),
+      variable(Var.B),
+      variable(Var.C)
+    ],
+    consequences: [
+      { type: 'grid',
+        cells: [
+          variable(Var.A), atom(Color.White), variable(Var.B),
+          atom(Color.White), variable(Var.C), atom(Color.White),
+          variable(Var.B), atom(Color.White), variable(Var.A)
+        ],
+        height: 2
+      }
+    ]
+  }
+}
+
 export const problemSet: readonly Readonly<Problem>[] = [
   {
     team: 1,
     tag: "A",
     givens: [
+      atom(Color.Orange),
+      implies(atom(Color.Orange), atom(Color.Purple)),
       or(atom(Color.Red), atom(Color.Green)),
       implies(atom(Color.Red), atom(Color.Blue)),
       implies(atom(Color.Green), atom(Color.Blue)),
-      implies(atom(Color.Blue), atom(Color.Purple)),
-      atom(Color.Orange),
     ],
-    rules: [ rules.swapper, rules.doubleSwapper, rules.breakdown, rules.buildup ],
-    goal: and(atom(Color.Orange), atom(Color.Purple))
+    rules: [ rules2d.swapper, rules2d.doubleSwapper, rules2d.breakdown, rules2d.buildup ],
+    goal: and(atom(Color.Blue), atom(Color.Purple))
+  },
+  {
+    team: 1,
+    tag: "B",
+    givens: [
+      atom(Color.Purple)
+    ],
+    rules: [rules3d.flower],
+    goal: atom(Color.Blue)
   }
 ]
 

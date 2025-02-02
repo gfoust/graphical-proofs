@@ -57,7 +57,7 @@ export default function RuleView({
 
   let i = 0;
 
-  let complete = rule.premises.every(p => p.matched);
+  let complete = rule.premises.every(p => p.status === 'matched');
 
   return (
     <pf-rule-view>
@@ -77,7 +77,7 @@ export default function RuleView({
           <pf-consequence key={i++}>
             <PatternBlock pattern={consequence} {...consequenceProps}/>
             {
-              complete && !consequence.matched
+              complete && consequence.status === 'unmatched'
                 && <button type="button" className="btn btn-primary" onClick={saveHandler(consequence, context)}>Save</button>
             }
           </pf-consequence>

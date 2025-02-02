@@ -1,13 +1,15 @@
 
-pf-formula-picker {
+pf-builder-panel pf-formula-picker {
   display: flex;
   background-color: lightgray;
   height: 100%;
   padding: 2px;
 
   pf-pattern-view {
-    width: 109px;
-    height: 109px;
+    // width: 137px;
+    // height: 137px;
+    width: 164px;
+    height: 164px;
   }
 
   pf-formula-block {

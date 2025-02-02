@@ -42,15 +42,15 @@ pf-pattern-atom {
   border: 1px solid darkgray;
 
   &.white { background-color: white; }
-  &.red { background-color: red; }
-  &.orange { background-color: orange; }
-  &.yellow { background-color: yellow; }
-  &.green { background-color: green; }
-  &.cyan { background-color: darkcyan; }
-  &.blue { background-color: blue; }
-  &.purple { background-color: purple; }
-  &.gray { background-color: lightgray; }
-  &.black { background-color: black; }
+  &.red { background-color: #f00; }
+  &.orange { background-color: #f80; }
+  &.yellow { background-color: #ff0; }
+  &.green { background-color: #090; }
+  &.cyan { background-color: #099; }
+  &.blue { background-color: #00f; }
+  &.purple { background-color: #909; }
+  &.gray { background-color: #ccc; }
+  &.black { background-color: #000; }
   &.empty { background-color: #fff8cc; }
   &.highlight { background-color: #ffee55;}
 }

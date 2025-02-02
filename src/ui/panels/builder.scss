@@ -9,13 +9,25 @@ pf-builder-panel {
     flex-grow: 1;
     overflow: auto;
   }
+
+  pf-pattern-view {
+    width: 191px;
+    height: 191px;
+  }
+
+}
+
+pf-pattern-block.matched {
+  background-color: #efe;
+  border-color: #090;
+}
+
+pf-pattern-block.invalid {
+  background-color: #fee;
+  border-color: #900;
 }
 
 pf-premises {
-  pf-pattern-block.matched {
-    background-color: #efe;
-    border-color: #090;
-  }
 
   pf-pattern-block.unmatched {
     background-color: #fee;
@@ -25,7 +37,6 @@ pf-premises {
   pf-pattern-block.allowed:hover {
     background-color: #cfc;
     cursor: pointer;
-
   }
 
   pf-pattern-block.restricted:hover {
@@ -34,10 +45,6 @@ pf-premises {
 }
 
 pf-consequences.complete {
-  pf-pattern-block.matched {
-    background-color: #efe;
-    border-color: #090;
-  }
 
   pf-pattern-block.unmatched {
     background-color: #eef;

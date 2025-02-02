@@ -16,17 +16,16 @@ export interface BuilderPanelProps {
 
 
 
-function bindPattern(pattern: Pattern, formula: Formula) {
-  App.dispatch(Actions.bindPattern(pattern, formula));
-}
-
-
-
 export default function BuilderPanel({}: BuilderPanelProps) {
   const palette = useContext(App.PaletteContext) as Palette;
   const builder = useContext(App.BuilderContext);
   const [highlight, setHighlight] = useState<Maybe<Var>>(undefined);
   const [selected, setSelected] = useState<Maybe<Formula>>(undefined);
+
+  function bindPattern(pattern: Pattern, formula: Formula) {
+    setSelected(undefined);
+    App.dispatch(Actions.bindPattern(pattern, formula));
+  }
 
   if (builder) {
     return (

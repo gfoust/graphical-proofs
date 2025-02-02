@@ -1,6 +1,6 @@
 import { Maybe } from "../util";
 import { Action } from "./actions";
-import { Builder, formulaMatches, updateRuleMatches } from "./builder";
+import { Builder, formulaMatches, checkRule } from "./builder";
 import { Model, Panel } from "./model";
 import { addDerived, createPalette, Palette } from "./palette";
 import { BaseFormula } from "./pattern";
@@ -130,7 +130,7 @@ function builderReducer(
     if (formulaMatches(action.pattern, action.formula, boundContext)) {
 
       return {
-        rule: updateRuleMatches(model.palette, boundContext, builder.rule),
+        rule: checkRule(model.palette, boundContext, builder.rule),
         context: boundContext
       }
     }
@@ -139,7 +139,7 @@ function builderReducer(
   else if (action.type === 'add-derived' && builder && model.palette) {
     let palette = addDerived(action.formula, model.palette);
 
-    return { rule: updateRuleMatches(palette, builder.context, builder.rule), context: builder.context };
+    return { rule: checkRule(palette, builder.context, builder.rule), context: builder.context };
   }
 
   return builder;

@@ -49,7 +49,7 @@ export interface Grid<T> {
 
 
 
-export type Formula = Atom | Grid<Formula>;
+export type Formula = (Atom | Grid<Formula>) & { height: number };
 
 
 
@@ -57,7 +57,7 @@ export type BaseFormula = Formula & { id: string };
 
 
 
-export type Pattern = Variable | Atom | Grid<Pattern>;
+export type Pattern = (Variable | Atom | Grid<Pattern>) & { height: number };
 
 
 
@@ -65,13 +65,13 @@ export function clonePattern(f: Formula): Formula;
 export function clonePattern(p: Pattern): Pattern;
 export function clonePattern(p: Pattern): Pattern {
   if (p.type == 'var') {
-    return { type: 'var', name: p.name };
+    return { type: 'var', name: p.name, height: 1 };
   }
   else if (p.type == 'atom') {
-    return { type: 'atom', color: p.color };
+    return { type: 'atom', color: p.color, height: 1 };
   }
   else {
-    return { type: 'grid', cells: p.cells.map(clonePattern) };
+    return { type: 'grid', cells: p.cells.map(clonePattern), height: p.height };
   }
 }
 
