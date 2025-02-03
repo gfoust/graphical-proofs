@@ -18,6 +18,7 @@ export const App = {
   PaletteContext: createContext<Maybe<Palette>>(undefined),
   BuilderContext: createContext<Maybe<Builder>>(undefined),
   AddedFormulaContext: createContext<Maybe<BaseFormula>>(undefined),
+  SolvedContext: createContext<boolean>(false),
 };
 
 export default App;

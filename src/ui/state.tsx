@@ -18,7 +18,9 @@ export default function ViewState({ children }: PropsWithChildren<{}>) {
               <App.PaletteContext value={model.palette}>
                 <App.BuilderContext value={model.builder}>
                   <App.AddedFormulaContext value={model.addedFormula}>
-                  { children }
+                    <App.SolvedContext value={model.solved}>
+                    { children }
+                    </App.SolvedContext>
                   </App.AddedFormulaContext>
                 </App.BuilderContext>
               </App.PaletteContext>

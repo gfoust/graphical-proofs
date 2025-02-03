@@ -125,7 +125,7 @@ export function PatternBlock({
   }
   else if (candidate) {
     let matchContext = { ...context }
-    if (formulaMatches(pattern, candidate, matchContext)) {
+    if (formulaMatches(pattern, matchContext, candidate)) {
       className = "allowed";
       if (onBind) {
         clickHandler = () => onBind(pattern, candidate);

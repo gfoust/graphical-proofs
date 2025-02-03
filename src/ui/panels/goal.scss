@@ -1,4 +1,16 @@
 
+h3 {
+  margin: 0;
+  padding-top: 1em;
+  text-align: center;
+  &.solved {
+    color: #090;
+  }
+  &.unsolved {
+    color: #900
+  }
+}
+
 pf-goal-panel {
   display: flex;
   flex-flow: row nowrap;

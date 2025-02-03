@@ -22,6 +22,7 @@ export interface Model {
   palette?: Palette,
   builder?: Builder,
   addedFormula?: BaseFormula,
+  solved: boolean;
 }
 
 
@@ -39,6 +40,7 @@ export function initialModel(): Model {
     problemIds,
     problemDefs,
     scrollPositions: {},
+    solved: false
   };
 }
 

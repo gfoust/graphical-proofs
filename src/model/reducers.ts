@@ -4,6 +4,7 @@ import { Builder, formulaMatches, checkRule } from "./builder";
 import { Model, Panel } from "./model";
 import { addDerived, createPalette, Palette } from "./palette";
 import { BaseFormula } from "./pattern";
+import { Problem } from "./problem";
 
 
 type Reducer<S, T> = (state: S, action: Action, fullState: T) => S;
@@ -32,21 +33,6 @@ function combineReducers<S>(map: ReducerMap<S>) {
 
 
 
-function panelReducer(panel: Panel, action: Action): Panel {
-
-  if (action.type === 'show-panel') {
-    return action.panel;
-  }
-
-  else if (action.type === 'select-rule') {
-    return Panel.Builder;
-  }
-
-  return panel;
-}
-
-
-
 function scrollPositionsReducer(
   positions: Record<string, number>,
   action: Action
@@ -64,7 +50,7 @@ function scrollPositionsReducer(
 function currentProblemIdReducer(
   currentProblemId: Maybe<string>,
   action: Action,
-  model: Model
+  problemDefs: Record<string, Problem>
 ): Maybe<string> {
 
   if (action.type === 'select-problem') {
@@ -72,7 +58,7 @@ function currentProblemIdReducer(
       return undefined;
     }
     else {
-      return action.problemId in model.problemDefs ? action.problemId : 'invalid';
+      return action.problemId in problemDefs ? action.problemId : 'invalid';
     }
   }
 
@@ -84,17 +70,11 @@ function currentProblemIdReducer(
 function paletteReducer(
   palette: Maybe<Palette>,
   action: Action,
-  model: Model
+  currentProblem: Maybe<Problem>
 ): Maybe<Palette> {
 
   if (action.type === 'select-problem') {
-    if (action.problemId) {
-      const problem = model.problemDefs[action.problemId];
-      return problem ? createPalette(problem) : undefined;
-    }
-    else {
-      return undefined;
-    }
+    return currentProblem ? createPalette(currentProblem) : undefined;
   }
 
   else if (action.type === 'add-derived' && palette) {
@@ -109,7 +89,7 @@ function paletteReducer(
 function builderReducer(
   builder: Maybe<Builder>,
   action: Action,
-  model: Model
+  palette: Maybe<Palette>
 ): Maybe<Builder> {
 
   if (action.type === 'select-problem') {
@@ -125,21 +105,24 @@ function builderReducer(
     }
   }
 
-  else if (action.type === 'bind-pattern' && builder && model.palette) {
+  else if (action.type === 'bind-pattern' && builder && palette) {
     let boundContext = { ...builder.context };
-    if (formulaMatches(action.pattern, action.formula, boundContext)) {
+    if (formulaMatches(action.pattern, boundContext, action.formula)) {
 
       return {
-        rule: checkRule(model.palette, boundContext, builder.rule),
+        rule: checkRule(palette, boundContext, builder.rule),
         context: boundContext
       }
     }
   }
 
-  else if (action.type === 'add-derived' && builder && model.palette) {
-    let palette = addDerived(action.formula, model.palette);
+  else if (action.type === 'add-derived' && builder && palette) {
+    let newPalette = addDerived(action.formula, palette);
 
-    return { rule: checkRule(palette, builder.context, builder.rule), context: builder.context };
+    return {
+      rule: checkRule(newPalette, builder.context, builder.rule),
+      context: builder.context
+    };
   }
 
   return builder;
@@ -160,19 +143,85 @@ function addedFormulaReducer(
 
 
 
-function ignore<T>(state: T, action: Action) {
-  return state;
+function solvedReducer(
+  solved: boolean,
+  action: Action,
+  currentProblem: Maybe<Problem>
+): boolean {
+  if (action.type === 'add-derived' && currentProblem) {
+    if (formulaMatches(currentProblem.goal, {}, action.formula)) {
+      return true;
+    }
+  }
+
+  return solved;
 }
 
 
 
-export const modelReducer = combineReducers<Model>({
-  panel: panelReducer,
-  problemIds: ignore,
-  problemDefs: ignore,
-  currentProblemId: currentProblemIdReducer,
-  palette: paletteReducer,
-  builder: builderReducer,
-  addedFormula: addedFormulaReducer,
-  scrollPositions: scrollPositionsReducer,
-});
+function panelReducer(panel: Panel, action: Action, solved: boolean): Panel {
+
+  if (action.type === 'show-panel') {
+    return action.panel;
+  }
+
+  else if (action.type === 'select-rule') {
+    return Panel.Builder;
+  }
+
+  else if (action.type === 'add-derived' && solved) {
+    return Panel.Goal;
+  }
+
+  return panel;
+}
+
+
+
+export function modelReducer(model: Model, action: Action): Model {
+
+  const problemIds = model.problemIds;
+
+  const problemDefs = model.problemDefs;
+
+  const currentProblemId =
+    currentProblemIdReducer(model.currentProblemId, action, model.problemDefs);
+
+  const currentProblem = currentProblemId ? problemDefs[currentProblemId] : undefined;
+
+  const palette = paletteReducer(model.palette, action, currentProblem);
+
+  const builder = builderReducer(model.builder, action, palette);
+
+  const addedFormula = addedFormulaReducer(model.addedFormula, action);
+
+  const scrollPositions = scrollPositionsReducer(model.scrollPositions, action);
+
+  const solved = solvedReducer(model.solved, action, currentProblem);
+
+  const panel = panelReducer(model.panel, action, solved);
+
+  return {
+    problemIds,
+    problemDefs,
+    currentProblemId,
+    palette,
+    builder,
+    addedFormula,
+    scrollPositions,
+    panel,
+    solved,
+  }
+}
+
+// export const modelReducer = combineReducers<Model>({
+//   panel: panelReducer,
+//   problemIds: ignore,
+//   problemDefs: ignore,
+//   currentProblemId: currentProblemIdReducer,
+//   palette: paletteReducer,
+//   builder: builderReducer,
+//   addedFormula: addedFormulaReducer,
+//   scrollPositions: scrollPositionsReducer,
+//   solved: solvedReducer
+// });

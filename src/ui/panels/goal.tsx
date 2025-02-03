@@ -1,3 +1,6 @@
+import { useContext } from "react";
+
+import App from "../../app";
 import { Formula } from "../../model/pattern";
 import { FormulaBlock } from "../components/pattern-view";
 
@@ -8,9 +11,14 @@ export interface GoalPanelProps {
 }
 
 export default function GoalPanel({ goal }: GoalPanelProps) {
+  const solved = useContext(App.SolvedContext);
   return (
     <>
-      <h2>Goal</h2>
+      {
+        solved
+          ? <h3 className="solved">Solved</h3>
+          : <h3 className="unsolved">Unsolved</h3>
+      }
       <pf-goal-panel>
         <FormulaBlock id="goal" formula={goal}/>
       </pf-goal-panel>
