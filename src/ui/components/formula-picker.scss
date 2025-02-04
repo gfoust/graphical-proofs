@@ -2,14 +2,13 @@
 pf-builder-panel pf-formula-picker {
   display: flex;
   background-color: lightgray;
-  height: 100%;
   padding: 2px;
 
   pf-pattern-view {
-    // width: 137px;
-    // height: 137px;
-    width: 164px;
-    height: 164px;
+    width: 137px;
+    height: 137px;
+    // width: 164px;
+    // height: 164px;
   }
 
   pf-formula-block {
@@ -31,6 +30,6 @@ pf-builder-panel pf-formula-picker {
     flex-flow: row nowrap;
     overflow-x: auto;
     overflow-y: hidden;
-    height: 100%;
+    width: 100%;
   }
 }

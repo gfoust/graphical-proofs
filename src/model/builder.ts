@@ -13,7 +13,8 @@ export interface BuilderRule {
 }
 
 
-export type Context = { [key: string]: Formula|undefined };
+export type Context = Maybe<Formula>[];
+
 
 export interface Builder {
   rule: BuilderRule,
@@ -103,8 +104,8 @@ function checkFormula(palette: Palette, context: Context, force: boolean = false
         return { ...pattern, status: 'invalid' };
       }
 
-      let matched = palette.givens.some(f => formulaMatches(i.value, {}, f))
-        || palette.derived.some(f => formulaMatches(i.value, {}, f));
+      let matched = palette.givens.some(f => formulaMatches(i.value, [], f))
+        || palette.derived.some(f => formulaMatches(i.value, [], f));
 
       if (i.type === 'formula') {
         return { ...pattern, status: matched ? 'matched' : 'unmatched' };

@@ -98,7 +98,7 @@ function builderReducer(
   }
   else if (action.type === 'select-rule') {
     if (action.rule) {
-      return { rule: action.rule, context: {} };
+      return { rule: action.rule, context: [] };
     }
     else {
       return undefined;
@@ -149,7 +149,7 @@ function solvedReducer(
   currentProblem: Maybe<Problem>
 ): boolean {
   if (action.type === 'add-derived' && currentProblem) {
-    if (formulaMatches(currentProblem.goal, {}, action.formula)) {
+    if (formulaMatches(currentProblem.goal, [], action.formula)) {
       return true;
     }
   }

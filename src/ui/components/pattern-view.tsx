@@ -1,7 +1,7 @@
 import { JSX } from "react";
 
 import { CheckedPattern, Context, formulaMatches } from "../../model/builder";
-import { Formula, Pattern, Var } from "../../model/pattern";
+import { Formula, Pattern, Var, varName } from "../../model/pattern";
 import { className, Maybe, range } from "../../util";
 
 import "./pattern-view.scss";
@@ -40,13 +40,13 @@ function PatternElement({
       element =
         <PatternElement pattern={value} context={context} divisions={divisions}>
           <pf-pattern-var className={`assigned d${divisions}`}>
-            { pattern.name }
+            { varName(pattern.name) }
           </pf-pattern-var>
         </PatternElement>;
     }
     else {
       let hl: string;
-      if (highlight && highlight === pattern.name) {
+      if (highlight !== undefined && highlight === pattern.name) {
         hl = "highlight";
       }
       else {
@@ -54,12 +54,12 @@ function PatternElement({
       }
       element =
         <pf-pattern-atom
-          className={`${hl} ${pattern.name.toUpperCase()} d${divisions}`}
+          className={`${hl} ${varName(pattern.name)} d${divisions}`}
           onMouseOver={onMouseOverVariable && (() => onMouseOverVariable(pattern.name))}
           onMouseOut={onMouseOutVariable}
         >
           <pf-pattern-var className={`d${divisions}`}>
-            { pattern.name }
+            { varName(pattern.name) }
           </pf-pattern-var>
         </pf-pattern-atom>
     }
@@ -184,7 +184,7 @@ export function FormulaBlock({
       onClick={clickHandler}
     >
       <pf-pattern-view>
-        <PatternElement pattern={formula} context={{}} divisions={1}/>
+        <PatternElement pattern={formula} context={[]} divisions={1}/>
       </pf-pattern-view>
     </pf-formula-block>
   );

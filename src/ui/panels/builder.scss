@@ -57,12 +57,14 @@ pf-consequences.complete {
     position: relative;
     flex-flow: row nowrap;
     height: 100%;
+    width: 100%;
   }
 }
 
 @media (width <= 600px) {
   pf-builder-panel {
     flex-flow: column nowrap;
+    height: 100%;
     width: 100%;
   }
 }

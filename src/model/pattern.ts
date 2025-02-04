@@ -1,16 +1,28 @@
 
-export const enum Var {
-  A = 'A',
-  B = 'B',
-  C = 'C',
-  D = 'D',
-  E = 'E',
-  F = 'F',
-  G = 'G',
-  H = 'H',
-  I = 'I'
-}
+// export const enum Var {
+//   A = 'A',
+//   B = 'B',
+//   C = 'C',
+//   D = 'D',
+//   E = 'E',
+//   F = 'F',
+//   G = 'G',
+//   H = 'H',
+//   I = 'I'
+// }
 
+interface VarName {
+  A: number;
+  B: number;
+  C: number;
+  D: number;
+  E: number;
+  F: number;
+  G: number;
+  H: number;
+  I: number;
+  J: number;
+}
 
 
 export enum Color {
@@ -35,9 +47,23 @@ export interface Atom {
 
 
 
+export type Var = number;
+
+
 export interface Variable {
   type: 'var',
   name: Var
+}
+
+
+
+export function varName(i: number) {
+  if (i >= 0 && i < 10) {
+    return "ABCDEFGHIJ".at(i);
+  }
+  else {
+    return "?";
+  }
 }
 
 
