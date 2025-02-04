@@ -5,8 +5,10 @@ pf-builder-panel pf-formula-picker {
   padding: 2px;
 
   pf-pattern-view {
-    width: 137px;
-    height: 137px;
+    width: min(16vw, 16vh);
+    height: min(16vw, 16vh);
+    // width: 137px;
+    // height: 137px;
     // width: 164px;
     // height: 164px;
   }
@@ -21,7 +23,6 @@ pf-builder-panel pf-formula-picker {
     flex-flow: column nowrap;
     overflow-x: hidden;
     overflow-y: auto;
-    height: 100%;
   }
 }
 
@@ -30,6 +31,6 @@ pf-builder-panel pf-formula-picker {
     flex-flow: row nowrap;
     overflow-x: auto;
     overflow-y: hidden;
-    width: 100%;
+    height: 100%;
   }
 }

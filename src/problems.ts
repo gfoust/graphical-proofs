@@ -106,6 +106,12 @@ function or(p: Pattern, q: Pattern): Pattern {
   }
 }
 
+function not(p: Formula): Formula;
+function not(p: Pattern): Pattern;
+function not(p: Pattern): Pattern {
+  return implies(p, Atom.Gray);
+}
+
 
 const rules2d: Readonly<Record<string, Rule>> = {
   swapper: {
@@ -148,7 +154,37 @@ const rules2d: Readonly<Record<string, Rule>> = {
     consequences: [
       and(Var.A, Var.B)
     ]
+  },
+  propagate: {
+    name: "Propagate",
+    premises: [
+      implies(Var.A, Var.B),
+      not(Var.B),
+    ],
+    consequences: [
+      not(Var.A)
+    ]
+  },
+  cancel: {
+    name: "Cancel",
+    premises: [
+      not(not(Var.A)),
+    ],
+    consequences: [
+      Var.A
+    ]
+  },
+  pick: {
+    name: "Pick",
+    premises: [
+      or(Var.A, Var.B),
+      not(Var.A)
+    ],
+    consequences: [
+      Var.B
+    ]
   }
+
 }
 
 const rules3d: Readonly<Record<string, Rule>> = {
@@ -223,9 +259,19 @@ export const problemSet: readonly Readonly<Problem>[] = [
     rules: [ rules2d.swapper, rules2d.doubleSwapper, rules2d.breakdown, rules2d.buildup ],
     goal: and(Atom.Blue, Atom.Purple)
   },
+  { team: 1,
+    tag: "B",
+    givens: [
+      not(Atom.Purple),
+      implies(Atom.Green, Atom.Purple),
+      implies(not(Atom.Yellow), Atom.Green),
+    ],
+    rules: [rules2d.propagate, rules2d.cancel],
+    goal: Atom.Yellow
+  },
   {
     team: 1,
-    tag: "B",
+    tag: "C",
     givens: [
       Atom.Purple,
       Atom.White

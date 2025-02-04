@@ -5,8 +5,10 @@ type CustomElement = React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, 
 declare module "react" {
   namespace JSX {
     interface IntrinsicElements {
+      "pf-builder-main": CustomElement;
       "pf-builder-panel": CustomElement;
       "pf-builder-rule": CustomElement;
+      "pf-button-bar": CustomElement;
       "pf-consequence": CustomElement;
       "pf-consequences": CustomElement;
       "pf-formula-block": CustomElement;

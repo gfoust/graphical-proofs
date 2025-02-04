@@ -2,7 +2,6 @@ import App from "../../app";
 import { Actions } from "../../model/actions";
 import { BuilderRule, Context, instantiatePattern } from "../../model/builder";
 import { Formula, Pattern, Var } from "../../model/pattern";
-import { RefreshIcon } from "./icons";
 import { PatternBlock } from "./pattern-view";
 
 import "./rule-view.scss";
@@ -62,7 +61,7 @@ export default function RuleView({
   return (
     <pf-rule-view>
       <pf-rule-name>
-        {rule.name} <RefreshIcon/>
+        {rule.name}
       </pf-rule-name>
       <pf-premises>
       {

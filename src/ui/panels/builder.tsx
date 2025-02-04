@@ -9,6 +9,8 @@ import RuleView from "../components/rule-view";
 import FormulaPicker from "../components/formula-picker";
 
 import "./builder.scss";
+import { ButtonBar } from "../components/button-bar";
+import { resetRule } from "../../model/builder";
 
 
 export interface BuilderPanelProps {
@@ -27,28 +29,37 @@ export default function BuilderPanel({}: BuilderPanelProps) {
     App.dispatch(Actions.bindPattern(pattern, formula));
   }
 
+  function resetBuilder() {
+    if (builder) {
+      App.dispatch(Actions.selectRule(resetRule(builder.rule)));
+    }
+  }
+
   if (builder) {
     return (
       <pf-builder-panel>
         <FormulaPicker palette={palette} selected={selected} onSelect={setSelected}/>
-        <pf-builder-rule>
-        {
-          selected
-          ? <RuleView
-              rule={builder.rule}
-              context={builder.context}
-              candidate={selected}
-              onBind={bindPattern}
-            />
-          : <RuleView
-              rule={builder.rule}
-              context={builder.context}
-              highlight={highlight}
-              onMouseOverVariable={setHighlight}
-              onMouseOutVariable={() => setHighlight(undefined)}
-            />
-        }
-        </pf-builder-rule>
+        <pf-builder-main>
+          <ButtonBar text="Reset" onClick={resetBuilder}/>
+          <pf-builder-rule>
+          {
+            selected
+            ? <RuleView
+                rule={builder.rule}
+                context={builder.context}
+                candidate={selected}
+                onBind={bindPattern}
+              />
+            : <RuleView
+                rule={builder.rule}
+                context={builder.context}
+                highlight={highlight}
+                onMouseOverVariable={setHighlight}
+                onMouseOutVariable={() => setHighlight(undefined)}
+              />
+          }
+          </pf-builder-rule>
+        </pf-builder-main>
       </pf-builder-panel>
     );
   }

@@ -6,10 +6,25 @@ import { Palette } from "./palette";
 export type CheckedPattern =
   Pattern & { status?: 'matched' | 'unmatched' | 'invalid'}
 
+function uncheckPattern(pattern: CheckedPattern): Pattern {
+  const u = { ...pattern };
+  delete u.status;
+  return u;
+}
+
 export interface BuilderRule {
   name: string,
   premises: CheckedPattern[],
   consequences: CheckedPattern[]
+}
+
+
+export function resetRule(rule: BuilderRule): Rule {
+  return {
+    name: rule.name,
+    premises: rule.premises.map(uncheckPattern),
+    consequences: rule.consequences.map(uncheckPattern),
+  };
 }
 
 

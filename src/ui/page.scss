@@ -1,5 +1,9 @@
 @import "src/bootstrap.scss";
 
+.root {
+  overflow: hidden;
+}
+
 pf-page {
   display: flex;
   flex-flow: column nowrap;

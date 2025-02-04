@@ -1,6 +1,15 @@
 
 pf-builder-panel {
   display: flex;
+  justify-content: stretch;
+  overflow: hidden;
+
+  pf-builder-main {
+    display: flex;
+    flex-flow: column nowrap;
+    flex-grow: 1;
+    flex-shrink: 1;
+  }
 
   pf-builder-rule {
     display: flex;
@@ -11,8 +20,10 @@ pf-builder-panel {
   }
 
   pf-pattern-view {
-    width: 191px;
-    height: 191px;
+    // width: 191px;
+    // height: 191px;
+    width: min(24vw, 24vh);
+    height: min(24vw, 24vh);
   }
 
 }
@@ -54,10 +65,8 @@ pf-consequences.complete {
 
 @media (width > 600px) {
   pf-builder-panel {
-    position: relative;
     flex-flow: row nowrap;
     height: 100%;
-    width: 100%;
   }
 }
 
@@ -65,7 +74,6 @@ pf-consequences.complete {
   pf-builder-panel {
     flex-flow: column nowrap;
     height: 100%;
-    width: 100%;
   }
 }
 

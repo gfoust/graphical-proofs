@@ -1,12 +1,22 @@
 
-pf-formulas-panel div {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
+pf-formulas-panel {
+  display: block;
+  height: 100%;
+  overflow: auto;
 
-  pf-pattern-view {
-    width: 218px;
-    height: 218px;
+  h2 {
+    text-align: center;
+  }
+
+  div {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+
+    pf-pattern-view {
+      width: 218px;
+      height: 218px;
+    }
   }
 }
 

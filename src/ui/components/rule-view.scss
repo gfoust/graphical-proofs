@@ -10,7 +10,7 @@ pf-rule-view {
   pf-pattern-view {
     width: 151px;
     height: 151px;
-    margin: 16px;
+    margin: 8px;
   }
 
   pf-rule-name {
@@ -26,7 +26,7 @@ pf-premises {
   flex-flow: row wrap;
   justify-content: center;
   padding-bottom: 1em;
-  border-bottom: 1ex solid black;
+  border-bottom: 8px solid black;
 }
 
 pf-consequences {

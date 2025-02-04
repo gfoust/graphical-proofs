@@ -5,12 +5,15 @@ import { FormulaBlock } from "../components/pattern-view";
 import { Palette } from "../../model/palette";
 
 import "./formulas.scss";
+import { ButtonBar } from "../components/button-bar";
 
 
 export interface FormulasPanelProps {
 }
 
+function handleReset() {
 
+}
 
 export default function FormulasPanel({}: FormulasPanelProps) {
   const palette = useContext(App.PaletteContext) as Palette;
@@ -20,6 +23,7 @@ export default function FormulasPanel({}: FormulasPanelProps) {
 
   return (
     <pf-formulas-panel>
+      <ButtonBar text="Reset" onClick={handleReset}/>
       <h2>Givens</h2>
       <div>
       {
