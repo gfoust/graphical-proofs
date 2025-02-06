@@ -43,6 +43,12 @@ const Var = {
   L: variable(11),
   M: variable(12),
   N: variable(13),
+  O: variable(14),
+  P: variable(15),
+  Q: variable(16),
+  R: variable(17),
+  S: variable(18),
+  T: variable(19),
 };
 
 function grid(...cells: Formula[]): Formula;
@@ -167,6 +173,17 @@ function hlines(a: Pattern, b: Pattern, c: Pattern): Pattern {
     a, a, a,
     b, b, b,
     c, c, c
+  );
+}
+
+
+function square(a: Formula, b: Formula): Formula;
+function square(a: Pattern, b: Pattern): Pattern;
+function square(a: Pattern, b: Pattern): Pattern {
+  return grid(
+    a, a, a,
+    a, b, a,
+    a, a, a
   );
 }
 
@@ -306,6 +323,33 @@ const r3 = {
       corners(Var.B, Var.C, Var.D, Var.A),
     ]
   },
+  rotate: {
+    name: "Rotate",
+    premises: [
+      grid(
+        Var.A, Var.B, Var.C,
+        Var.D, Var.E, Var.F,
+        Var.G, Var.H, Var.I,
+      )
+    ],
+    consequences: [
+      grid(
+        Var.G, Var.D, Var.A,
+        Var.H, Var.E, Var.B,
+        Var.I, Var.F, Var.C,
+      ),
+      grid(
+        Var.I, Var.H, Var.G,
+        Var.F, Var.E, Var.D,
+        Var.C, Var.B, Var.A,
+      ),
+      grid(
+        Var.C, Var.F, Var.I,
+        Var.B, Var.E, Var.H,
+        Var.A, Var.D, Var.G,
+      )
+    ]
+  },
   twist: {
     name: "Twist",
     premises: [
@@ -416,10 +460,43 @@ const r3 = {
         Var.G, Var.H, Var.I,
       )
     ]
+  },
+  lines: {
+    name: "Lines",
+    premises: [
+      Var.A,
+      Var.B,
+      Var.C
+    ],
+    consequences: [
+      hlines(Var.A, Var.B, Var.C)
+    ]
+  },
+  joiner: {
+    name: "Joiner",
+    premises: [
+      grid(
+        Var.A, Var.B, Var.C,
+        Var.K, Var.L, Var.F,
+        Var.M, Var.N, Var.I
+      ),
+      grid(
+        Var.O, Var.P, Var.Q,
+        Var.D, Var.E, Var.R,
+        Var.G, Var.H, Var.S
+      )
+    ],
+    consequences: [
+      grid(
+        Var.A, Var.B, Var.C,
+        Var.D, Var.E, Var.F,
+        Var.G, Var.H, Var.I
+      )
+    ]
   }
 }
 
-let a, b: Formula;
+let a, b, c: Formula;
 export const problemSet: readonly Readonly<Problem>[] = [
   {
     team: 1,
@@ -522,7 +599,7 @@ export const problemSet: readonly Readonly<Problem>[] = [
   },
   {
     team: 3,
-    tag: "C",
+    tag: "B",
     givens: [
       swap(Atom.Red, swap(Atom.Cyan, Atom.Red)),
       swap(Atom.Forest, Atom.Purple),
@@ -555,14 +632,43 @@ export const problemSet: readonly Readonly<Problem>[] = [
     rules: [r3.flower, r3.inverse, r3.merge],
     goal: grid(
       Atom.White, a = vlines(Atom.Turquoise, Atom.White, Atom.Turquoise), Atom.White,
-      b = hlines(Atom.Turquoise, Atom.White, Atom.Turquoise),
-      grid(
-        Atom.Turquoise, Atom.Turquoise, Atom.Turquoise,
-        Atom.Turquoise, Atom.White, Atom.Turquoise,
-        Atom.Turquoise, Atom.Turquoise, Atom.Turquoise,
-      ),
-      b,
+      b = hlines(Atom.Turquoise, Atom.White, Atom.Turquoise), square(Atom.Turquoise, Atom.White), b,
       Atom.White, a, Atom.White,
+    )
+  },
+  {
+    team: 3,
+    tag: "C",
+    givens: [
+      Atom.White,
+      Atom.Red,
+      square(Atom.Blue, Atom.White)
+    ],
+    rules: [r3.rotate, r3.lines, r3.joiner],
+    goal: grid(
+      a = square(Atom.Blue, Atom.White), a, b = hlines(Atom.Red, Atom.White, Atom.Red),
+      a, a, hlines(Atom.White, Atom.Red, Atom.White),
+      b, b, b
+    )
+  },
+  {
+    team: 3,
+    tag: "D",
+    givens: [
+      Atom.White,
+      Atom.Blue,
+    ],
+    rules: [r3.rotate, r3.lines, r3.joiner],
+    goal: grid(
+      a = grid(Atom.Blue, Atom.Blue, Atom.Blue,
+               Atom.White, Atom.White, Atom.White,
+               Atom.Blue, Atom.White, Atom.Blue   ), a, a,
+      b = grid(Atom.Blue, Atom.White, Atom.Blue,
+               Atom.White, Atom.White, Atom.White,
+               Atom.Blue, Atom.White, Atom.Blue,  ), b, b,
+      c = grid(Atom.Blue, Atom.White, Atom.Blue,
+               Atom.Blue, Atom.White, Atom.Blue,
+               Atom.Blue, Atom.Blue, Atom.Blue  ), c, c
     )
   }
 ]

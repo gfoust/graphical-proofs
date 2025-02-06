@@ -1,10 +1,19 @@
 
-pf-rule-list {
+pf-builder-panel pf-builder-main pf-rule-list {
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
   height: 100%;
   padding: 0 8px;
+
+
+  pf-pattern-view {
+    // width: 191px;
+    // height: 191px;
+    width: min(16vw, 16vh);
+    height: min(16vw, 16vh);
+    margin: min(1.4vw, 1.4vh);
+  }
 
   pf-rule-block:hover {
     background-color: #99bbcc;
