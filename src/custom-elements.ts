@@ -26,6 +26,7 @@ declare module "react" {
       "pf-rule-block": CustomElement;
       "pf-rule-list": CustomElement;
       "pf-rule-name": CustomElement;
+      "pf-rule-spacer": CustomElement;
       "pf-rule-view": CustomElement;
     }
   }

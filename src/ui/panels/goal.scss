@@ -17,7 +17,7 @@ pf-goal-panel {
   justify-content: center;
 
   pf-pattern-view {
-    width: 218px;
-    height: 218px;
+    width: min(33vw, 33vh);
+    height: min(33vw, 33vh);
   }
 }

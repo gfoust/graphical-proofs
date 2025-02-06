@@ -8,9 +8,8 @@ pf-rule-view {
   //   margin: 16px;
   // }
   pf-pattern-view {
-    width: 151px;
-    height: 151px;
-    margin: 8px;
+    width: min(20vw, 20vh);
+    height: min(20vw, 20vh);
   }
 
   pf-rule-name {
@@ -25,7 +24,7 @@ pf-premises {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
-  padding-bottom: 1em;
+  padding-bottom: 8px;
   border-bottom: 8px solid black;
 }
 
@@ -33,7 +32,7 @@ pf-consequences {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
-  padding-top: 1em;
+  padding-top: 8px;
 }
 
 pf-consequence {

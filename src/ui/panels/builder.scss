@@ -3,12 +3,21 @@ pf-builder-panel {
   display: flex;
   justify-content: stretch;
   overflow: hidden;
+  height: 100%;
+  width: 100%;
+
+  h2 {
+    text-align: center;
+    flex-grow: 1;
+    margin-top: 1em;
+  }
 
   pf-builder-main {
     display: flex;
     flex-flow: column nowrap;
     flex-grow: 1;
     flex-shrink: 1;
+    overflow: auto;
   }
 
   pf-builder-rule {
@@ -16,14 +25,18 @@ pf-builder-panel {
     flex-flow: row nowrap;
     justify-content: center;
     flex-grow: 1;
-    overflow: auto;
+    padding: 8px;
   }
 
-  pf-pattern-view {
-    // width: 191px;
-    // height: 191px;
-    width: min(24vw, 24vh);
-    height: min(24vw, 24vh);
+
+  pf-rule-view {
+    pf-pattern-view {
+      // width: 191px;
+      // height: 191px;
+      width: min(24vw, 24vh);
+      height: min(24vw, 24vh);
+      margin: min(2vw, 2vh);
+    }
   }
 
 }
@@ -66,14 +79,12 @@ pf-consequences.complete {
 @media (width > 600px) {
   pf-builder-panel {
     flex-flow: row nowrap;
-    height: 100%;
   }
 }
 
 @media (width <= 600px) {
   pf-builder-panel {
     flex-flow: column nowrap;
-    height: 100%;
   }
 }
 

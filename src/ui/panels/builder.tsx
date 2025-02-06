@@ -25,7 +25,6 @@ export default function BuilderPanel({}: BuilderPanelProps) {
   const [selected, setSelected] = useState<Maybe<Formula>>(undefined);
 
   function bindPattern(pattern: Pattern, formula: Formula) {
-    setSelected(undefined);
     App.dispatch(Actions.bindPattern(pattern, formula));
   }
 
@@ -65,9 +64,9 @@ export default function BuilderPanel({}: BuilderPanelProps) {
   }
   else {
     return (
-      <div>
-        <h2>No Rule Selected</h2>
-      </div>
+      <pf-builder-panel>
+          <h2>No Rule Selected</h2>
+      </pf-builder-panel>
     );
   }
 }

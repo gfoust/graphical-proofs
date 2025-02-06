@@ -4,4 +4,6 @@ pf-button-bar {
   flex-flow: row nowrap;
   justify-content: end;
   padding: 1ex;
+  margin-bottom: -2em;
+  z-index: 1000;
 }

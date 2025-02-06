@@ -115,7 +115,7 @@ function checkFormula(palette: Palette, context: Context, force: boolean = false
     if (force || pattern.status === undefined) {
       let i = instantiatePattern(pattern, context);
 
-      if (i.value.height > 4) {
+      if (i.value.height > 5) {
         return { ...pattern, status: 'invalid' };
       }
 

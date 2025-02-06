@@ -12,7 +12,7 @@ import { useScrollPosition } from "../scroll";
 export interface FormulaPickerProps {
   palette: Palette,
   selected?: Formula,
-  onSelect: (formula: Maybe<Formula>) => void,
+  onSelect?: (formula: Maybe<Formula>) => void,
 }
 
 

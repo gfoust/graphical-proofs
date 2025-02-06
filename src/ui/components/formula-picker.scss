@@ -3,10 +3,12 @@ pf-builder-panel pf-formula-picker {
   display: flex;
   background-color: lightgray;
   padding: 2px;
+  flex-shrink: 0;
 
   pf-pattern-view {
     width: min(16vw, 16vh);
     height: min(16vw, 16vh);
+    margin: min(1.4vw, 1.4vh);
     // width: 137px;
     // height: 137px;
     // width: 164px;
@@ -14,15 +16,30 @@ pf-builder-panel pf-formula-picker {
   }
 
   pf-formula-block {
-    padding: 1ex;
-  }
+    &:hover {
+     background-color: #99bbcc;
+     border-color: #668899;
+     cursor: pointer;
+   }
+
+   &.selected {
+     background-color: #ffee99;
+     border-color: #ccbb66;
+     cursor: pointer;
+   }
+
+   &.added {
+     animation: flash 2s linear;
+   }
+ }
+
 }
 
 @media (width > 600px) {
   pf-formula-picker {
     flex-flow: column nowrap;
-    overflow-x: hidden;
     overflow-y: auto;
+    border-right: 2px solid #666;
   }
 }
 
@@ -30,7 +47,7 @@ pf-builder-panel pf-formula-picker {
   pf-formula-picker {
     flex-flow: row nowrap;
     overflow-x: auto;
-    overflow-y: hidden;
-    height: 100%;
+    margin-bottom: min(1.6vw, 1.6vh);
+    border-bottom: 2px solid #666;
   }
 }

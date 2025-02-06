@@ -23,8 +23,8 @@ export default function FormulasPanel({}: FormulasPanelProps) {
 
   return (
     <pf-formulas-panel>
-      <ButtonBar text="Reset" onClick={handleReset}/>
-      <h2>Givens</h2>
+      {/* <ButtonBar text="Reset" onClick={handleReset}/> */}
+      <h2 style={{marginTop: '16px'}}>Givens</h2>
       <div>
       {
         givens.map(formula =>
@@ -38,7 +38,7 @@ export default function FormulasPanel({}: FormulasPanelProps) {
       </div>
       { derived && derived.length > 0 &&
         <>
-          <h2>Derived</h2>
+          <h2 style={{marginTop: '16px'}}>Derived</h2>
           <div>
           {
             derived.map(formula =>

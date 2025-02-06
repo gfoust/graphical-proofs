@@ -3,8 +3,6 @@
 pf-pattern-view {
   position: relative;
   display: block;
-  // width: 218px;
-  // height: 218px;
   border: 1px solid darkgray;
 
   .d1 {
@@ -32,25 +30,25 @@ pf-pattern-view {
   }
 }
 
-// pf-formula-picker pf-pattern-view {
-//   width: 109px;
-//   height: 109px;
-// }
-
 pf-pattern-atom {
   display: block;
   border: 1px solid darkgray;
 
   &.white { background-color: white; }
-  &.red { background-color: #f00; }
+  &.red { background-color: #e00; }
+  &.maroon { background-color: #900; }
   &.orange { background-color: #f80; }
   &.yellow { background-color: #ff0; }
-  &.green { background-color: #090; }
-  &.cyan { background-color: #099; }
-  &.blue { background-color: #00f; }
+  &.green { background-color: #0c0; }
+  &.forest { background-color: #070; }
+  &.cyan { background-color: #0dd; }
+  &.turquoise { background-color: #088; }
+  &.blue { background-color: #00e; }
+  &.sky { background-color: #0cf}
+  &.navy { background-color: #009; }
   &.purple { background-color: #909; }
   &.gray { background-color: #ccc; }
-  &.black { background-color: #000; }
+  &.black { background-color: #666; }
   &.empty { background-color: #fff8cc; }
   &.highlight { background-color: #ffee55;}
 }
@@ -65,8 +63,6 @@ pf-pattern-var {
   color: black;
 
   &.assigned {
-    // color: #444;
-    // -webkit-text-stroke: 1px white;
     background-color: rgba(white, 0.25);
   }
 }
@@ -79,7 +75,7 @@ pf-pattern-grid {
 pf-formula-block, pf-pattern-block {
   border: 2px solid transparent;
   border-radius: 5px;
-  margin: 2px;
+  margin: 4px 8px;
 }
 
 @keyframes flash {
@@ -92,20 +88,3 @@ pf-formula-block, pf-pattern-block {
   100% { background-color: initial; }
 }
 
-pf-formula-block {
-   &:hover {
-    background-color: #99bbcc;
-    border-color: #668899;
-    cursor: pointer;
-  }
-
-  &.selected {
-    background-color: #ffee99;
-    border-color: #ccbb66;
-    cursor: pointer;
-  }
-
-  &.added {
-    animation: flash 2s linear;
-  }
-}

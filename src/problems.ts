@@ -9,11 +9,16 @@ function atom(color: Color): Formula {
 const Atom = {
   White: atom(Color.White),
   Red: atom(Color.Red),
+  Maroon: atom(Color.Maroon),
   Orange: atom(Color.Orange),
   Yellow: atom(Color.Yellow),
   Green: atom(Color.Green),
+  Forest: atom(Color.Forest),
   Cyan: atom(Color.Cyan),
+  Turquoise: atom(Color.Turquoise),
   Blue: atom(Color.Blue),
+  Sky: atom(Color.Sky),
+  Navy: atom(Color.Navy),
   Purple: atom(Color.Purple),
   Gray: atom(Color.Gray),
   Black: atom(Color.Black)
@@ -109,11 +114,64 @@ function or(p: Pattern, q: Pattern): Pattern {
 function not(p: Formula): Formula;
 function not(p: Pattern): Pattern;
 function not(p: Pattern): Pattern {
-  return implies(p, Atom.Gray);
+  return implies(p, Atom.Black);
 }
 
 
-const rules2d: Readonly<Record<string, Rule>> = {
+function swap(p: Formula, q: Formula): Formula;
+function swap(p: Pattern, q: Pattern): Pattern;
+function swap(p: Pattern, q: Pattern): Pattern {
+  return grid(
+    p, Atom.White, Atom.White,
+    Atom.White, Atom.Gray, Atom.White,
+    Atom.White, Atom.White, q
+  );
+}
+
+function sides(top: Formula, right: Formula, bottom: Formula, left: Formula): Formula;
+function sides(top: Pattern, right: Pattern, bottom: Pattern, left: Pattern): Pattern;
+function sides(top: Pattern, right: Pattern, bottom: Pattern, left: Pattern): Pattern {
+  return grid(
+    Atom.White, top, Atom.White,
+    left, Atom.Gray, right,
+    Atom.White, bottom, Atom.White
+  );
+}
+
+function corners(topLeft: Formula, topRight: Formula, bottomRight: Formula, bottomLeft: Formula): Formula;
+function corners(topLeft: Pattern, topRight: Pattern, bottomRight: Pattern, bottomLeft: Pattern): Pattern;
+function corners(topLeft: Pattern, topRight: Pattern, bottomRight: Pattern, bottomLeft: Pattern): Pattern {
+  return grid(
+    topLeft, Atom.White, topRight,
+    Atom.White, Atom.Gray, Atom.White,
+    bottomLeft, Atom.White, bottomRight
+  );
+}
+
+
+function vlines(a: Formula, b: Formula, c: Formula): Formula;
+function vlines(a: Pattern, b: Pattern, c: Pattern): Pattern;
+function vlines(a: Pattern, b: Pattern, c: Pattern): Pattern {
+  return grid(
+    a, b, c,
+    a, b, c,
+    a, b, c
+  );
+}
+
+
+function hlines(a: Formula, b: Formula, c: Formula): Formula;
+function hlines(a: Pattern, b: Pattern, c: Pattern): Pattern;
+function hlines(a: Pattern, b: Pattern, c: Pattern): Pattern {
+  return grid(
+    a, a, a,
+    b, b, b,
+    c, c, c
+  );
+}
+
+
+const rules2d = {
   swapper: {
     name: "Swapper",
     premises: [
@@ -165,8 +223,8 @@ const rules2d: Readonly<Record<string, Rule>> = {
       not(Var.A)
     ]
   },
-  cancel: {
-    name: "Cancel",
+  drop: {
+    name: "Drop",
     premises: [
       not(not(Var.A)),
     ],
@@ -183,11 +241,128 @@ const rules2d: Readonly<Record<string, Rule>> = {
     consequences: [
       Var.B
     ]
+  },
+  innerSwap: {
+    name: "Inner Swap",
+    premises: [
+      or(Var.A, Var.B),
+      implies(Var.A, Var.C),
+    ],
+    consequences: [
+      or(Var.C, Var.B)
+    ]
+  },
+  twist: {
+    name: "Twist",
+    premises: [
+      or(Var.A, Var.B)
+    ],
+    consequences: [
+      or(Var.B, Var.A)
+    ]
+  },
+  chain: {
+    name: "Chain",
+    premises: [
+      implies(Var.A, Var.B),
+      implies(Var.B, Var.C)
+    ],
+    consequences: [
+      implies(Var.A, Var.C)
+    ]
   }
-
 }
 
-const rules3d: Readonly<Record<string, Rule>> = {
+const r3 = {
+  swapper: {
+    name: "Swapper",
+    premises: [
+      Var.A,
+      swap(Var.A, Var.B)
+    ],
+    consequences: [
+      Var.B
+    ]
+  },
+  rotateSides: {
+    name: "Rotate Sides",
+    premises: [
+      sides(Var.A, Var.B, Var.C, Var.D)
+    ],
+    consequences: [
+      sides(Var.D, Var.A, Var.B, Var.C),
+      sides(Var.C, Var.D, Var.A, Var.B),
+      sides(Var.B, Var.C, Var.D, Var.A),
+    ]
+  },
+  rotateCorners: {
+    name: "Rotate Corners",
+    premises: [
+      corners(Var.A, Var.B, Var.C, Var.D)
+    ],
+    consequences: [
+      corners(Var.D, Var.A, Var.B, Var.C),
+      corners(Var.C, Var.D, Var.A, Var.B),
+      corners(Var.B, Var.C, Var.D, Var.A),
+    ]
+  },
+  twist: {
+    name: "Twist",
+    premises: [
+      sides(Var.A, Var.C, Var.D, Var.B)
+    ],
+    consequences: [
+      sides(Var.B, Var.C, Var.D, Var.A)
+    ]
+  },
+  collapse: {
+    name: "Collapse",
+    premises: [
+      sides(Var.A, Var.C, Var.A, Var.B)
+    ],
+    consequences: [
+      swap(Var.B, Var.C)
+    ]
+  },
+  splicer: {
+    name: "Splicer",
+    premises: [
+      swap(Var.A, Var.K),
+      corners(
+        Atom.White, Var.B, Atom.White, Var.L
+      )
+    ],
+    consequences: [
+      swap(Var.A, Var.B)
+    ]
+  },
+  replace: {
+    name: "Replace",
+    premises: [
+      Var.B,
+      sides(Var.A, Var.C, Var.D, Var.K)
+    ],
+    consequences: [
+      sides(Var.A, Var.C, Var.D, Var.B)
+    ]
+  },
+  nudge: {
+    name: "Nudge",
+    premises: [
+      grid(
+        Var.A, Var.B, Var.C,
+        Var.D, Var.E, Var.F,
+        Var.G, Var.H, Var.I,
+      )
+    ],
+    consequences: [
+      grid(
+        Var.D, Var.A, Var.B,
+        Var.G, Var.E, Var.C,
+        Var.H, Var.I, Var.F,
+      )
+    ]
+  },
   flower: {
     name: "Flower",
     premises: [
@@ -250,24 +425,111 @@ export const problemSet: readonly Readonly<Problem>[] = [
     team: 1,
     tag: "A",
     givens: [
-      Atom.Orange,
-      implies(Atom.Orange, Atom.Purple),
-      or(Atom.Red, Atom.Green),
       implies(Atom.Red, Atom.Blue),
-      implies(Atom.Green, Atom.Blue),
+      implies(Atom.Green, Atom.Yellow),
+      or(Atom.Red, Atom.Green),
+      implies(Atom.Yellow, Atom.Blue)
     ],
-    rules: [ rules2d.swapper, rules2d.doubleSwapper, rules2d.breakdown, rules2d.buildup ],
-    goal: and(Atom.Blue, Atom.Purple)
+    rules: [ rules2d.doubleSwapper, rules2d.chain ],
+    goal: Atom.Blue
   },
-  { team: 1,
-    tag: "B",
+  // {
+  //   team: 1,
+  //   tag: "X",
+  //   givens: [
+  //     Atom.Orange,
+  //     implies(Atom.Orange, Atom.Purple),
+  //     or(Atom.Red, Atom.Green),
+  //     implies(Atom.Red, Atom.Blue),
+  //     implies(Atom.Green, Atom.Blue),
+  //   ],
+  //   rules: [ rules2d.swapper, rules2d.doubleSwapper, rules2d.breakdown, rules2d.buildup ],
+  //   goal: and(Atom.Blue, Atom.Purple)
+  // },
+  {
+    team: 2,
+    tag: "A",
     givens: [
-      not(Atom.Purple),
+      not(not(not(Atom.Purple))),
       implies(Atom.Green, Atom.Purple),
       implies(not(Atom.Yellow), Atom.Green),
     ],
-    rules: [rules2d.propagate, rules2d.cancel],
+    rules: [rules2d.propagate, rules2d.drop],
     goal: Atom.Yellow
+  },
+  {
+    team: 3,
+    tag: "A",
+    givens: [
+      implies(Atom.Red, Atom.Green),
+      implies(Atom.Orange, Atom.Purple),
+      or(Atom.Orange, Atom.Red)
+    ],
+    rules: [rules2d.innerSwap, rules2d.twist],
+    goal: or(Atom.Purple, Atom.Green)
+  },
+  // {
+  //   team: 4,
+  //   tag: "X",
+  //   givens: [and(and(Atom.Red, Atom.Green), Atom.Blue)],
+  //   rules: [rules2d.breakdown, rules2d.buildup],
+  //   goal: and(Atom.Red, and(Atom.Green, Atom.Blue)),
+  // },
+  {
+    team: 4,
+    tag: "A",
+    givens: [and(Atom.Red, Atom.Blue), implies(Atom.Red, Atom.Green)],
+    rules: [rules2d.swapper, rules2d.breakdown, rules2d.buildup],
+    goal: and(Atom.Red, and(Atom.Green, Atom.Blue)),
+  },
+  {
+    team: 5,
+    tag: "A",
+    givens: [
+      or(Atom.Yellow, Atom.Green),
+      not(Atom.Blue),
+      implies(Atom.Yellow, Atom.Blue)
+    ],
+    rules: [rules2d.pick, rules2d.propagate],
+    goal: Atom.Green
+  },
+  {
+    team: 1,
+    tag: "B",
+    givens: [
+      Atom.Blue,
+      sides(Atom.Orange, Atom.Cyan, Atom.Blue, Atom.Orange)
+    ],
+    rules: [r3.swapper, r3.rotateSides, r3.twist, r3.collapse],
+    goal: Atom.Cyan
+  },
+  {
+    team: 2,
+    tag: "B",
+    givens: [
+      Atom.Orange,
+      corners(
+        Atom.White,
+        sides(
+          Atom.White, Atom.Sky, Atom.White, Atom.Green
+        ),
+        Atom.White,
+        Atom.White,
+      )
+    ],
+    rules: [r3.swapper, r3.replace, r3.nudge],
+    goal: Atom.Sky
+  },
+  {
+    team: 3,
+    tag: "C",
+    givens: [
+      swap(Atom.Red, swap(Atom.Cyan, Atom.Red)),
+      swap(Atom.Forest, Atom.Purple),
+      Atom.Forest,
+    ],
+    rules: [r3.swapper, r3.rotateCorners, r3.splicer],
+    goal: Atom.Cyan
   },
   {
     team: 1,
@@ -276,13 +538,35 @@ export const problemSet: readonly Readonly<Problem>[] = [
       Atom.Purple,
       Atom.White
     ],
-    rules: [rules3d.flower, rules3d.inverse, rules3d.merge],
+    rules: [r3.flower, r3.inverse, r3.merge],
     goal: grid(
       a = altGrid(Atom.Purple, Atom.White, 9), b = altGrid(Atom.White, Atom.Purple, 9), a,
       b, a, b,
       a, b, a
     )
+  },
+  {
+    team: 2,
+    tag: "C",
+    givens: [
+      Atom.Turquoise,
+      Atom.White
+    ],
+    rules: [r3.flower, r3.inverse, r3.merge],
+    goal: grid(
+      Atom.White, a = vlines(Atom.Turquoise, Atom.White, Atom.Turquoise), Atom.White,
+      b = hlines(Atom.Turquoise, Atom.White, Atom.Turquoise),
+      grid(
+        Atom.Turquoise, Atom.Turquoise, Atom.Turquoise,
+        Atom.Turquoise, Atom.White, Atom.Turquoise,
+        Atom.Turquoise, Atom.Turquoise, Atom.Turquoise,
+      ),
+      b,
+      Atom.White, a, Atom.White,
+    )
   }
 ]
 
 export default problemSet;
+
+// Skipped: 2A
