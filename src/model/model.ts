@@ -20,6 +20,7 @@ export interface Model {
   scrollPositions: Record<string, number>,
   currentProblemId?: string,
   palette?: Palette,
+  selectedFormula?: Formula,
   builder?: Builder,
   addedFormula?: BaseFormula,
   solved: boolean;
@@ -27,10 +28,10 @@ export interface Model {
 
 
 export function initialModel(): Model {
-  let problemIds: ProblemIdentifier[] = [];
-  let problemDefs: Record<string, Problem> = {};
+  const problemIds: ProblemIdentifier[] = [];
+  const problemDefs: Record<string, Problem> = {};
 
-  for (let def of problemSet) {
+  for (const def of problemSet) {
     problemIds.push({ team: def.team, tag: def.tag });
     problemDefs[problemIdString(def)] = def;
   }

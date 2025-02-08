@@ -1,4 +1,4 @@
-import { Color, Formula, Pattern, Rule, Var } from "./model/pattern";
+import { Color, Formula, Pattern, Var } from "./model/pattern";
 import { Problem } from "./model/problem";
 
 
@@ -54,7 +54,7 @@ const Var = {
 function grid(...cells: Formula[]): Formula;
 function grid(...cells: Pattern[]): Pattern;
 function grid(...cells: Pattern[]): Pattern {
-  let cellsHeight = Math.max(...cells.map(cell => cell.height));
+  const cellsHeight = Math.max(...cells.map(cell => cell.height));
   return {
     type: 'grid',
     cells,
@@ -63,8 +63,8 @@ function grid(...cells: Pattern[]): Pattern {
 }
 
 function altGrid(a: Formula, b: Formula, size: number): Formula {
-  let cellsHeight = Math.max(a.height, b.height);
-  let cells: Formula[] = [];
+  const cellsHeight = Math.max(a.height, b.height);
+  const cells: Formula[] = [];
   for (let i = 0; i < size; ++i) {
     if (i % 2 === 0)
       cells.push(a);
@@ -74,7 +74,7 @@ function altGrid(a: Formula, b: Formula, size: number): Formula {
   return {
     type: 'grid',
     cells,
-    height: cellsHeight = 1
+    height: cellsHeight + 1
   }
 }
 

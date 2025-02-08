@@ -46,7 +46,7 @@ export function instantiatePattern(pattern: Pattern, context: Context): PatternI
     return { type: 'formula', value: pattern };
   }
   else if (pattern.type === 'var') {
-    let formula = context[pattern.name];
+    const formula = context[pattern.name];
     if (formula) {
       return { type: 'formula', value: formula };
     }
@@ -55,8 +55,8 @@ export function instantiatePattern(pattern: Pattern, context: Context): PatternI
     }
   }
   else {
-    let cells = pattern.cells.map(p => instantiatePattern(p, context));
-    let cellsHeight = cells.reduce((h, c) => Math.max(h, c.value.height), 0);
+    const cells = pattern.cells.map(p => instantiatePattern(p, context));
+    const cellsHeight = cells.reduce((h, c) => Math.max(h, c.value.height), 0);
 
     if (cells.every(i => i.type === 'formula')) {
       return {
@@ -113,13 +113,13 @@ export function formulaMatches(pattern: Pattern, context: Context, formula: Form
 function checkFormula(palette: Palette, context: Context, force: boolean = false) {
   return (pattern: CheckedPattern): CheckedPattern => {
     if (force || pattern.status === undefined) {
-      let i = instantiatePattern(pattern, context);
+      const i = instantiatePattern(pattern, context);
 
       if (i.value.height > 5) {
         return { ...pattern, status: 'invalid' };
       }
 
-      let matched = palette.givens.some(f => formulaMatches(i.value, [], f))
+      const matched = palette.givens.some(f => formulaMatches(i.value, [], f))
         || palette.derived.some(f => formulaMatches(i.value, [], f));
 
       if (i.type === 'formula') {

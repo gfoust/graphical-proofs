@@ -1,5 +1,4 @@
-import { MouseEvent } from "react";
-import { NavLink, useLocation, useParams } from "react-router";
+import React, { MouseEvent } from "react";
 import App from "../../app";
 import { Panel } from "../../model/model";
 
@@ -26,7 +25,7 @@ const panelSelectors = {
 
 export default function NavBar({ panel }: NavBarProps) {
   function makeTab(p: Panel) {
-    let className = p === panel ? 'nav-link active' : 'nav-link';
+    const className = p === panel ? 'nav-link active' : 'nav-link';
     return <a className={className} key={p} onClick={panelSelectors[p]} href="#">{panelTitles[p]}</a>
   }
 

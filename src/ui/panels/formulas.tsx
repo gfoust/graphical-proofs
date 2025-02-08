@@ -1,21 +1,14 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 
 import App from "../../app";
 import { FormulaBlock } from "../components/pattern-view";
 import { Palette } from "../../model/palette";
 
 import "./formulas.scss";
-import { ButtonBar } from "../components/button-bar";
 
 
-export interface FormulasPanelProps {
-}
 
-function handleReset() {
-
-}
-
-export default function FormulasPanel({}: FormulasPanelProps) {
+export default function FormulasPanel() {
   const palette = useContext(App.PaletteContext) as Palette;
 
   const givens = palette.givens;

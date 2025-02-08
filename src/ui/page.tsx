@@ -1,5 +1,5 @@
-import { useContext, useEffect } from "react";
-import { Link, Route, Routes, useLocation, useParams } from "react-router";
+import React, { useContext, useEffect } from "react";
+import { Link, Route, Routes, useParams } from "react-router";
 
 import App from "../app";
 import { Panel } from "../model/model";
@@ -14,6 +14,7 @@ import RulesPanel from "./panels/rules";
 
 import "./page.scss";
 import { Actions } from "../model/actions";
+import PickerSplit from "./panels/picker-split";
 
 function UnknownPath() {
   return (
@@ -30,14 +31,22 @@ function UnknownPath() {
 
 function Display({ panel, problem }: { panel: Panel, problem: Problem }) {
   switch (panel) {
-    case Panel.Builder:
-      return <BuilderPanel/>;
     case Panel.Goal:
       return <GoalPanel goal={problem.goal}/>
     case Panel.Formulas:
       return <FormulasPanel/>
     case Panel.Rules:
-      return <RulesPanel rules={problem.rules}/>
+      return (
+        <PickerSplit selectable={false}>
+          <RulesPanel rules={problem.rules}/>
+        </PickerSplit>
+      );
+    case Panel.Builder:
+      return (
+        <PickerSplit selectable={true}>
+          <BuilderPanel/>
+        </PickerSplit>
+      );
     default:
       return <h1>Error</h1>
   }

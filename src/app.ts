@@ -6,16 +6,17 @@ import { Problem, ProblemIdentifier } from "./model/problem";
 import { Maybe } from "./util";
 import { Builder } from "./model/builder";
 import { Palette } from "./model/palette";
-import { BaseFormula } from "./model/pattern";
+import { BaseFormula, Formula } from "./model/pattern";
 
 export const App = {
-  dispatch: (action: Action) => {},
-  PanelContext: createContext<Panel>(null as any),
-  ProblemIdsContext: createContext<ProblemIdentifier[]>(null as any),
-  ProblemDefsContext: createContext<Record<string, Problem>>(null as any),
+  dispatch: (() => {}) as (action: Action) => void,
+  PanelContext: createContext<Panel>(null as never),
+  ProblemIdsContext: createContext<ProblemIdentifier[]>(null as never),
+  ProblemDefsContext: createContext<Record<string, Problem>>(null as never),
   ScrollPositionsContext: createContext<Record<string, number>>({}),
   CurrentProblemIdContext: createContext<Maybe<string>>(undefined),
   PaletteContext: createContext<Maybe<Palette>>(undefined),
+  SelectedFormulaContext: createContext<Maybe<Formula>>(undefined),
   BuilderContext: createContext<Maybe<Builder>>(undefined),
   AddedFormulaContext: createContext<Maybe<BaseFormula>>(undefined),
   SolvedContext: createContext<boolean>(false),

@@ -17,6 +17,13 @@ export interface ShowPanel {
 
 
 
+export interface SelectFormula {
+  type: 'select-formula',
+  formula: Maybe<Formula>,
+}
+
+
+
 export interface SelectRule {
   type: 'select-rule',
   rule: Rule,
@@ -48,8 +55,9 @@ export interface SaveScrollPosition {
 
 export type Action =
     ShowPanel
-  | SelectRule
   | SelectProblem
+  | SelectFormula
+  | SelectRule
   | BindPattern
   | AddDerived
   | SaveScrollPosition;
@@ -60,6 +68,7 @@ export const Actions = {
   selectProblem(problemId: Maybe<string>): SelectProblem { return { type: 'select-problem', problemId: problemId }; },
   showPanel(panel: Panel): ShowPanel { return { type: 'show-panel', panel }; },
   selectRule(rule: Rule): SelectRule { return { type: 'select-rule', rule }; },
+  selectFormula(formula: Formula): SelectFormula { return { type: 'select-formula', formula } },
   bindPattern(pattern: Pattern, formula: Formula): BindPattern { return { type: 'bind-pattern', pattern, formula }; },
   addDerived(formula: Formula): AddDerived { return { type: 'add-derived', formula }; },
   saveScrollPosition(positions: Record<string, number>): SaveScrollPosition { return { type: 'save-scroll-position', positions }; },

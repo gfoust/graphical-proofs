@@ -1,23 +1,23 @@
-import { useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 
 import App from "../../app";
 import { Palette } from "../../model/palette";
-import { Formula } from "../../model/pattern";
-import { Maybe } from "../../util";
+import { BaseFormula } from "../../model/pattern";
 import { FormulaBlock } from "./pattern-view";
 
 import "./formula-picker.scss";
 import { useScrollPosition } from "../scroll";
+import { Actions } from "../../model/actions";
 
 export interface FormulaPickerProps {
-  palette: Palette,
-  selected?: Formula,
-  onSelect?: (formula: Maybe<Formula>) => void,
+  selectable: boolean;
 }
 
 
-export default function FormulaPicker({ palette, selected, onSelect }: FormulaPickerProps) {
+export default function FormulaPicker({ selectable }: FormulaPickerProps) {
   useScrollPosition("formula-picker");
+  const palette = useContext(App.PaletteContext) as Palette;
+  const selectedFormula = useContext(App.SelectedFormulaContext);
   const added = useContext(App.AddedFormulaContext);
 
   useEffect(() => {
@@ -26,31 +26,30 @@ export default function FormulaPicker({ palette, selected, onSelect }: FormulaPi
     }
   }, [added]);
 
+  function formulaBlock(formula: BaseFormula) {
+    if (selectable) {
+      return <FormulaBlock
+        key={formula.id}
+        id={formula.id}
+        formula={formula}
+        added={formula === added}
+        selected={formula === selectedFormula}
+        onSelect={() => App.dispatch(Actions.selectFormula(formula))}
+      />
+    }
+    else {
+      return <FormulaBlock
+        key={formula.id}
+        id={formula.id}
+        formula={formula}
+      />
+    }
+  }
+
   return (
-    <pf-formula-picker id="formula-picker">
-    {
-      palette.givens.map(formula =>
-        <FormulaBlock
-          key={formula.id}
-          id={formula.id}
-          formula={formula}
-          selected={selected === formula}
-          onSelect={onSelect}
-        />
-      )
-    }
-    {
-      palette.derived.map(formula =>
-        <FormulaBlock
-          key={formula.id}
-          id={formula.id}
-          formula={formula}
-          selected={selected === formula}
-          added={added === formula}
-          onSelect={onSelect}
-        />
-      )
-    }
+    <pf-formula-picker id="formula-picker" className={selectable ? "selectable" : undefined}>
+    { palette.givens.map(formulaBlock)  }
+    { palette.derived.map(formulaBlock) }
     </pf-formula-picker>
   );
 }

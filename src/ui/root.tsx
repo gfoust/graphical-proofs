@@ -1,4 +1,4 @@
-import { BrowserRouter } from 'react-router-dom';
+import React, { BrowserRouter } from 'react-router-dom';
 
 import Page from "./page";
 import ViewState from './state';

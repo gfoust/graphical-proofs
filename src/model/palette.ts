@@ -1,4 +1,3 @@
-import { Maybe } from "../util";
 import { Formula, BaseFormula } from "./pattern";
 import { Problem } from "./problem";
 
@@ -11,7 +10,7 @@ export interface Palette {
 
 
 export function addDerived(formula: Formula, palette: Palette): Palette {
-  let f = formula as BaseFormula;
+  const f = formula as BaseFormula;
   f.id = 'd' + palette.derived.length;
 
   return {

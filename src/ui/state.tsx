@@ -1,11 +1,11 @@
-import { PropsWithChildren, useReducer } from "react";
+import React, { PropsWithChildren, useReducer } from "react";
 
 import App from "../app";
 import { modelReducer } from "../model/reducers";
 import { initialModel } from "../model/model";
 
 
-export default function ViewState({ children }: PropsWithChildren<{}>) {
+export default function ViewState({ children }: PropsWithChildren) {
   const [model, dispatch] = useReducer(modelReducer, initialModel());
   App.dispatch = dispatch;
 
@@ -16,13 +16,15 @@ export default function ViewState({ children }: PropsWithChildren<{}>) {
           <App.ScrollPositionsContext value={model.scrollPositions}>
             <App.CurrentProblemIdContext value={model.currentProblemId}>
               <App.PaletteContext value={model.palette}>
-                <App.BuilderContext value={model.builder}>
-                  <App.AddedFormulaContext value={model.addedFormula}>
-                    <App.SolvedContext value={model.solved}>
-                    { children }
-                    </App.SolvedContext>
-                  </App.AddedFormulaContext>
-                </App.BuilderContext>
+                <App.SelectedFormulaContext value={model.selectedFormula}>
+                  <App.BuilderContext value={model.builder}>
+                    <App.AddedFormulaContext value={model.addedFormula}>
+                      <App.SolvedContext value={model.solved}>
+                      { children }
+                      </App.SolvedContext>
+                    </App.AddedFormulaContext>
+                  </App.BuilderContext>
+                </App.SelectedFormulaContext>
               </App.PaletteContext>
             </App.CurrentProblemIdContext>
           </App.ScrollPositionsContext>

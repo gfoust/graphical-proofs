@@ -1,5 +1,4 @@
-import { Builder } from "./builder";
-import { clonePattern, cloneRule, Formula, Rule } from "./pattern";
+import { Formula, Rule } from "./pattern";
 
 
 export interface ProblemIdentifier {

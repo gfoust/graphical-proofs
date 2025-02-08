@@ -1,30 +1,4 @@
 
-// export const enum Var {
-//   A = 'A',
-//   B = 'B',
-//   C = 'C',
-//   D = 'D',
-//   E = 'E',
-//   F = 'F',
-//   G = 'G',
-//   H = 'H',
-//   I = 'I'
-// }
-
-interface VarName {
-  A: number;
-  B: number;
-  C: number;
-  D: number;
-  E: number;
-  F: number;
-  G: number;
-  H: number;
-  I: number;
-  J: number;
-}
-
-
 export enum Color {
   White = 'white',
   Red = 'red',

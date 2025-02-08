@@ -1,5 +1,5 @@
 
-pf-builder-panel pf-formula-picker {
+pf-formula-picker {
   display: flex;
   background-color: lightgray;
   padding: 2px;
@@ -9,30 +9,27 @@ pf-builder-panel pf-formula-picker {
     width: min(16vw, 16vh);
     height: min(16vw, 16vh);
     margin: min(1.4vw, 1.4vh);
-    // width: 137px;
-    // height: 137px;
-    // width: 164px;
-    // height: 164px;
   }
+}
 
+pf-formula-picker.selectable {
   pf-formula-block {
     &:hover {
-     background-color: #99bbcc;
-     border-color: #668899;
-     cursor: pointer;
-   }
+      background-color: #99bbcc;
+      border-color: #668899;
+      cursor: pointer;
+    }
 
-   &.selected {
-     background-color: #ffee99;
-     border-color: #ccbb66;
-     cursor: pointer;
-   }
+    &.selected {
+      background-color: #ffee99;
+      border-color: #ccbb66;
+      cursor: pointer;
+    }
 
-   &.added {
-     animation: flash 2s linear;
+    &.added {
+      animation: flash 2s linear;
+     }
    }
- }
-
 }
 
 @media (width > 600px) {

@@ -1,15 +1,15 @@
 
-pf-builder-panel pf-builder-main pf-rule-list {
+pf-rule-panel {
   display: flex;
   flex-flow: column nowrap;
+  flex-grow: 1;
+  flex-shrink: 1;
   align-items: center;
   height: 100%;
   padding: 0 8px;
 
 
   pf-pattern-view {
-    // width: 191px;
-    // height: 191px;
     width: min(16vw, 16vh);
     height: min(16vw, 16vh);
     margin: min(1.4vw, 1.4vh);
@@ -20,26 +20,26 @@ pf-builder-panel pf-builder-main pf-rule-list {
     border: 2px solid #668899;
     border-radius: 5px;
   }
-}
 
-pf-rule-block {
-  padding: 8px;
-  border: 2px solid transparent;
-  width: 100%;
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: center;
-  cursor: pointer;
-}
-
-pf-rule-spacer {
-  display: block;
-  width: 100%;
-  padding: 16px 0;
-  border-bottom: 2px solid #999;
-
-  &:last-child {
-    border-bottom: none;
+  pf-rule-block {
+    padding: 8px;
+    border: 2px solid transparent;
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    cursor: pointer;
   }
-}
 
+  pf-rule-spacer {
+    display: block;
+    width: 100%;
+    padding: 16px 0;
+    border-bottom: 2px solid #999;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+}

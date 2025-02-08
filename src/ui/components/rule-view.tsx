@@ -1,3 +1,5 @@
+import React from 'react';
+
 import App from "../../app";
 import { Actions } from "../../model/actions";
 import { BuilderRule, Context, instantiatePattern } from "../../model/builder";
@@ -17,7 +19,7 @@ export interface RuleViewProps {
 }
 
 function saveHandler(pattern: Pattern, context: Context) {
-  let formula = instantiatePattern(pattern, context);
+  const formula = instantiatePattern(pattern, context);
   if (formula.type === 'formula') {
     return () => App.dispatch(Actions.addDerived(formula.value));
   }
@@ -56,7 +58,7 @@ export default function RuleView({
 
   let i = 0;
 
-  let complete = rule.premises.every(p => p.status === 'matched');
+  const complete = rule.premises.every(p => p.status === 'matched');
 
   return (
     <pf-rule-view>

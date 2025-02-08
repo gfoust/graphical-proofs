@@ -1,0 +1,20 @@
+pf-picker-split {
+  display: flex;
+  justify-content: stretch;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+@media (width > 600px) {
+  pf-picker-split {
+    flex-flow: row nowrap;
+  }
+}
+
+@media (width <= 600px) {
+  pf-picker-split {
+    flex-flow: column nowrap;
+  }
+}
+

@@ -3,33 +3,32 @@ import { Action } from "./actions";
 import { Builder, formulaMatches, checkRule } from "./builder";
 import { Model, Panel } from "./model";
 import { addDerived, createPalette, Palette } from "./palette";
-import { BaseFormula } from "./pattern";
+import { BaseFormula, Formula } from "./pattern";
 import { Problem } from "./problem";
 
 
-type Reducer<S, T> = (state: S, action: Action, fullState: T) => S;
-
-type ReducerMap<S> = { [K in keyof S]: Reducer<S[K], S> };
-
-
-function combineReducers<S>(map: ReducerMap<S>) {
-  return function reducer(state: S, action: Action) {
-    let change = false;
-    let result = {} as S;
-    for (let key in map) {
-      result[key] = map[key](state[key], action, state);
-      if (!Object.is(state[key], result[key])) {
-        change = true;
-      }
-    }
-    if (change) {
-      return result;
-    }
-    else {
-      return state;
-    }
-  };
-}
+// type Reducer<S, T> = (state: S, action: Action, fullState: T) => S;
+//
+// type ReducerMap<S> = { [K in keyof S]: Reducer<S[K], S> };
+//
+// function combineReducers<S>(map: ReducerMap<S>) {
+//   return function reducer(state: S, action: Action) {
+//     let change = false;
+//     const result = {} as S;
+//     for (const key in map) {
+//       result[key] = map[key](state[key], action, state);
+//       if (!Object.is(state[key], result[key])) {
+//         change = true;
+//       }
+//     }
+//     if (change) {
+//       return result;
+//     }
+//     else {
+//       return state;
+//     }
+//   };
+// }
 
 
 
@@ -86,6 +85,24 @@ function paletteReducer(
 
 
 
+function selectedFormulaReducer(
+  formula: Maybe<Formula>,
+  action: Action
+): Maybe<Formula> {
+
+  if (action.type === 'select-formula') {
+    return action.formula;
+  }
+
+  else if (action.type === 'select-problem') {
+    return undefined;
+  }
+
+  return formula;
+}
+
+
+
 function builderReducer(
   builder: Maybe<Builder>,
   action: Action,
@@ -106,7 +123,7 @@ function builderReducer(
   }
 
   else if (action.type === 'bind-pattern' && builder && palette) {
-    let boundContext = { ...builder.context };
+    const boundContext = { ...builder.context };
     if (formulaMatches(action.pattern, boundContext, action.formula)) {
 
       return {
@@ -117,7 +134,7 @@ function builderReducer(
   }
 
   else if (action.type === 'add-derived' && builder && palette) {
-    let newPalette = addDerived(action.formula, palette);
+    const newPalette = addDerived(action.formula, palette);
 
     return {
       rule: checkRule(newPalette, builder.context, builder.rule),
@@ -195,6 +212,8 @@ export function modelReducer(model: Model, action: Action): Model {
 
   const addedFormula = addedFormulaReducer(model.addedFormula, action);
 
+  const selectedFormula = selectedFormulaReducer(model.selectedFormula, action);
+
   const scrollPositions = scrollPositionsReducer(model.scrollPositions, action);
 
   const solved = solvedReducer(model.solved, action, currentProblem);
@@ -206,6 +225,7 @@ export function modelReducer(model: Model, action: Action): Model {
     problemDefs,
     currentProblemId,
     palette,
+    selectedFormula,
     builder,
     addedFormula,
     scrollPositions,

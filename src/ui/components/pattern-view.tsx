@@ -1,4 +1,4 @@
-import { JSX } from "react";
+import React, { JSX } from "react";
 
 import { CheckedPattern, Context, formulaMatches } from "../../model/builder";
 import { Formula, Pattern, Var, varName } from "../../model/pattern";
@@ -75,7 +75,7 @@ function PatternElement({
     else {
       d = 1;
     }
-    let nested = range(0, d*d, pattern.cells).map((p, i) =>
+    const nested = range(0, d*d, pattern.cells).map((p, i) =>
       <PatternElement
         pattern={p}
         key={i}
@@ -124,7 +124,7 @@ export function PatternBlock({
     className = pattern.status;
   }
   else if (candidate) {
-    let matchContext = { ...context }
+    const matchContext = { ...context }
     if (formulaMatches(pattern, matchContext, candidate)) {
       className = "allowed";
       if (onBind) {
