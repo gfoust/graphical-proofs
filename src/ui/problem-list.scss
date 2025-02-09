@@ -1,5 +1,10 @@
 
 pf-problem-list {
+  h1 {
+    text-align: center;
+    user-select: none;
+    margin-bottom: 1em;
+  }
   table {
     margin: auto;
   }
@@ -7,6 +12,7 @@ pf-problem-list {
     border: 1px solid #999;
     padding: 16px;
     text-align: center;
+    user-select: none;
   }
   tr:first-child th {
     border-top: none;

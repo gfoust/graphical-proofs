@@ -5,3 +5,7 @@
 nav {
   flex-grow: 0;
 }
+
+a.nav-link {
+  user-select: none;
+}

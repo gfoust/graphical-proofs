@@ -25,6 +25,11 @@ pf-page {
 h1.page {
   text-align: center;
   color: $primary;
+  user-select: none;
+}
+
+button.btn {
+  user-select: none;
 }
 
 // @media (width > 800px) {
