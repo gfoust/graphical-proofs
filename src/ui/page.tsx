@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { Link, Route, Routes, useParams } from "react-router";
+import { Link, Route, Routes, useNavigate, useParams } from "react-router";
 
 import App from "../app";
 import { Panel } from "../model/model";
@@ -15,6 +15,8 @@ import RulesPanel from "./panels/rules";
 import "./page.scss";
 import { Actions } from "../model/actions";
 import PickerSplit from "./panels/picker-split";
+import { BackIcon, RefreshIcon } from "./components/icons";
+import { WarningDialog } from "./components/warning-dialog";
 
 function UnknownPath() {
   return (
@@ -52,7 +54,6 @@ function Display({ panel, problem }: { panel: Panel, problem: Problem }) {
   }
 }
 
-
 function ProblemPage() {
   const { problemId } = useParams();
   useEffect(() => {
@@ -63,6 +64,8 @@ function ProblemPage() {
   const problemDefs = useContext(App.ProblemDefsContext);
   const panel = useContext(App.PanelContext);
 
+  const navigate = useNavigate();
+
   if (!currentProblemId || currentProblemId == 'invalid') {
     return <UnknownPath/>
   }
@@ -71,6 +74,18 @@ function ProblemPage() {
 
     return (
       <>
+        <WarningDialog
+          title="Reset Problem"
+          acceptLabel="Reset"
+          cancelLabel="Cancel"
+          onAccept={() => App.dispatch(Actions.selectProblem(currentProblemId, true))}
+        >
+          Start this problem over from the beginning?
+        </WarningDialog>
+        <pf-nav-button-bar>
+          <button className="btn btn-secondary" onClick={() => navigate("/")}><BackIcon/></button>
+          <button className="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#warning-dialog"><RefreshIcon/></button>
+        </pf-nav-button-bar>
         <h1 className="page">Problem {problemIdString(problem).toUpperCase()}</h1>
         <NavBar panel={panel}/>
         <pf-problem>

@@ -39,7 +39,7 @@ function PatternElement({
     if (value) {
       element =
         <PatternElement pattern={value} context={context} divisions={divisions}>
-          <pf-pattern-var className={`assigned d${divisions}`}>
+          <pf-pattern-var className={`assigned d1`}>
             { varName(pattern.name) }
           </pf-pattern-var>
         </PatternElement>;
@@ -58,7 +58,7 @@ function PatternElement({
           onMouseOver={onMouseOverVariable && (() => onMouseOverVariable(pattern.name))}
           onMouseOut={onMouseOutVariable}
         >
-          <pf-pattern-var className={`d${divisions}`}>
+          <pf-pattern-var className={`d1`}>
             { varName(pattern.name) }
           </pf-pattern-var>
         </pf-pattern-atom>
@@ -74,6 +74,7 @@ function PatternElement({
     }
     else {
       d = 1;
+      console.log('d1', pattern);
     }
     const nested = range(0, d*d, pattern.cells).map((p, i) =>
       <PatternElement
@@ -99,7 +100,7 @@ function PatternElement({
 
 export interface PatternBlockProps {
   pattern: CheckedPattern;
-  context: Context;
+  context?: Context;
   highlight?: Var;
   candidate?: Formula;
   onMouseOverVariable?: (v: Var) => void;
@@ -120,11 +121,13 @@ export function PatternBlock({
   let className: Maybe<string>;
   let clickHandler: Maybe<() => void>;
 
+  console.log('pattern', pattern);
+
   if (pattern.status) {
     className = pattern.status;
   }
   else if (candidate) {
-    const matchContext = { ...context }
+    const matchContext = context ? [ ...context ] : [];
     if (formulaMatches(pattern, matchContext, candidate)) {
       className = "allowed";
       if (onBind) {
@@ -136,7 +139,7 @@ export function PatternBlock({
     }
   }
 
-  const patternProps = {pattern, context, highlight, onMouseOverVariable, onMouseOutVariable};
+  const patternProps = {pattern, context: context || [], highlight, onMouseOverVariable, onMouseOutVariable};
 
   return (
     <pf-pattern-block className={className} onClick={clickHandler}>

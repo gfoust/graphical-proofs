@@ -6,6 +6,7 @@ import { Panel } from "./model";
 export interface SelectProblem {
   type: 'select-problem',
   problemId: Maybe<string>,
+  reset?: boolean
 }
 
 
@@ -65,7 +66,7 @@ export type Action =
 
 
 export const Actions = {
-  selectProblem(problemId: Maybe<string>): SelectProblem { return { type: 'select-problem', problemId: problemId }; },
+  selectProblem(problemId: Maybe<string>, reset = false): SelectProblem { return { type: 'select-problem', problemId: problemId, reset }; },
   showPanel(panel: Panel): ShowPanel { return { type: 'show-panel', panel }; },
   selectRule(rule: Rule): SelectRule { return { type: 'select-rule', rule }; },
   selectFormula(formula: Formula): SelectFormula { return { type: 'select-formula', formula } },

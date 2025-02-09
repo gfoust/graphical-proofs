@@ -13,13 +13,11 @@ pf-pattern-view {
   .d2 {
     width: 50%;
     height: 50%;
-    flex-grow: 1;
   }
 
   .d3 {
     width: 33.333333333333%;
     height: 33.333333333333%;
-    flex-grow: 1;
   }
 
   .d1, .d2, .d3 {
@@ -32,12 +30,14 @@ pf-pattern-view {
 
 pf-pattern-atom {
   display: block;
+  position: relative;
   border: 1px solid darkgray;
 
   &.white { background-color: white; }
   &.red { background-color: #e00; }
   &.maroon { background-color: #900; }
   &.orange { background-color: #f80; }
+  &.brown { background-color: #850; }
   &.yellow { background-color: #ff0; }
   &.green { background-color: #0c0; }
   &.forest { background-color: #070; }
@@ -61,6 +61,7 @@ pf-pattern-var {
   justify-content: center;
   vertical-align: center;
   color: black;
+  z-index: 1000;
 
   &.assigned {
     background-color: rgba(white, 0.25);
@@ -70,6 +71,7 @@ pf-pattern-var {
 pf-pattern-grid {
   display: flex;
   flex-flow: row wrap;
+  position: relative;
 }
 
 pf-formula-block, pf-pattern-block {

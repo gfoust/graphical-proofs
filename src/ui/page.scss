@@ -4,6 +4,13 @@
   overflow: hidden;
 }
 
+pf-nav-button-bar {
+  position: absolute;
+  button:not(:first-child) {
+    margin-left: 8px;
+  }
+}
+
 pf-page {
   display: flex;
   flex-flow: column nowrap;
@@ -20,11 +27,11 @@ h1.page {
   color: $primary;
 }
 
-@media (width > 800px) {
-  h1.page {
-    margin-bottom: -0.5em;
-  }
-}
+// @media (width > 800px) {
+//   h1.page {
+//     margin-bottom: -0.5em;
+//   }
+// }
 
 pf-problem {
   display: block;

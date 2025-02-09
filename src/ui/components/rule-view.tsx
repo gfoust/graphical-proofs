@@ -2,11 +2,12 @@ import React from 'react';
 
 import App from "../../app";
 import { Actions } from "../../model/actions";
-import { BuilderRule, Context, instantiatePattern } from "../../model/builder";
+import { BuilderRule, Context, instantiatePattern, resetRule } from "../../model/builder";
 import { Formula, Pattern, Var } from "../../model/pattern";
 import { PatternBlock } from "./pattern-view";
 
 import "./rule-view.scss";
+import { ButtonBar } from './button-bar';
 
 export interface RuleViewProps {
   rule: BuilderRule;
@@ -38,10 +39,10 @@ export default function RuleView({
   onBind,
 }: RuleViewProps) {
 
-  if (!context) context = [];
+  console.log('context', context);
 
   const premiseProps = {
-    context: context,
+    context,
     candidate,
     highlight,
     onMouseOverVariable,
@@ -50,10 +51,14 @@ export default function RuleView({
   }
 
   const consequenceProps = {
-    context: context,
+    context,
     highlight,
     onMouseOverVariable,
     onMouseOutVariable,
+  }
+
+  function resetHandler() {
+    App.dispatch(Actions.selectRule(resetRule(rule)));
   }
 
   let i = 0;
@@ -65,6 +70,7 @@ export default function RuleView({
       <pf-rule-name>
         {rule.name}
       </pf-rule-name>
+      { context && <ButtonBar disabled={context.length == 0} onClick={resetHandler}>Reset</ButtonBar> }
       <pf-premises>
       {
         rule.premises.map(premise =>
@@ -78,7 +84,7 @@ export default function RuleView({
           <pf-consequence key={i++}>
             <PatternBlock pattern={consequence} {...consequenceProps}/>
             {
-              complete && consequence.status === 'unmatched'
+              context && complete && consequence.status === 'unmatched'
                 && <button type="button" className="btn btn-primary" onClick={saveHandler(consequence, context)}>Save</button>
             }
           </pf-consequence>

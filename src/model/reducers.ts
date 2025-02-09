@@ -4,7 +4,7 @@ import { Builder, formulaMatches, checkRule } from "./builder";
 import { Model, Panel } from "./model";
 import { addDerived, createPalette, Palette } from "./palette";
 import { BaseFormula, Formula } from "./pattern";
-import { Problem } from "./problem";
+import { Problem, problemIdString } from "./problem";
 
 
 // type Reducer<S, T> = (state: S, action: Action, fullState: T) => S;
@@ -73,11 +73,32 @@ function paletteReducer(
 ): Maybe<Palette> {
 
   if (action.type === 'select-problem') {
-    return currentProblem ? createPalette(currentProblem) : undefined;
+    if (currentProblem) {
+      if (action.reset) {
+        localStorage.removeItem("pf-" + problemIdString(currentProblem));
+      }
+      else {
+        const paletteString = localStorage.getItem("pf-" + problemIdString(currentProblem));
+        if (paletteString) {
+          try {
+            return JSON.parse(paletteString) as Palette;
+          }
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-empty
+          catch (err) {}
+        }
+      }
+
+      return createPalette(currentProblem);
+    }
+    else {
+      return undefined;
+    }
   }
 
-  else if (action.type === 'add-derived' && palette) {
-    return addDerived(action.formula, palette);
+  else if (action.type === 'add-derived' && currentProblem && palette) {
+    const nextPalette = addDerived(action.formula, palette);
+    localStorage.setItem("pf-" + problemIdString(currentProblem), JSON.stringify(nextPalette));
+    return nextPalette;
   }
 
   return palette;
@@ -123,7 +144,7 @@ function builderReducer(
   }
 
   else if (action.type === 'bind-pattern' && builder && palette) {
-    const boundContext = { ...builder.context };
+    const boundContext = [ ...builder.context ];
     if (formulaMatches(action.pattern, boundContext, action.formula)) {
 
       return {

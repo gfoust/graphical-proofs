@@ -2,8 +2,8 @@
 pf-button-bar {
   display: flex;
   flex-flow: row nowrap;
-  justify-content: end;
+  justify-content: center;
   padding: 1ex;
-  margin-bottom: -2em;
+  // margin-bottom: -2em;
   z-index: 1000;
 }

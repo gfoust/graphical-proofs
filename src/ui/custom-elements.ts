@@ -15,6 +15,7 @@ declare module "react" {
       "pf-formulas-panel": CustomElement;
       "pf-formula-picker": CustomElement;
       "pf-goal-panel": CustomElement;
+      "pf-nav-button-bar": CustomElement;
       "pf-page": CustomElement;
       "pf-pattern-atom": CustomElement;
       "pf-pattern-block": CustomElement;
@@ -24,6 +25,7 @@ declare module "react" {
       "pf-picker-split": CustomElement;
       "pf-premises": CustomElement;
       "pf-problem": CustomElement;
+      "pf-problem-list": CustomElement;
       "pf-rule-block": CustomElement;
       "pf-rule-panel": CustomElement;
       "pf-rule-name": CustomElement;

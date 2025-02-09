@@ -7,8 +7,6 @@ import { Maybe } from "../../util";
 import RuleView from "../components/rule-view";
 
 import "./builder.scss";
-import { ButtonBar } from "../components/button-bar";
-import { resetRule } from "../../model/builder";
 
 
 export default function BuilderPanel() {
@@ -20,16 +18,9 @@ export default function BuilderPanel() {
     App.dispatch(Actions.bindPattern(pattern, formula));
   }
 
-  function resetBuilder() {
-    if (builder) {
-      App.dispatch(Actions.selectRule(resetRule(builder.rule)));
-    }
-  }
-
   if (builder) {
     return (
       <pf-builder-panel>
-        <ButtonBar text="Reset" onClick={resetBuilder}/>
         <pf-builder-rule>
         {
           selected

@@ -11,6 +11,7 @@ const Atom = {
   Red: atom(Color.Red),
   Maroon: atom(Color.Maroon),
   Orange: atom(Color.Orange),
+  Brown: atom(Color.Brown),
   Yellow: atom(Color.Yellow),
   Green: atom(Color.Green),
   Forest: atom(Color.Forest),
@@ -81,39 +82,42 @@ function altGrid(a: Formula, b: Formula, size: number): Formula {
 function implies(p: Formula, q: Formula): Formula;
 function implies(p: Pattern, q: Pattern): Pattern;
 function implies(p: Pattern, q: Pattern): Pattern {
+  const cellsHeight = Math.max(p.height, q.height);
   return {
     type: 'grid',
     cells: [
       p, Atom.White,
       Atom.White, q
     ],
-    height: 2
+    height: cellsHeight + 1
   }
 }
 
 function and(p: Formula, q: Formula): Formula;
 function and(p: Pattern, q: Pattern): Pattern;
 function and(p: Pattern, q: Pattern): Pattern {
+  const cellsHeight = Math.max(p.height, q.height);
   return {
     type: 'grid',
     cells: [
       p, q,
       Atom.White, Atom.White
     ],
-    height: 2
+    height: cellsHeight + 1
   }
 }
 
 function or(p: Formula, q: Formula): Formula;
 function or(p: Pattern, q: Pattern): Pattern;
 function or(p: Pattern, q: Pattern): Pattern {
+  const cellsHeight = Math.max(p.height, q.height);
   return {
     type: 'grid',
     cells: [
       p, Atom.White,
       q, Atom.White
     ],
-    height: 2
+    height: cellsHeight + 1
   }
 }
 
@@ -407,6 +411,16 @@ const r3 = {
       )
     ]
   },
+  smasher: {
+    name: "Smasher",
+    premises: [
+      corners(Var.A, Var.K, Var.L, Var.B),
+      corners(Var.M, Var.C, Var.D, Var.N)
+    ],
+    consequences: [
+      sides(Var.A, Var.C, Var.D, Var.B)
+    ]
+  },
   flower: {
     name: "Flower",
     premises: [
@@ -609,6 +623,17 @@ export const problemSet: readonly Readonly<Problem>[] = [
     goal: Atom.Cyan
   },
   {
+    team: 4,
+    tag: "B",
+    givens: [
+      Atom.Yellow,
+      corners(Atom.Maroon, Atom.Brown, Atom.Forest, Atom.Blue),
+      corners(Atom.Brown, Atom.Turquoise, Atom.Yellow, Atom.Maroon)
+    ],
+    rules: [r3.swapper, r3.smasher, r3.rotateCorners, r3.collapse],
+    goal: Atom.Blue
+  },
+  {
     team: 1,
     tag: "C",
     givens: [
@@ -652,8 +677,8 @@ export const problemSet: readonly Readonly<Problem>[] = [
     )
   },
   {
-    team: 3,
-    tag: "D",
+    team: 4,
+    tag: "C",
     givens: [
       Atom.White,
       Atom.Blue,

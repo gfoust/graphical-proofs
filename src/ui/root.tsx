@@ -1,4 +1,5 @@
 import React, { BrowserRouter } from 'react-router-dom';
+import 'bootstrap';
 
 import Page from "./page";
 import ViewState from './state';
