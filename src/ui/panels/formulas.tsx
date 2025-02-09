@@ -5,6 +5,7 @@ import { FormulaBlock } from "../components/pattern-view";
 import { Palette } from "../../model/palette";
 
 import "./formulas.scss";
+import { Actions } from "../../model/actions";
 
 
 
@@ -25,6 +26,7 @@ export default function FormulasPanel() {
             key={formula.id}
             id={formula.id}
             formula={formula}
+            onSelect={() => App.dispatch(Actions.selectFormula(formula))}
           />
         )
       }
@@ -39,6 +41,7 @@ export default function FormulasPanel() {
                 key={formula.id}
                 id={formula.id}
                 formula={formula}
+                onSelect={() => App.dispatch(Actions.selectFormula(formula))}
               />
             )
           }

@@ -14,8 +14,9 @@ pf-formulas-panel {
     justify-content: center;
 
     pf-pattern-view {
-      width: 218px;
-      height: 218px;
+      width: min(24vw, 24vh);
+      height: min(24vw, 24vh);
+      cursor: pointer;
     }
   }
 }

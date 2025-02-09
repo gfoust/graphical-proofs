@@ -17,7 +17,7 @@ export default function RulesPanel({ rules }: RulesPanelProps) {
 
   let i = 0;
   return (
-    <pf-rule-panel>
+    <pf-rule-panel id="rule-list">
     {
       rules.map(rule =>
         <pf-rule-spacer key={i++}>

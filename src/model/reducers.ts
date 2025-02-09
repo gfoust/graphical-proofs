@@ -184,9 +184,20 @@ function addedFormulaReducer(
 function solvedReducer(
   solved: boolean,
   action: Action,
-  currentProblem: Maybe<Problem>
+  currentProblem: Maybe<Problem>,
+  palette: Maybe<Palette>
 ): boolean {
-  if (action.type === 'add-derived' && currentProblem) {
+  if (action.type === 'select-problem') {
+    if (currentProblem && palette) {
+      for (const formula of palette.derived) {
+        if (formulaMatches(currentProblem.goal, [], formula)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+  else if (action.type === 'add-derived' && currentProblem) {
     if (formulaMatches(currentProblem.goal, [], action.formula)) {
       return true;
     }
@@ -209,6 +220,10 @@ function panelReducer(panel: Panel, action: Action, solved: boolean): Panel {
 
   else if (action.type === 'add-derived' && solved) {
     return Panel.Goal;
+  }
+
+  else if (action.type === 'select-formula') {
+    return Panel.Builder;
   }
 
   return panel;
@@ -237,7 +252,7 @@ export function modelReducer(model: Model, action: Action): Model {
 
   const scrollPositions = scrollPositionsReducer(model.scrollPositions, action);
 
-  const solved = solvedReducer(model.solved, action, currentProblem);
+  const solved = solvedReducer(model.solved, action, currentProblem, palette);
 
   const panel = panelReducer(model.panel, action, solved);
 

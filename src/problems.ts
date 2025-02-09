@@ -305,6 +305,28 @@ const r3 = {
       Var.B
     ]
   },
+  doubleSwapper: {
+    name: "Double Swapper",
+    premises: [
+      sides(Atom.White, Var.B, Atom.White, Var.A),
+      swap(Var.A, Var.C),
+      swap(Var.B, Var.C)
+    ],
+    consequences: [
+      Var.C
+    ]
+  },
+  innerSwap: {
+    name: "Inner Swap",
+    premises: [
+      Var.A,
+      swap(Var.A, Var.B),
+      sides(Var.C, Var.D, Var.E, Var.A)
+    ],
+    consequences: [
+      sides(Var.C, Var.D, Var.E, Var.B)
+    ]
+  },
   rotateSides: {
     name: "Rotate Sides",
     premises: [
@@ -695,6 +717,52 @@ export const problemSet: readonly Readonly<Problem>[] = [
                Atom.Blue, Atom.White, Atom.Blue,
                Atom.Blue, Atom.Blue, Atom.Blue  ), c, c
     )
+  },
+  {
+    team: 1,
+    tag: "D",
+    givens: [
+      Atom.Cyan,
+      Atom.Yellow,
+      corners(Atom.Brown, Atom.Red, Atom.Blue, Atom.Orange),
+      corners(Atom.Yellow, Atom.Blue, Atom.Green, Atom.Purple),
+      sides(Atom.Red, Atom.Purple, Atom.Yellow, Atom.Cyan)
+    ],
+    rules: [r3.swapper, r3.smasher, r3.collapse, r3.rotate, r3.innerSwap],
+    goal: Atom.Purple
+  },
+  {
+    team: 2,
+    tag: "D",
+    givens: [
+      sides(Atom.Navy, Atom.Turquoise, Atom.Orange, Atom.Maroon),
+      swap(Atom.Navy, Atom.Orange),
+      Atom.Navy
+    ],
+    rules: [r3.swapper, r3.rotate, r3.splicer, r3.collapse, r3.innerSwap],
+    goal: Atom.Turquoise
+  },
+  {
+    team: 3,
+    tag: "D",
+    givens: [
+      swap(Atom.Red, Atom.Blue),
+      swap(Atom.Blue, Atom.Yellow),
+      swap(Atom.Yellow, Atom.Red),
+      sides(Atom.White, Atom.Red, Atom.White, Atom.Yellow)
+    ],
+    rules: [r3.rotate, r3.replace, r3.doubleSwapper],
+    goal: Atom.Red
+  },
+  {
+    team: 4,
+    tag: "D",
+    givens: [
+      Atom.Cyan,
+      corners(Atom.Cyan, Atom.Blue, Atom.Yellow, Atom.Forest)
+    ],
+    rules: [r3.swapper, r3.smasher, r3.rotate, r3.collapse],
+    goal: Atom.Forest
   }
 ]
 
