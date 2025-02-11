@@ -39,8 +39,6 @@ export default function RuleView({
   onBind,
 }: RuleViewProps) {
 
-  console.log('context', context);
-
   const premiseProps = {
     context,
     candidate,

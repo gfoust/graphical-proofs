@@ -23,7 +23,6 @@ export default function ProblemList() {
 
   let examples = false;
   const teamList = Object.keys(problems).sort();
-  console.log('teamList', teamList);
   if (teamList[0] === "0") {
     teamList.shift();
     examples = true;

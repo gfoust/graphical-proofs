@@ -74,7 +74,6 @@ function PatternElement({
     }
     else {
       d = 1;
-      console.log('d1', pattern);
     }
     const nested = range(0, d*d, pattern.cells).map((p, i) =>
       <PatternElement
@@ -120,8 +119,6 @@ export function PatternBlock({
 }: PatternBlockProps) {
   let className: Maybe<string>;
   let clickHandler: Maybe<() => void>;
-
-  console.log('pattern', pattern);
 
   if (pattern.status) {
     className = pattern.status;
