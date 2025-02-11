@@ -1,4 +1,4 @@
-import problemSet from "../problems";
+import { problemSet } from "../problems";
 import { Problem, ProblemIdentifier, problemIdString } from "./problem";
 import { Builder } from "./builder";
 import { Palette } from "./palette";

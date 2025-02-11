@@ -2,21 +2,21 @@ import React, { useContext, useEffect } from "react";
 import { Link, Route, Routes, useNavigate, useParams } from "react-router";
 
 import App from "../app";
+import { Actions } from "../model/actions";
 import { Panel } from "../model/model";
 import { Problem, problemIdString } from "../model/problem";
 
+import { BackIcon, RefreshIcon } from "./components/icons";
 import NavBar from "./components/navbar";
+import { WarningDialog } from "./components/warning-dialog";
 import ProblemList from "./problem-list";
 import BuilderPanel from "./panels/builder";
 import GoalPanel from "./panels/goal";
 import FormulasPanel from "./panels/formulas";
 import RulesPanel from "./panels/rules";
+import PickerSplit from "./panels/picker-split";
 
 import "./page.scss";
-import { Actions } from "../model/actions";
-import PickerSplit from "./panels/picker-split";
-import { BackIcon, RefreshIcon } from "./components/icons";
-import { WarningDialog } from "./components/warning-dialog";
 
 function UnknownPath() {
   return (

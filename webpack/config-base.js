@@ -15,7 +15,7 @@ module.exports = [
     output: {
       filename: '[name].js',
       globalObject: 'this',
-      publicPath: "/proofs",
+      publicPath: "/gfoust/classes/hnrs2050/proofs/",
     },
     module: {
       rules: [

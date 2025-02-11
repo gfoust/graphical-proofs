@@ -9,7 +9,7 @@ import "./root.scss";
 export default function Root() {
   return (
     <ViewState>
-      <BrowserRouter basename="/proofs/">
+      <BrowserRouter basename="/gfoust/classes/hnrs2050/proofs/">
         <Page/>
       </BrowserRouter>
     </ViewState>

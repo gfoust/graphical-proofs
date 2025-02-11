@@ -192,7 +192,7 @@ function square(a: Pattern, b: Pattern): Pattern {
 }
 
 
-const rules2d = {
+const r2 = {
   swapper: {
     name: "Swapper",
     premises: [
@@ -256,11 +256,10 @@ const rules2d = {
   pick: {
     name: "Pick",
     premises: [
-      or(Var.A, Var.B),
-      not(Var.A)
+      or(Var.A, Atom.Black),
     ],
     consequences: [
-      Var.B
+      Var.A
     ]
   },
   innerSwap: {
@@ -543,22 +542,9 @@ export const problemSet: readonly Readonly<Problem>[] = [
       or(Atom.Red, Atom.Green),
       implies(Atom.Yellow, Atom.Blue)
     ],
-    rules: [ rules2d.doubleSwapper, rules2d.chain ],
+    rules: [ r2.doubleSwapper, r2.chain ],
     goal: Atom.Blue
   },
-  // {
-  //   team: 1,
-  //   tag: "X",
-  //   givens: [
-  //     Atom.Orange,
-  //     implies(Atom.Orange, Atom.Purple),
-  //     or(Atom.Red, Atom.Green),
-  //     implies(Atom.Red, Atom.Blue),
-  //     implies(Atom.Green, Atom.Blue),
-  //   ],
-  //   rules: [ rules2d.swapper, rules2d.doubleSwapper, rules2d.breakdown, rules2d.buildup ],
-  //   goal: and(Atom.Blue, Atom.Purple)
-  // },
   {
     team: 2,
     tag: "A",
@@ -567,44 +553,25 @@ export const problemSet: readonly Readonly<Problem>[] = [
       implies(Atom.Green, Atom.Purple),
       implies(not(Atom.Yellow), Atom.Green),
     ],
-    rules: [rules2d.propagate, rules2d.drop],
+    rules: [r2.propagate, r2.drop],
     goal: Atom.Yellow
   },
   {
     team: 3,
     tag: "A",
     givens: [
-      implies(Atom.Red, Atom.Green),
-      implies(Atom.Orange, Atom.Purple),
-      or(Atom.Orange, Atom.Red)
+      implies(Atom.Red, Atom.Black),
+      or(Atom.Blue, Atom.Red)
     ],
-    rules: [rules2d.innerSwap, rules2d.twist],
-    goal: or(Atom.Purple, Atom.Green)
+    rules: [r2.innerSwap, r2.twist, r2.pick],
+    goal: Atom.Blue
   },
-  // {
-  //   team: 4,
-  //   tag: "X",
-  //   givens: [and(and(Atom.Red, Atom.Green), Atom.Blue)],
-  //   rules: [rules2d.breakdown, rules2d.buildup],
-  //   goal: and(Atom.Red, and(Atom.Green, Atom.Blue)),
-  // },
   {
     team: 4,
     tag: "A",
     givens: [and(Atom.Red, Atom.Blue), implies(Atom.Red, Atom.Green)],
-    rules: [rules2d.swapper, rules2d.breakdown, rules2d.buildup],
+    rules: [r2.swapper, r2.breakdown, r2.buildup],
     goal: and(Atom.Red, and(Atom.Green, Atom.Blue)),
-  },
-  {
-    team: 5,
-    tag: "A",
-    givens: [
-      or(Atom.Yellow, Atom.Green),
-      not(Atom.Blue),
-      implies(Atom.Yellow, Atom.Blue)
-    ],
-    rules: [rules2d.pick, rules2d.propagate],
-    goal: Atom.Green
   },
   {
     team: 1,
@@ -763,7 +730,49 @@ export const problemSet: readonly Readonly<Problem>[] = [
     ],
     rules: [r3.swapper, r3.smasher, r3.rotate, r3.collapse],
     goal: Atom.Forest
+  },
+  {
+    team: 0,
+    tag: "A",
+    givens: [
+      Atom.Red,
+      implies(and(Atom.Green, Atom.Yellow), Atom.Blue),
+      implies(Atom.Red, Atom.Green),
+      Atom.Yellow
+    ],
+    rules: [r2.swapper, r2.buildup],
+    goal: Atom.Blue
+  },
+  { team: 0,
+    tag: "B",
+    givens: [
+      Atom.Navy,
+      sides(Atom.Navy, Atom.Forest, Atom.Maroon, Atom.Forest)
+    ],
+    rules: [r3.swapper, r3.rotateSides, r3.collapse],
+    goal: Atom.Maroon
+  },
+  { team: 0,
+    tag: "C",
+    givens: [ Atom.Red, Atom.Orange, Atom.Yellow ],
+    rules: [r3.flower],
+    goal: grid(
+      a = grid(
+            b = grid(
+                  Atom.Yellow, Atom.White, Atom.Yellow,
+                  Atom.White,  Atom.Red,   Atom.White,
+                  Atom.Yellow, Atom.White, Atom.Yellow,
+            ), Atom.White, b,
+            Atom.White, Atom.Orange, Atom.White,
+            b, Atom.White, b
+      ), Atom.White, a,
+      Atom.White, Atom.Red, Atom.White,
+      a, Atom.White, a
+    )
   }
+];
+
+export const examples = [
 ]
 
 export default problemSet;

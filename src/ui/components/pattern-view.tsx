@@ -185,7 +185,6 @@ export function FormulaBlock({
       id={id}
       className={className({ selected, added })}
       onClick={clickHandler}
-      draggable={true}
     >
       <pf-pattern-view>
         <PatternElement pattern={formula} context={[]} divisions={1}/>
