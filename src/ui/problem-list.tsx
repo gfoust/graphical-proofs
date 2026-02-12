@@ -22,10 +22,14 @@ export default function ProblemList() {
   }
 
   let examples = false;
-  const teamList = Object.keys(problems).sort();
-  if (teamList[0] === "0") {
-    teamList.shift();
-    examples = true;
+  const teamList: string[] = []
+  for (const team of Object.keys(problems).sort()) {
+    if (team === "X") {
+      examples = true;
+    }
+    else {
+      teamList.push(team)
+    }
   }
   const tagList = Object.keys(tags).sort();
 
@@ -70,7 +74,7 @@ export default function ProblemList() {
               <tr>
               {
                 tagList.map((tag, i) =>
-                  problems[0][tag] && <td key={i}><Link to={"0" + tag}>0-{tag}</Link></td>
+                  problems.X[tag] && <td key={i}><Link to={"X" + tag}>X-{tag}</Link></td>
                 )
               }
               </tr>

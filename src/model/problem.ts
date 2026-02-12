@@ -2,8 +2,8 @@ import { Formula, Rule } from "./pattern";
 
 
 export interface ProblemIdentifier {
-  team: number,
-  tag: string
+  team: string,
+  tag: number
 }
 
 
@@ -17,5 +17,5 @@ export interface Problem extends ProblemIdentifier {
 
 
 export function problemIdString(id: ProblemIdentifier) {
-  return id.team + id.tag.toUpperCase();
+  return id.team.toUpperCase() + id.tag;
 }

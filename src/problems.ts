@@ -534,8 +534,8 @@ const r3 = {
 let a, b, c: Formula;
 export const problemSet: readonly Readonly<Problem>[] = [
   {
-    team: 1,
-    tag: "A",
+    team: "A",
+    tag: 1,
     givens: [
       implies(Atom.Red, Atom.Blue),
       implies(Atom.Green, Atom.Yellow),
@@ -546,8 +546,8 @@ export const problemSet: readonly Readonly<Problem>[] = [
     goal: Atom.Blue
   },
   {
-    team: 2,
-    tag: "A",
+    team: "B",
+    tag: 1,
     givens: [
       not(not(not(Atom.Purple))),
       implies(Atom.Green, Atom.Purple),
@@ -557,8 +557,8 @@ export const problemSet: readonly Readonly<Problem>[] = [
     goal: Atom.Yellow
   },
   {
-    team: 3,
-    tag: "A",
+    team: "C",
+    tag: 1,
     givens: [
       implies(Atom.Red, Atom.Black),
       or(Atom.Blue, Atom.Red)
@@ -567,15 +567,15 @@ export const problemSet: readonly Readonly<Problem>[] = [
     goal: Atom.Blue
   },
   {
-    team: 4,
-    tag: "A",
+    team: "D",
+    tag: 1,
     givens: [and(Atom.Red, Atom.Blue), implies(Atom.Red, Atom.Green)],
     rules: [r2.swapper, r2.breakdown, r2.buildup],
     goal: and(Atom.Red, and(Atom.Green, Atom.Blue)),
   },
   {
-    team: 1,
-    tag: "B",
+    team: "A",
+    tag: 2,
     givens: [
       Atom.Blue,
       sides(Atom.Orange, Atom.Cyan, Atom.Blue, Atom.Orange)
@@ -584,8 +584,8 @@ export const problemSet: readonly Readonly<Problem>[] = [
     goal: Atom.Cyan
   },
   {
-    team: 2,
-    tag: "B",
+    team: "B",
+    tag: 2,
     givens: [
       Atom.Orange,
       corners(
@@ -601,8 +601,8 @@ export const problemSet: readonly Readonly<Problem>[] = [
     goal: Atom.Sky
   },
   {
-    team: 3,
-    tag: "B",
+    team: "C",
+    tag: 2,
     givens: [
       swap(Atom.Red, swap(Atom.Cyan, Atom.Red)),
       swap(Atom.Forest, Atom.Purple),
@@ -612,8 +612,8 @@ export const problemSet: readonly Readonly<Problem>[] = [
     goal: Atom.Cyan
   },
   {
-    team: 4,
-    tag: "B",
+    team: "D",
+    tag: 2,
     givens: [
       Atom.Yellow,
       corners(Atom.Maroon, Atom.Brown, Atom.Forest, Atom.Blue),
@@ -623,8 +623,8 @@ export const problemSet: readonly Readonly<Problem>[] = [
     goal: Atom.Blue
   },
   {
-    team: 1,
-    tag: "C",
+    team: "A",
+    tag: 3,
     givens: [
       Atom.Purple,
       Atom.White
@@ -637,8 +637,8 @@ export const problemSet: readonly Readonly<Problem>[] = [
     )
   },
   {
-    team: 2,
-    tag: "C",
+    team: "B",
+    tag: 3,
     givens: [
       Atom.Turquoise,
       Atom.White
@@ -651,8 +651,8 @@ export const problemSet: readonly Readonly<Problem>[] = [
     )
   },
   {
-    team: 3,
-    tag: "C",
+    team: "C",
+    tag: 3,
     givens: [
       Atom.White,
       Atom.Red,
@@ -666,8 +666,8 @@ export const problemSet: readonly Readonly<Problem>[] = [
     )
   },
   {
-    team: 4,
-    tag: "C",
+    team: "D",
+    tag: 3,
     givens: [
       Atom.White,
       Atom.Blue,
@@ -686,8 +686,8 @@ export const problemSet: readonly Readonly<Problem>[] = [
     )
   },
   {
-    team: 1,
-    tag: "D",
+    team: "A",
+    tag: 4,
     givens: [
       Atom.Cyan,
       Atom.Yellow,
@@ -699,8 +699,8 @@ export const problemSet: readonly Readonly<Problem>[] = [
     goal: Atom.Purple
   },
   {
-    team: 2,
-    tag: "D",
+    team: "B",
+    tag: 4,
     givens: [
       sides(Atom.Navy, Atom.Turquoise, Atom.Orange, Atom.Maroon),
       swap(Atom.Navy, Atom.Orange),
@@ -710,8 +710,8 @@ export const problemSet: readonly Readonly<Problem>[] = [
     goal: Atom.Turquoise
   },
   {
-    team: 3,
-    tag: "D",
+    team: "C",
+    tag: 4,
     givens: [
       swap(Atom.Red, Atom.Blue),
       swap(Atom.Blue, Atom.Yellow),
@@ -722,8 +722,8 @@ export const problemSet: readonly Readonly<Problem>[] = [
     goal: Atom.Red
   },
   {
-    team: 4,
-    tag: "D",
+    team: "D",
+    tag: 4,
     givens: [
       Atom.Cyan,
       corners(Atom.Cyan, Atom.Blue, Atom.Yellow, Atom.Forest)
@@ -732,8 +732,8 @@ export const problemSet: readonly Readonly<Problem>[] = [
     goal: Atom.Forest
   },
   {
-    team: 0,
-    tag: "A",
+    team: "X",
+    tag: 1,
     givens: [
       Atom.Red,
       implies(and(Atom.Green, Atom.Yellow), Atom.Blue),
@@ -743,8 +743,8 @@ export const problemSet: readonly Readonly<Problem>[] = [
     rules: [r2.swapper, r2.buildup],
     goal: Atom.Blue
   },
-  { team: 0,
-    tag: "B",
+  { team: "X",
+    tag: 2,
     givens: [
       Atom.Navy,
       sides(Atom.Navy, Atom.Forest, Atom.Maroon, Atom.Forest)
@@ -752,8 +752,8 @@ export const problemSet: readonly Readonly<Problem>[] = [
     rules: [r3.swapper, r3.rotateSides, r3.collapse],
     goal: Atom.Maroon
   },
-  { team: 0,
-    tag: "C",
+  { team: "X",
+    tag: 3,
     givens: [ Atom.Red, Atom.Orange, Atom.Yellow ],
     rules: [r3.flower],
     goal: grid(
