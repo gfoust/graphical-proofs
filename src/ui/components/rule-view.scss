@@ -2,6 +2,7 @@
 pf-rule-view {
   display: block;
 
+  padding-top: 16px;
   // pf-pattern-view {
   //   width: 216px;
   //   height: 216px;
@@ -13,11 +14,22 @@ pf-rule-view {
   }
 
   pf-rule-name {
-    display: block;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
     text-align: center;
     font: 2.5rem "Times New Roman", serif;
     padding-bottom: 1rem;
     user-select: none;
+    span {
+      flex-grow: 1;
+    }
+  }
+
+  button {
+    &.placeholder {
+      visibility: hidden;
+    }
   }
 }
 

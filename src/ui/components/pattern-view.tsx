@@ -189,3 +189,20 @@ export function FormulaBlock({
     </pf-formula-block>
   );
 }
+
+let inDebugMode = true;
+
+function DebugInfo({ children }: React.PropsWithChildren) {
+  if (inDebugMode) {
+    return <pre className="debug">{children}</pre>;
+  }
+  else {
+    return null;
+  }
+}
+
+function Repeat(props: React.PropsWithChildren<{count:number}>) {
+  let els = new Array(props.count);
+  els.fill(props.children);
+  return <div>{props.children}</div>
+}

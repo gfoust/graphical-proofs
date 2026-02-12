@@ -8,6 +8,7 @@ import { PatternBlock } from "./pattern-view";
 
 import "./rule-view.scss";
 import { ButtonBar } from './button-bar';
+import { RefreshIcon } from './icons';
 
 export interface RuleViewProps {
   rule: BuilderRule;
@@ -66,9 +67,11 @@ export default function RuleView({
   return (
     <pf-rule-view>
       <pf-rule-name>
-        {rule.name}
-      </pf-rule-name>
-      { context && <ButtonBar disabled={context.length == 0} onClick={resetHandler}>Reset</ButtonBar> }
+        { context && <button className="btn btn-outline-primary placeholder" disabled={true}><RefreshIcon/></button>}
+        <span>{rule.name}</span>
+        { context && <button className={'btn ' + (context.length == 0 ? 'btn-outline-secondary' : 'btn-outline-primary')} disabled={context.length == 0} onClick={resetHandler}><RefreshIcon/></button>}
+        </pf-rule-name>
+      {/* { context && <ButtonBar disabled={context.length == 0} onClick={resetHandler}>Reset</ButtonBar> } */}
       <pf-premises>
       {
         rule.premises.map(premise =>

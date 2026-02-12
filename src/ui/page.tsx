@@ -83,8 +83,8 @@ function ProblemPage() {
           Start this problem over from the beginning?
         </WarningDialog>
         <pf-nav-button-bar>
-          <button className="btn btn-secondary" onClick={() => navigate("/")}><BackIcon/></button>
-          <button className="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#warning-dialog"><RefreshIcon/></button>
+          <button className="btn btn-outline-primary" onClick={() => navigate("/")}><BackIcon/></button>
+          <button className="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#warning-dialog"><RefreshIcon/></button>
         </pf-nav-button-bar>
         <h1 className="page">Problem {problemIdString(problem).toUpperCase()}</h1>
         <NavBar panel={panel}/>

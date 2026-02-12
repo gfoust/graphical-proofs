@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-namespace */
-import * as React from 'react';
+import React from 'react';
 
 type CustomElement = React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
 

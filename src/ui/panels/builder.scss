@@ -22,9 +22,9 @@ pf-builder-rule {
   padding: 8px;
 
   pf-pattern-view {
-    width: min(24vw, 24vh);
-    height: min(24vw, 24vh);
-    margin: min(2vw, 2vh);
+    width: min(25cqw, 25cqh);
+    height: min(25cqw, 25cqh);
+    margin: min(2cqw, 2cqh);
   }
 
   pf-pattern-block.matched {
